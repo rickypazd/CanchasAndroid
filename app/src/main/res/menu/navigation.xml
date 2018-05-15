@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigacion_canchas"
+        android:icon="@drawable/soccer_field"
+        android:title="Canchas" />
+
+    <item
+        android:id="@+id/navigacion_map"
+        android:icon="@drawable/ic_map_location"
+        android:title="Mapa" />
+
+    <item
+        android:id="@+id/navigacion_history"
+        android:icon="@drawable/ic_history"
+        android:title="Historial" />
+    <item
+        android:id="@+id/navigacion_config"
+        android:icon="@drawable/menu"
+        android:title="Ajustes" />
+
+
+</menu>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgCancha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@mipmap/cancha2" />
+
+            <!--nombre y valoracion-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#000"
+                    android:textSize="24sp"
+                    tools:text="La Bombonera" />
+
+                <TextView
+                    android:id="@+id/tvValoracion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="10K" />
+            </LinearLayout>
+
+            <!--ciudad-->
+            <TextView
+                android:id="@+id/tvCiudad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Santa Cruz de la Sierra" />
+
+            <!--la direccion-->
+            <TextView
+                android:id="@+id/tvDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/placeholder_verde"
+                android:textColor="#000000"
+                android:textSize="13sp"
+                tools:text="Av. Angamos Este 1551" />
+
+            <!--la descripcion-->
+            <TextView
+                android:id="@+id/tvDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginTop="4dp"
+                tools:text="En La Bombonera contamos con alquiler de canchas deportivas de grass sintético y techadas, canchas adecuadas para el entrenamiento de diferentes tipos de deporte y personal calificado para ofrecerle un servicio con calidad..." />
+
+            <!--el numero de telefono-->
+            <TextView
+                android:id="@+id/tvNumero"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/phone_call"
+                android:textSize="13sp"
+                tools:text="[591]-77800221" />
+
+            <!--el correo-->
+            <TextView
+                android:id="@+id/tvCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/envelope"
+                android:textSize="13sp"
+                tools:text="bombobera@peloteada.com" />
+
+            <Button
+                android:id="@+id/btn_ver_complejo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#1bac06"
+                android:text="VER COMPLEJO"
+                android:textColor="@color/cardview_light_background"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>
