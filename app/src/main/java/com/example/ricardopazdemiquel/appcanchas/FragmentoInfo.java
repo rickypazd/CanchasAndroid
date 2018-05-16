@@ -21,7 +21,7 @@ public class FragmentoInfo extends Fragment {
         View view=inflater.inflate(R.layout.fragment_fragmento_info, container, false);
 
         try{
-            ((detalleCancha)getActivity()).rezize_fragment(1000);
+            ((detalleCancha)getActivity()).rezize_fragment(100);
         }catch (Exception e){
 
         }

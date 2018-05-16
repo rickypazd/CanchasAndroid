@@ -133,5 +133,6 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
 
     public void rezize_fragment(int heigh){
        cardview.setMinimumHeight(heigh);
+
     }
 }
