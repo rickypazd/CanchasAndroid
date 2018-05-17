@@ -1,4 +1,4 @@
-package clienteHTTP;
+package com.example.ricardopazdemiquel.appcanchas.clienteHTTP;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.appcanchas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,31 +11,40 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class AdaptadorCanchas extends BaseAdapter {
 
-    private List<Cancha> listaCanchas;
+    private JSONArray listaCanchas;
     private Context contexto;
 
-    public AdaptadorCanchas(Context contexto, List<Cancha> lista) {
+    public AdaptadorCanchas( Context contexto,JSONArray lista) {
         this.contexto = contexto;
         this.listaCanchas = lista;
     }
 
     @Override
     public int getCount() {
-        return listaCanchas.size();
+        return listaCanchas.length();
     }
 
     @Override
     public Object getItem(int i) {
-        return listaCanchas.get(i);
+        try {
+            return listaCanchas.get(i);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public long getItemId(int i) {
-        return listaCanchas.get(i).getId();
+     return 0;
     }
 
     @Override
@@ -53,23 +63,35 @@ public class AdaptadorCanchas extends BaseAdapter {
         TextView tvNumero = view.findViewById(R.id.tvNumero);
         TextView tvCorreo = view.findViewById(R.id.tvCorreo);
         Button btn_ver = view.findViewById(R.id.btn_ver_complejo);
+        try {
+            final JSONObject cancha = listaCanchas.getJSONObject(i);
+            //imgCancha.setImageResource(cancha.getImagen());
+            tvNombre.setText(cancha.getString("NOMBRE"));
+            tvValoracion.setText("10 K");
+            tvCiudad.setText("Santa Cruz De La Cierra");
+            tvDireccion.setText(cancha.getString("DIRECCION"));
+            tvDescripcion.setText(Html.fromHtml(cancha.getString("PRESENTACION")));
+            tvNumero.setText(cancha.getJSONArray("TELEFONOS").getJSONObject(0).getString("TELEFONO"));
+            tvCorreo.setText(cancha.getJSONArray("CORREOS").getJSONObject(0).getString("CORREO"));
+            btn_ver.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent inten = new Intent(contexto,detalleCancha.class);
+                    try {
+                        inten.putExtra("id_complejo",cancha.getInt("ID"));
 
-        Cancha cancha = this.listaCanchas.get(i);
-        imgCancha.setImageResource(cancha.getImagen());
-        tvNombre.setText(cancha.getNombre());
-        tvValoracion.setText(cancha.getValoracion());
-        tvCiudad.setText(cancha.getCiudad());
-        tvDireccion.setText(cancha.getDireccion());
-        tvDescripcion.setText(cancha.getDescripcion());
-        tvNumero.setText(cancha.getNumero());
-        tvCorreo.setText(cancha.getCorreo());
-        btn_ver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent inten = new Intent(contexto,detalleCancha.class);
-                contexto.startActivity(inten);
-            }
-        });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    contexto.startActivity(inten);
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         return view;
     }
 }

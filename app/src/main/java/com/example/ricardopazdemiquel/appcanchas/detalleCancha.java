@@ -1,5 +1,7 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -7,25 +9,41 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+
+import complementos.Contexto;
 
 public class detalleCancha extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener{
 
-    private TextView mTextMessage;
+
     private SliderLayout mDemoSlider;
     private CardView cardview;
     private ScrollView scrollView;
+    private int id_complejo;
+    private JSONObject complejo;
+    private TextView tv_nombre_cancha;
+    private JSONObject obj_complejo;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -83,39 +101,15 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
         setContentView(R.layout.activity_detalle_cancha);
         cardview=findViewById(R.id.contenDetalle);
         scrollView=findViewById(R.id.scrollviw);
-        mTextMessage = (TextView) findViewById(R.id.message);
+        tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        seleccionarFragmento("detalle");
+
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
 
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
-        url_maps.put("House of Cards", "http://cdn3.nflximg.net/images/3093/2043093.jpg");
-        url_maps.put("Game of Thrones", "http://images.boomsbeat.com/data/images/full/19640/game-of-thrones-season-4-jpg.jpg");
+        id_complejo=getIntent().getIntExtra("id_complejo",0);
 
-
-        for(String name : url_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(url_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit)
-                    .setOnSliderClickListener(this);
-
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-        mDemoSlider.setDuration(4000);
+        new CargarListaTask(id_complejo).execute();
 
 
     }
@@ -135,4 +129,99 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
        cardview.setMinimumHeight(heigh);
 
     }
+    public JSONObject getComplejo(){
+      return obj_complejo;
+    }
+
+    private class CargarListaTask extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+        private int id;
+
+        public CargarListaTask(int id){
+            this.id=id;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(detalleCancha.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("obteniendo datos");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "get_complejos_id");
+            parametros.put("id", id+"");
+            String respuesta="";
+            try {
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            } catch (Exception ex) {
+                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
+            }
+
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+            if(resp ==""){
+                Toast.makeText(detalleCancha.this,"Error al obtener Datos" ,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                JSONObject obj = new JSONObject(resp);
+                obj_complejo=obj;
+                seleccionarFragmento("detalle");
+                tv_nombre_cancha.setText(obj.getString("NOMBRE"));
+
+                JSONArray arr_carrusel=obj.getJSONArray("FOTOS_CARRUSEL");
+                JSONObject object;
+                HashMap<String,String> url_maps = new HashMap<String, String>();
+                for (int i = 0; i < arr_carrusel.length(); i++) {
+                    object=arr_carrusel.getJSONObject(i);
+                    url_maps.put(""+i, getString(R.string.url_foto)+object.getString("FOTO"));
+                }
+                for(String name : url_maps.keySet()){
+                    TextSliderView textSliderView = new TextSliderView(detalleCancha.this);
+                    // initialize a SliderLayout
+                    textSliderView
+                            .description(name)
+                            .image(url_maps.get(name))
+                            .setScaleType(BaseSliderView.ScaleType.Fit)
+                            .setOnSliderClickListener(detalleCancha.this);
+
+                    //add your extra information
+                    textSliderView.bundle(new Bundle());
+                    textSliderView.getBundle()
+                            .putString("extra",name);
+
+                    mDemoSlider.addSlider(textSliderView);
+                }
+                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                mDemoSlider.setDuration(4000);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+    }
+
 }

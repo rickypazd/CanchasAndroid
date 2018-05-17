@@ -1,4 +1,4 @@
-package clienteHTTP;
+package com.example.ricardopazdemiquel.appcanchas.clienteHTTP;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
