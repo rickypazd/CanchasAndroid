@@ -2,7 +2,11 @@ package com.example.ricardopazdemiquel.appcanchas;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class AdaptadorCanchas extends BaseAdapter {
@@ -66,6 +75,11 @@ public class AdaptadorCanchas extends BaseAdapter {
         try {
             final JSONObject cancha = listaCanchas.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
+            URL url = null;
+            if(cancha.getString("B64").length()>0){
+                new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
+            }
+
             tvNombre.setText(cancha.getString("NOMBRE"));
             tvValoracion.setText("10 K");
             tvCiudad.setText("Santa Cruz De La Cierra");
@@ -94,4 +108,27 @@ public class AdaptadorCanchas extends BaseAdapter {
 
         return view;
     }
+    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+        private final static String TAG = "AsyncTaskLoadImage";
+        private ImageView imageView;
+        public AsyncTaskLoadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
+    }
+
 }

@@ -1,19 +1,34 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.util.Hashtable;
+
+import complementos.Contexto;
 
 public class MainActivity extends AppCompatActivity {
 
-
+private JSONArray arr_canchas;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -80,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        seleccionarFragmento("canchas");
 
 //        Button buton = findViewById(R.id.button);
 //        buton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, PresentacionActivity.class);
             startActivity(intent);
         }
+
+        new CargarListaTask().execute();
     }
 
     public boolean primeraVezEjecutada() {
@@ -108,5 +124,68 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return !primeraVez;
+    }
+    public JSONArray getArr_canchas(){
+        return arr_canchas;
+    }
+    private class CargarListaTask extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+
+
+        public CargarListaTask(){
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(MainActivity.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("obteniendo datos");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "get_complejos");
+            String respuesta="";
+            try {
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+            } catch (Exception ex) {
+                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
+            }
+
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+            if(resp ==""){
+                Toast.makeText(MainActivity.this,"Error al obtener Datos" ,
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            try {
+                JSONArray arr = new JSONArray(resp);
+                arr_canchas=arr;
+                seleccionarFragmento("canchas");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+
     }
 }

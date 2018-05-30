@@ -3,6 +3,7 @@ package com.example.ricardopazdemiquel.appcanchas;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -117,7 +118,10 @@ public class TablaReserva extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tablaDynamic.getAhReservar().size()>0){
-
+                    Intent intent = new Intent(TablaReserva.this,MetodoDePago.class);
+                    intent.putExtra("arr_reservas",tablaDynamic.getAhReservar());
+                    startActivity(intent);
+                    finish();
                 }else{
                     Toast.makeText(TablaReserva.this,"Deve seleccionar su reserva" ,
                             Toast.LENGTH_SHORT).show();

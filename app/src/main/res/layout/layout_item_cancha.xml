@@ -23,8 +23,8 @@
             <ImageView
                 android:id="@+id/imgCancha"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/cancha2" />
+                android:layout_height="200dp"
+                android:scaleType="fitCenter" />
 
             <!--nombre y valoracion-->
             <LinearLayout

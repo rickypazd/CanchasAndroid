@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.json.JSONObject;
-
 public class viewHolder extends RecyclerView.ViewHolder {
 
 
@@ -18,7 +16,7 @@ public class viewHolder extends RecyclerView.ViewHolder {
     public Button btn_reservar;
     public viewHolder(View v) {
         super(v);
-         nombre = v.findViewById(R.id.tv_nombre);
+         nombre = v.findViewById(R.id.tv_info_nombre);
          tipo = v.findViewById(R.id.tv_tipo);
          desc1= v.findViewById(R.id.tv_desc1);
          desc2 = v.findViewById(R.id.tv_desc2);

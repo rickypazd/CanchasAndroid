@@ -1,10 +1,11 @@
 package complementos;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class infoCelda {
+public class infoCelda implements Serializable {
     private int dia;
     private String hora;
     private String Fecha;
