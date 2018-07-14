@@ -14,6 +14,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,6 +36,7 @@ public class FragmentoMapa extends Fragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
+    private Button btn_buscar;
     public FragmentoMapa() {
         // Required empty public constructor
     }
@@ -45,6 +47,14 @@ public class FragmentoMapa extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_fragmento_mapa, container, false);
         mMapView = view.findViewById(R.id.mapView);
+        btn_buscar=view.findViewById(R.id.btn_buscar);
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),buscar.class);
+                startActivity(intent);
+            }
+        });
         try{
             arr_canchas=((MainActivity)getActivity()).getArr_canchas();
 

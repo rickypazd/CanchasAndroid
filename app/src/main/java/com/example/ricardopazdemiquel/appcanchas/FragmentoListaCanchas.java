@@ -1,14 +1,17 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ public class FragmentoListaCanchas extends Fragment {
 
     private ListView lvCanchas;
     private JSONArray arr_canchas;
+    private Button btn_buscar;
     public FragmentoListaCanchas() {
     }
 
@@ -37,6 +41,14 @@ public class FragmentoListaCanchas extends Fragment {
 
         lvCanchas = view.findViewById(R.id.lvCanchas);
         arr_canchas=((MainActivity)getActivity()).getArr_canchas();
+        btn_buscar=view.findViewById(R.id.btn_buscar);
+        btn_buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),buscar.class);
+                startActivity(intent);
+            }
+        });
         AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(),arr_canchas);
 
         lvCanchas.setAdapter(adaptador);

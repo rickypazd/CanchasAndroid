@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,9 @@ public class FragmentoPresentacion3 extends Fragment {
             @Override
             public void onClick(View view) {
                 // al presionar el boton hay que cerrar la actividad contenedora
+                Intent intent = new Intent(getActivity(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 getActivity().finish();
             }
         });

@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+import com.facebook.AccessToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -107,10 +108,20 @@ private JSONArray arr_canchas;
 
         if (primeraVezEjecutada()) {
             Intent intent = new Intent(MainActivity.this, PresentacionActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+        else if(AccessToken.getCurrentAccessToken() == null){
+            Intent intent = new Intent(this,login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
 
-        new CargarListaTask().execute();
+        }
+        else{
+
+            new CargarListaTask().execute();
+        }
+
     }
 
     public boolean primeraVezEjecutada() {
@@ -166,7 +177,7 @@ private JSONArray arr_canchas;
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp ==""){
+            if(resp =="" || resp == null){
                 Toast.makeText(MainActivity.this,"Error al obtener Datos" ,
                         Toast.LENGTH_SHORT).show();
                 return;

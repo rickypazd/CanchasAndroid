@@ -2,6 +2,9 @@ package complementos;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
+
 public class Contexto extends Application {
 
     private static Contexto instancia;
@@ -10,6 +13,8 @@ public class Contexto extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
         instancia = this;
     }
 
