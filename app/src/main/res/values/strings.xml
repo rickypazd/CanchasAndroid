@@ -1,6 +1,6 @@
 <resources>
-    <string name="url_servlet_admin">http://204.93.196.61:8080/canchas/indexController</string>
-    <string name="url_foto">http://204.93.196.61:8080/canchas/</string>
+    <string name="url_servlet_admin">http://192.168.0.15:8080/canchas/indexController</string>
+    <string name="url_foto">http://192.168.0.15:8080/canchas/</string>
     <string name="app_name">Peloteada</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -30,4 +30,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="facebook_app_id">556481944696849</string>
+    <string name="fb_login_protocol_scheme">fb556481944696849</string>
+
 </resources>
