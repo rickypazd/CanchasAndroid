@@ -111,15 +111,14 @@ private JSONArray arr_canchas;
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
-        else if(AccessToken.getCurrentAccessToken() == null){
+        /*else if(AccessToken.getCurrentAccessToken() == null){
             Intent intent = new Intent(this,login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             new CargarListaTask().execute();
-        }
+        }*/
         else{
-
-            //new CargarListaTask().execute();
+            new CargarListaTask().execute();
         }
 
     }
@@ -139,6 +138,8 @@ private JSONArray arr_canchas;
     public JSONArray getArr_canchas(){
         return arr_canchas;
     }
+
+
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;

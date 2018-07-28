@@ -17,11 +17,14 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 
 import complementos.Contexto;
 import complementos.TablaDynamic;
@@ -61,6 +65,11 @@ public class TablaReserva extends AppCompatActivity {
     private TextView tv_total;
     private ImageView iv_about;
     Point p;
+    JSONObject objcomplejo;
+    private Spinner SpinnerCanchas;
+    private int nivel;
+
+    final List list = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,13 +82,25 @@ public class TablaReserva extends AppCompatActivity {
         btn_confirmar=findViewById(R.id.btn_confirmar);
         tv_horas=findViewById(R.id.tv_horas);
         tv_total=findViewById(R.id.tv_total);
+        SpinnerCanchas = findViewById(R.id.Spinner_canchas);
 
+
+            String obj = getIntent().getStringExtra("obj");
+        try {
+            objcomplejo = new JSONObject(obj);
+            JSONArray jsonArray = objcomplejo.getJSONArray("CANCHAS");
+            agregarSpinnerCanchas(jsonArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
         Calendar fechaActual= Calendar.getInstance();
         fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
         domingo_actual=(Calendar) fechaActual.clone();
         domingo_inicio=(Calendar) fechaActual.clone();
         new getHorasAsyn(1).execute();
+        //recibe id cancha
         iv_about.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,6 +151,23 @@ public class TablaReserva extends AppCompatActivity {
         });
 
     }
+
+    private void agregarSpinnerCanchas(JSONArray jsonArray){
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this,jsonArray);
+        SpinnerCanchas.setAdapter(spinnerAdapter);
+        SpinnerCanchas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                nivel = position;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+
+
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 

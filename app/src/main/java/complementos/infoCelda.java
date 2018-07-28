@@ -93,19 +93,19 @@ public class infoCelda implements Serializable {
     public String getdia(){
         switch (this.dia){
             case 0:
-                return "Lunes";
+                return "Lun";
             case 1:
-                return "Martes";
+                return "Mar";
             case 2:
-                return "Miercoles";
+                return "Mie";
             case 3:
-                return "Jueves";
+                return "Jue";
             case 4:
-                return "Viernes";
+                return "Vie";
             case 5:
-                return "Sabado";
+                return "Sab";
             case 6:
-                return "Domingo";
+                return "Dom";
 
         }
         return "";
