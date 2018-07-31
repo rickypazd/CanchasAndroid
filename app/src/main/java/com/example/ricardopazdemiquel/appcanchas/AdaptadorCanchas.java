@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,7 +30,9 @@ import java.util.List;
 public class AdaptadorCanchas extends BaseAdapter {
 
     private JSONArray listaCanchas;
+    private JSONArray filterData;
     private Context contexto;
+    private ItemFilter mFilter = new ItemFilter();
 
     public AdaptadorCanchas() {
     }
@@ -37,17 +40,18 @@ public class AdaptadorCanchas extends BaseAdapter {
     public AdaptadorCanchas(Context contexto, JSONArray lista) {
         this.contexto = contexto;
         this.listaCanchas = lista;
+        this.filterData = lista;
     }
 
     @Override
     public int getCount() {
-        return listaCanchas.length();
+        return filterData.length();
     }
 
     @Override
     public Object getItem(int i) {
         try {
-            return listaCanchas.get(i);
+            return filterData.get(i);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -76,7 +80,7 @@ public class AdaptadorCanchas extends BaseAdapter {
         TextView tvCorreo = view.findViewById(R.id.tvCorreo);
         Button btn_ver = view.findViewById(R.id.btn_ver_complejo);
         try {
-            final JSONObject cancha = listaCanchas.getJSONObject(i);
+            final JSONObject cancha = filterData.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
             URL url = null;
             if(cancha.getString("B64").length()>0){
@@ -112,10 +116,8 @@ public class AdaptadorCanchas extends BaseAdapter {
         return view;
     }
 
-    public void setFilter(JSONArray canchas){
-        this.listaCanchas = new JSONArray();
-        this.listaCanchas = canchas;
-        notifyDataSetChanged();
+    public Filter getFilter() {
+        return mFilter;
     }
 
     public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
@@ -141,5 +143,45 @@ public class AdaptadorCanchas extends BaseAdapter {
         }
     }
 
+    private class ItemFilter extends Filter {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            String filterString = constraint.toString().toLowerCase();
+
+            FilterResults results = new FilterResults();
+
+            final JSONArray list = listaCanchas;
+
+            int count = list.length();
+            final JSONArray nlist = new JSONArray();
+
+            String filterableString ;
+
+            for (int i = 0; i < count; i++) {
+                try {
+                    filterableString = list.getJSONObject(i).getString("NOMBRE");
+                    if (filterableString.toLowerCase().contains(filterString)) {
+                        nlist.put(list.getJSONObject(i));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+            results.values = nlist;
+            results.count = nlist.length();
+
+            return results;
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            filterData =(JSONArray) results.values;
+            notifyDataSetChanged();
+        }
+
+    }
 
 }
