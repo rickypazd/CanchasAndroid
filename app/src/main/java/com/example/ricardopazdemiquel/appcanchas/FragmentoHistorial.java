@@ -29,6 +29,7 @@ import complementos.Contexto;
 public class FragmentoHistorial extends Fragment {
 
     private ListView lv;
+
     public FragmentoHistorial() {
     }
 
@@ -90,8 +91,6 @@ public class FragmentoHistorial extends Fragment {
                 JSONArray arr = new JSONArray(resp);
                 AdaptadorHistory history= new AdaptadorHistory(getActivity(),arr);
                 lv.setAdapter(history);
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -57,34 +57,36 @@ public class AdaptadorHistory extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = LayoutInflater.from(contexto)
-                    .inflate(R.layout.layout_iten_historireseva, viewGroup, false);
+                    .inflate(R.layout.layout_item_historial, viewGroup, false);
         }
 
-
-        TextView tvNombreComplejo = view.findViewById(R.id.tv_nombrecomplejo);
-        TextView tvNombreCanchas = view.findViewById(R.id.tv_nombrecancha);
-        TextView tvfecha = view.findViewById(R.id.tv_fecha);
-        TextView tvTotal = view.findViewById(R.id.tv_total);
-        TextView tvTotalHoras= view.findViewById(R.id.tv_total_horas);
-        TextView tvEstado = view.findViewById(R.id.tv_estado);
+        TextView tv_complejo= view.findViewById(R.id.tv_Complejo);
+        TextView tv_estado= view.findViewById(R.id.tv_Estado);
+        Button btn_detalle = view.findViewById(R.id.btn_Ver_complejo);
 
         try {
             final JSONObject cancha = listaHistory.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
-            tvNombreComplejo.setText(cancha.getString("NOMBRE_COMP"));
-            tvNombreCanchas.setText(cancha.getString("NOMBRE_CAN"));
-            tvfecha.setText(cancha.getString("FECHA"));
-            tvTotal.setText("Total: "+cancha.getString("TOTAL"));
-            tvTotalHoras.setText("Horas: "+cancha.getString("HORAS"));
-            tvEstado.setText(getEstado(cancha.getInt("ESTADO")));
+            tv_complejo.setText(cancha.getString("NOMBRE_COMP"));
+            String estado = getEstado(cancha.getInt("ESTADO"));
+            tv_estado.setText(estado);
+            btn_detalle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent inten = new Intent(contexto,Detalle_complejoActivity.class);
+                    inten.putExtra("complejo",cancha.toString());
+
+                    contexto.startActivity(inten);
+                }
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
         return view;
     }
+
+
     private String getEstado(int estado){
         switch (estado){
             case 1:

@@ -108,7 +108,6 @@ public class AdaptadorCanchas extends BaseAdapter {
             e.printStackTrace();
         }
 
-
         return view;
     }
 
