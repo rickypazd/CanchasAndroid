@@ -10,6 +10,8 @@ import android.support.v4.view.MenuItemCompat;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -42,7 +45,8 @@ public class FragmentoListaCanchas extends Fragment {
 
     private ListView lvCanchas;
     private JSONArray arr_canchas;
-    private Button btn_buscar;
+    private EditText buscar_edit;
+
 
 
     public FragmentoListaCanchas() {
@@ -55,20 +59,28 @@ public class FragmentoListaCanchas extends Fragment {
 
         lvCanchas = view.findViewById(R.id.lvCanchas);
         arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
-        btn_buscar = view.findViewById(R.id.btn_buscar);
-        btn_buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), buscar.class);
-                startActivity(intent);
-            }
-        });
-        AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
+        buscar_edit=view.findViewById(R.id.buscar_edit);
+        final AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
 
         lvCanchas.setAdapter(adaptador);
         Toolbar toolbar =  view.findViewById(R.id.toolbar2);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        buscar_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                adaptador.getFilter().filter(s.toString());
+            }
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         try {
             ((detalleCancha) getActivity()).rezize_fragment(1000);
         } catch (Exception e) {

@@ -8,29 +8,33 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar2"
-        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="#fff">
+        android:background="#fff"
+        android:backgroundTint="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
             android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <EditText
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="asdfas"
-                android:textSize="17dp"/>
-        </LinearLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/buscar_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Buscar por nombre..."
+                    android:textSize="17dp" />
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
@@ -39,31 +43,12 @@
     <ListView
         android:id="@+id/lvCanchas"
         android:layout_width="match_parent"
-        android:layout_height="505dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/layout_item_cancha" />
-
-    <Button
-        android:id="@+id/btn_buscar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:text="BUSCAR"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/lvCanchas" />
 
 </android.support.constraint.ConstraintLayout>
