@@ -6,14 +6,23 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
+
+
 
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -21,8 +30,11 @@ import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import complementos.Contexto;
 
@@ -31,6 +43,8 @@ public class FragmentoListaCanchas extends Fragment {
     private ListView lvCanchas;
     private JSONArray arr_canchas;
     private Button btn_buscar;
+
+
     public FragmentoListaCanchas() {
     }
 
@@ -40,24 +54,24 @@ public class FragmentoListaCanchas extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_lista_canchas, container, false);
 
         lvCanchas = view.findViewById(R.id.lvCanchas);
-        arr_canchas=((MainActivity)getActivity()).getArr_canchas();
-        btn_buscar=view.findViewById(R.id.btn_buscar);
+        arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
+        btn_buscar = view.findViewById(R.id.btn_buscar);
         btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),buscar.class);
+                Intent intent = new Intent(getActivity(), buscar.class);
                 startActivity(intent);
             }
         });
-        AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(),arr_canchas);
+        AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
 
         lvCanchas.setAdapter(adaptador);
+        Toolbar toolbar =  view.findViewById(R.id.toolbar2);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
-
-
-        try{
-            ((detalleCancha)getActivity()).rezize_fragment(1000);
-        }catch (Exception e){
+        try {
+            ((detalleCancha) getActivity()).rezize_fragment(1000);
+        } catch (Exception e) {
 
         }
 

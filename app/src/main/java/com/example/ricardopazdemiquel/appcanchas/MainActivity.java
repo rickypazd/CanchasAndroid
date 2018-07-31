@@ -9,9 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SearchEvent;
+import android.view.View;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +32,7 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
 private JSONArray arr_canchas;
 
@@ -54,6 +59,8 @@ private JSONArray arr_canchas;
             return false;
         }
     };
+
+
 
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
@@ -135,8 +142,20 @@ private JSONArray arr_canchas;
 
         return !primeraVez;
     }
+
+
     public JSONArray getArr_canchas(){
         return arr_canchas;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        return false;
     }
 
 

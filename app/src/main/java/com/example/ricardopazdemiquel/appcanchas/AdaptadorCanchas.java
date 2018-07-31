@@ -31,7 +31,10 @@ public class AdaptadorCanchas extends BaseAdapter {
     private JSONArray listaCanchas;
     private Context contexto;
 
-    public AdaptadorCanchas( Context contexto,JSONArray lista) {
+    public AdaptadorCanchas() {
+    }
+
+    public AdaptadorCanchas(Context contexto, JSONArray lista) {
         this.contexto = contexto;
         this.listaCanchas = lista;
     }
@@ -108,6 +111,13 @@ public class AdaptadorCanchas extends BaseAdapter {
 
         return view;
     }
+
+    public void setFilter(JSONArray canchas){
+        this.listaCanchas = new JSONArray();
+        this.listaCanchas = canchas;
+        notifyDataSetChanged();
+    }
+
     public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
         private final static String TAG = "AsyncTaskLoadImage";
         private ImageView imageView;
@@ -130,5 +140,6 @@ public class AdaptadorCanchas extends BaseAdapter {
             imageView.setImageBitmap(bitmap);
         }
     }
+
 
 }

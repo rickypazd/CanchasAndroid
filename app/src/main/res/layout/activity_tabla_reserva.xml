@@ -13,24 +13,23 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorPrimary"
             android:minHeight="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingStart="60dp">
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
                 <Spinner
                     android:id="@+id/Spinner_canchas"
                     android:layout_width="wrap_content"
-                    android:layout_height="35dp"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
                     android:backgroundTint="#000000"
-                    android:textAlignment="textEnd">
+                    android:layout_weight="1">
 
                 </Spinner>
 

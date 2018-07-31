@@ -37,19 +37,29 @@ public class SpinnerAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
+
+            JSONObject proyecto = null;
+            try {
+                proyecto = (JSONObject) jsonArray.get(i);
+                int a = proyecto.getInt("ID");
+                return a ;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         return 0;
     }
+
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View row = inflater.inflate(R.layout.spinner_row , null);
         TextView textView = row.findViewById(R.id.titlerow);
         try {
-                for (int j = 0; j < jsonArray.length(); j++) {
+
                     JSONObject proyecto = null;
-                    proyecto = (JSONObject) jsonArray.get(j);
+                    proyecto = (JSONObject) jsonArray.get(i);
                     textView.setText(proyecto.getString("NOMBRE"));
-                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

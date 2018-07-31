@@ -69,7 +69,6 @@ public class TablaReserva extends AppCompatActivity {
     private Spinner SpinnerCanchas;
     private int nivel;
 
-    final List list = new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,16 +89,10 @@ public class TablaReserva extends AppCompatActivity {
             objcomplejo = new JSONObject(obj);
             JSONArray jsonArray = objcomplejo.getJSONArray("CANCHAS");
             agregarSpinnerCanchas(jsonArray);
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
-        Calendar fechaActual= Calendar.getInstance();
-        fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
-        domingo_actual=(Calendar) fechaActual.clone();
-        domingo_inicio=(Calendar) fechaActual.clone();
-        new getHorasAsyn(1).execute();
+
         //recibe id cancha
         iv_about.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -158,7 +151,19 @@ public class TablaReserva extends AppCompatActivity {
         SpinnerCanchas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 nivel = position;
+                int i = (int) parent.getSelectedItemId();
+                tableLayout.removeAllViews();
+                tv_horas.setText("0");
+                tv_total.setText("0");
+
+                tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
+                Calendar fechaActual= Calendar.getInstance();
+                 fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+                domingo_actual=(Calendar) fechaActual.clone();
+                domingo_inicio=(Calendar) fechaActual.clone();
+                new getHorasAsyn(i).execute();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -371,18 +376,21 @@ public class TablaReserva extends AppCompatActivity {
                 return form.format(cal.getTime());
             case 6:
                 cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
-                cal.add(Calendar.DAY_OF_WEEK,7);
                 return form.format(cal.getTime());
         }
         return "";
     }
     private SimpleDateFormat formFechaConsular= new SimpleDateFormat("yyyy-MM-dd");
     private String getDomingoActual(){
-        return formFechaConsular.format(domingo_actual.getTime());
+           Calendar cal = (Calendar) domingo_actual.clone();
+           cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+            cal.add(Calendar.DATE,-7);
+           return formFechaConsular.format(cal.getTime());
     }
+
     private String getDomingoSiguiente(){
         Calendar cal = (Calendar) domingo_actual.clone();
-        cal.add(Calendar.DAY_OF_WEEK,8);
+        cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
         return formFechaConsular.format(cal.getTime());
     }
 }
