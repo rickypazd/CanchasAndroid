@@ -1,16 +1,23 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +35,8 @@ import com.facebook.AccessToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 
 import complementos.Contexto;
@@ -95,7 +104,6 @@ private JSONArray arr_canchas;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         if (getIntent().getBooleanExtra("SALIR", false)) {
             finish();
         }
@@ -122,9 +130,14 @@ private JSONArray arr_canchas;
             Intent intent = new Intent(this,login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            new CargarListaTask().execute();
+            //new CargarListaTask().execute();
         }
+        else{
+            if(!runtime_permissions()){
+                new CargarListaTask().execute();
+            }
 
+        }
 
     }
 
@@ -155,7 +168,27 @@ private JSONArray arr_canchas;
     public boolean onQueryTextChange(String s) {
         return false;
     }
+    private boolean runtime_permissions() {
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+                new CargarListaTask().execute();
+            }else {
+                runtime_permissions();
+            }
+        }
+    }
 
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 

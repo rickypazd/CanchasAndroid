@@ -56,9 +56,6 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
                 case R.id.navigation_horarios: // Lista de canchas
                     seleccionarFragmento("horario");
                     return true;
-                case R.id.navigation_canchas: // Filtro
-                    seleccionarFragmento("canchas");
-                    return true;
                 case R.id.navigation_comentarios: // Filtro
                     seleccionarFragmento("comentarios");
                     return true;
@@ -79,10 +76,6 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
 
             case "horario":
                 fragmentoGenerico = new FragmentoHorario();
-                break;
-
-            case "canchas":
-                fragmentoGenerico = new FragmentoCanchas();
                 break;
             case "comentarios":
                 fragmentoGenerico = new FragmentoComentarios();
@@ -182,7 +175,7 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
                 obj_complejo=obj;
                 seleccionarFragmento("detalle");
                 tv_nombre_cancha.setText(obj.getString("NOMBRE"));
-
+                setTitle(obj.getString("NOMBRE"));
                 JSONArray arr_carrusel=obj.getJSONArray("FOTOS_CARRUSEL");
                 JSONObject object;
                 HashMap<String,String> url_maps = new HashMap<String, String>();

@@ -107,6 +107,19 @@ public class AdaptadorCanchas extends BaseAdapter {
                     contexto.startActivity(inten);
                 }
             });
+            imgCancha.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent inten = new Intent(contexto,detalleCancha.class);
+                    try {
+                        inten.putExtra("id_complejo",cancha.getInt("ID"));
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    contexto.startActivity(inten);
+                }
+            });
 
         } catch (JSONException e) {
             e.printStackTrace();
