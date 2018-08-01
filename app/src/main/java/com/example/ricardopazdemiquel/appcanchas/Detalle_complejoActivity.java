@@ -72,7 +72,7 @@ public class Detalle_complejoActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        
+
     }
 
     // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
