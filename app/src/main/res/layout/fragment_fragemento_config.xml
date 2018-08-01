@@ -9,7 +9,7 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <ImageView
+    <com.facebook.login.widget.ProfilePictureView
         android:id="@+id/iv_foto_perfil"
         android:layout_width="0dp"
         android:layout_height="200dp"

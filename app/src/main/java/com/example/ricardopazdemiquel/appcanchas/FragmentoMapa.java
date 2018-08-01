@@ -116,8 +116,8 @@ public class FragmentoMapa extends Fragment {
             }
         });
 
+
         return view;
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.example.ricardopazdemiquel.appcanchas;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -31,9 +32,11 @@ import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
 import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -121,6 +124,10 @@ private JSONArray arr_canchas;
 //            }
 //        });
 
+        SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferencias.edit();
+        editor.remove("usr_log");
+        editor.commit();
         if (primeraVezEjecutada()) {
             Intent intent = new Intent(MainActivity.this, PresentacionActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -130,13 +137,11 @@ private JSONArray arr_canchas;
             Intent intent = new Intent(this,login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-            //new CargarListaTask().execute();
+            //new CargarListaTask().execute();<]
+
         }
         else{
-            if(!runtime_permissions()){
                 new CargarListaTask().execute();
-            }
-
         }
 
     }
@@ -153,7 +158,21 @@ private JSONArray arr_canchas;
 
         return !primeraVez;
     }
-
+    public JSONObject getUsr_log() {
+        SharedPreferences preferencias = getSharedPreferences("myPref", Context.MODE_PRIVATE);
+        String usr = preferencias.getString("usr_log", "");
+        if (usr.length() <= 0) {
+            return null;
+        } else {
+            try {
+                JSONObject usr_log = new JSONObject(usr);
+                return usr_log;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
 
     public JSONArray getArr_canchas(){
         return arr_canchas;
