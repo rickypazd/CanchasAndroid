@@ -32,7 +32,9 @@
                     android:id="@+id/buscar_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableEnd="@android:drawable/ic_menu_search"
                     android:hint="Buscar por nombre..."
+                    android:inputType="text"
                     android:textSize="17dp" />
             </LinearLayout>
 

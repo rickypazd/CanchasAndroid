@@ -288,7 +288,8 @@ public class TablaReserva extends AppCompatActivity {
                     dia=obj.getInt("DIA");
                     cel.setDia(dia);
                     cel.setFecha(getFechaDia(dia));
-                    cel.setTexto(cel.getFecha());
+                    String fehca=cel.getFecha();
+                    cel.setTexto(fehca.substring(0,fehca.length()-3));
                     header.add(cel);
                 }
 
@@ -380,7 +381,7 @@ public class TablaReserva extends AppCompatActivity {
         }
         return "";
     }
-    private SimpleDateFormat formFechaConsular= new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat formFechaConsular= new SimpleDateFormat("MM-dd-yyyy");
     private String getDomingoActual(){
            Calendar cal = (Calendar) domingo_actual.clone();
            cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);

@@ -7,14 +7,19 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,6 +42,7 @@ public class FragmentoMapa extends Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
     private Button btn_buscar;
+
     public FragmentoMapa() {
         // Required empty public constructor
     }
@@ -47,19 +53,19 @@ public class FragmentoMapa extends Fragment {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_fragmento_mapa, container, false);
         mMapView = view.findViewById(R.id.mapView);
-        btn_buscar=view.findViewById(R.id.btn_buscar);
+        btn_buscar = view.findViewById(R.id.btn_buscar);
         btn_buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),buscar.class);
+                Intent intent = new Intent(getActivity(), buscar.class);
                 startActivity(intent);
             }
         });
-        try{
-            arr_canchas=((MainActivity)getActivity()).getArr_canchas();
+        try {
+            arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         mMapView.onCreate(savedInstanceState);
@@ -69,40 +75,93 @@ public class FragmentoMapa extends Fragment {
             @Override
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
-                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng( -17.7848688, -63.180835), 15);
-                googleMap.animateCamera(cu);
-                JSONObject obj;
-                for (int i = 0; i <arr_canchas.length() ; i++) {
-                    try {
-                        obj=arr_canchas.getJSONObject(i);
-                        Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(obj.getDouble("LAT"),obj.getDouble("LNG")))
-                                .title(obj.getString("NOMBRE")));
-                        marker.setTag(obj);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
 
-                }
-                AdapterInfoWinfow adapterInfoWinfow = new AdapterInfoWinfow(getActivity());
-                mMap.setInfoWindowAdapter(adapterInfoWinfow);
-                mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                    @Override
-                    public void onInfoWindowClick(Marker marker) {
-                        JSONObject obj= (JSONObject)marker.getTag();
+                CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(-17.7848688, -63.180835), 15);
+                googleMap.animateCamera(cu);
+
+                JSONObject obj;
+                if (arr_canchas != null) {
+
+
+                    for (int i = 0; i < arr_canchas.length(); i++) {
                         try {
-                            Intent inten = new Intent(getActivity(),detalleCancha.class);
-                            inten.putExtra("id_complejo",obj.getInt("ID"));
-                            getActivity().startActivity(inten);
+                            obj = arr_canchas.getJSONObject(i);
+                            Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(obj.getDouble("LAT"), obj.getDouble("LNG")))
+                                    .title(obj.getString("NOMBRE")));
+                            marker.setTag(obj);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
                     }
-                });
+                    AdapterInfoWinfow adapterInfoWinfow = new AdapterInfoWinfow(getActivity());
+                    mMap.setInfoWindowAdapter(adapterInfoWinfow);
+                    mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+                            JSONObject obj = (JSONObject) marker.getTag();
+                            try {
+                                Intent inten = new Intent(getActivity(), detalleCancha.class);
+                                inten.putExtra("id_complejo", obj.getInt("ID"));
+                                getActivity().startActivity(inten);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                    });
+                }
+                if (!runtime_permissions()) {
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    mMap.setMyLocationEnabled(true);
+                }
+
 
             }
         });
 
+
+        if (mMapView != null &&
+                mMapView.findViewById(Integer.parseInt("1")) != null) {
+            ImageView locationButton = (ImageView) ((View) mMapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)
+                    locationButton.getLayoutParams();
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
+            layoutParams.setMargins(0, 0, 30, 600);
+            locationButton.setImageResource(R.drawable.ic_mapposition_foreground);
+        }
+
         return view;
     }
+    private boolean runtime_permissions() {
+        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 100){
+            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+            }else {
+                runtime_permissions();
+            }
+        }
+    }
 }

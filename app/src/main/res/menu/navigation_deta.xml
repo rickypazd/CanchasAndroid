@@ -11,10 +11,6 @@
         android:title="Horarios" />
 
     <item
-        android:id="@+id/navigation_canchas"
-        android:icon="@drawable/soccer_field"
-        android:title="Canchas" />
-    <item
         android:id="@+id/navigation_comentarios"
         android:icon="@drawable/ic_speech_bubble"
         android:title="Comentarios" />

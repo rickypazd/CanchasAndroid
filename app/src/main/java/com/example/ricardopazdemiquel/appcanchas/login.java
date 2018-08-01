@@ -1,14 +1,18 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.content.Intent;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+
+
 
 public class login extends AppCompatActivity {
 

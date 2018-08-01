@@ -60,35 +60,37 @@ public class FragmentoListaCanchas extends Fragment {
         lvCanchas = view.findViewById(R.id.lvCanchas);
         arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
         buscar_edit=view.findViewById(R.id.buscar_edit);
-        final AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
+        if(arr_canchas!=null){
+            final AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
 
-        lvCanchas.setAdapter(adaptador);
-        Toolbar toolbar =  view.findViewById(R.id.toolbar2);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        buscar_edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                adaptador.getFilter().filter(s.toString());
+            lvCanchas.setAdapter(adaptador);
+            Toolbar toolbar = view.findViewById(R.id.toolbar2);
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            buscar_edit.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    adaptador.getFilter().filter(s.toString());
+                }
+            });
+            try {
+                ((detalleCancha) getActivity()).rezize_fragment(1000);
+            } catch (Exception e) {
+
             }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        try {
-            ((detalleCancha) getActivity()).rezize_fragment(1000);
-        } catch (Exception e) {
-
         }
-
         return view;
     }
+
 
 
 
