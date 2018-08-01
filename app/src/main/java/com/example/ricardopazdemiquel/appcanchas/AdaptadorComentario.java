@@ -61,8 +61,8 @@ public class AdaptadorComentario extends BaseAdapter {
             final JSONObject cancha = listaHistory.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
             //ratingBar.setText(cancha.getString("CLACIFICACION"));
-            ratingBar.setRating((float) cancha.getDouble("CLACIFICACION"));
-            text_comentario.setText(cancha.getInt("COMENTARIO"));
+            ratingBar.setRating((float) cancha.getDouble("CLASIFICACION"));
+            text_comentario.setText(cancha.getString("COMENTARIO"));
             text_nombre.setText(cancha.getString("NOMBRE"));
             String usuario = cancha.getString("ID_USR");
             fb.setProfileId(usuario);

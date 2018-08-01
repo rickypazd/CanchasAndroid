@@ -2,9 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".FragmentoComentarios">
-
+    android:layout_height="500dp"
+    tools:context=".FragmentoComentarios"
+    android:background="#d8d8d8">
 
     <ListView
         android:id="@+id/list_comentario"

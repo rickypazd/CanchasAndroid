@@ -61,18 +61,18 @@
                         android:layout_weight="1"
                         android:textColor="#626262"
                         android:textStyle="normal"
-                        android:textAlignment="center"
                         android:text="asdasdasdsasdfsd"
-                        android:gravity="center"
+                        android:gravity="center|start"
                         android:textSize="10dp"/>
 
                    <RatingBar
                        android:id="@+id/ratingBar"
-                       android:layout_width="match_parent"
+                       android:layout_width="wrap_content"
                        android:layout_height="match_parent"
                        android:backgroundTint="@color/colorPrimaryDark"
                        android:progressTint="#fff200"
                        android:rating="5"
+                       android:layout_gravity="center|start"
                        android:gravity="center"
                        style="?android:attr/ratingBarStyleSmall"
                        android:scaleX="1"
@@ -101,7 +101,7 @@
                     android:textAllCaps="false"
                     android:inputType="textMultiLine"
                     android:textColor="#929292"
-                    android:textStyle="bold" />
+                    android:textStyle="normal" />
 
             </LinearLayout>
         </LinearLayout>

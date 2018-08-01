@@ -112,7 +112,7 @@ public class TablaDynamic {
                                         calcular();
                                     }else{
                                         Calendar cal = Calendar.getInstance();
-                                        cal.add(Calendar.HOUR,-3);
+                                        cal.add(Calendar.HOUR,+3);
                                         if(cal.getTime().after(cel.getDateFecha())){
                                             Toast.makeText(context,"deve reservar con 3 horas de anticipacion",Toast.LENGTH_LONG).show();
                                         }else{
