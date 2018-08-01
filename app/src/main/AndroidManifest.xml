@@ -3,6 +3,7 @@
     package="com.example.ricardopazdemiquel.appcanchas">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -67,7 +68,9 @@
 
         <activity android:name=".MetodoDePago" />
         <activity android:name=".detalle_reserva" />
-        <activity android:name=".login" />
+        <activity android:name=".login"
+                android:label="Conectarse"
+            />
         <activity android:name=".buscar"
             android:theme="@style/AppTheme.CustomThemePop"></activity>
     </application>
