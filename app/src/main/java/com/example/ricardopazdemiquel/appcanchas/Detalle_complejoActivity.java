@@ -96,7 +96,7 @@ public class Detalle_complejoActivity extends AppCompatActivity {
         if (obj != null) {
             try {
                 String nombreComplejo = obj.getString("NOMBRE_COMP");
-                String estado = obj.getString("ESTADO");
+                int estado = obj.getInt("ESTADO");
                 String cancha = obj.getString("NOMBRE_CAN");
                 String fecha = obj.getString("FECHA");
                 String hora = obj.getString("HORAS");
@@ -104,7 +104,7 @@ public class Detalle_complejoActivity extends AppCompatActivity {
                 String tipo_pago = obj.getString("TIPO_PAGO");
 
                 text_Complejo.setText(nombreComplejo);
-                text_estado.setText(estado);
+                text_estado.setText(getEstado(estado));
                 text_cancha.setText(cancha);
                 text_fecha.setText(fecha);
                 text_hora.setText(hora);
@@ -117,6 +117,18 @@ public class Detalle_complejoActivity extends AppCompatActivity {
         }else{
             finish();
         }
+    }
+
+    private String getEstado(int estado){
+        switch (estado){
+            case 1:
+                return "PENDIENTE";
+            case 2:
+                return "CONFIRMADO";
+            case 3:
+                return "CANCELADO";
+        }
+        return "";
     }
 
     private class CargarListaDetalle extends AsyncTask<Void, String, String> {
