@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -63,9 +64,9 @@ private JSONArray arr_canchas;
                 case R.id.navigacion_history: // Filtro
                     seleccionarFragmento("history");
                     return true;
-                case R.id.navigacion_config: // Filtro
-                    seleccionarFragmento("config");
-                    return true;
+               // case R.id.navigacion_config: // Filtro
+                 //   seleccionarFragmento("config");
+                  //  return true;
             }
 
             return false;
@@ -114,7 +115,6 @@ private JSONArray arr_canchas;
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
 //        Button buton = findViewById(R.id.button);
 //        buton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -123,26 +123,7 @@ private JSONArray arr_canchas;
 //                startActivity(intent);
 //            }
 //        });
-
-        SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferencias.edit();
-        editor.remove("usr_log");
-        editor.commit();
-        if (primeraVezEjecutada()) {
-            Intent intent = new Intent(MainActivity.this, PresentacionActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else if(AccessToken.getCurrentAccessToken() == null){
-            Intent intent = new Intent(this,login.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            //new CargarListaTask().execute();<]
-
-        }
-        else{
                 new CargarListaTask().execute();
-        }
 
     }
 

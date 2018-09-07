@@ -44,7 +44,7 @@ public class login extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                                Intent intent = new Intent(login.this,MainActivity.class);
+                                Intent intent = new Intent(login.this,Carga.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
 

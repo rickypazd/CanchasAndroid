@@ -3,22 +3,19 @@
 
     <item
         android:id="@+id/navigacion_canchas"
-        android:icon="@drawable/soccer_field"
+        android:icon="@drawable/ic_icon_resevaasset_1"
         android:title="Canchas" />
 
     <item
         android:id="@+id/navigacion_map"
-        android:icon="@drawable/ic_map_location"
+        android:icon="@drawable/ic_mapa"
         android:title="Mapa" />
 
     <item
         android:id="@+id/navigacion_history"
-        android:icon="@drawable/ic_history"
+        android:icon="@drawable/ic_icon_reseva"
         android:title="Historial" />
-    <item
-        android:id="@+id/navigacion_config"
-        android:icon="@drawable/menu"
-        android:title="Ajustes" />
+
 
 
 </menu>
