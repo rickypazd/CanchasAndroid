@@ -20,7 +20,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.github.snowdream.android.widget.SmartImageView
                 android:id="@+id/imgCancha"
                 android:layout_width="100dp"
                 android:layout_height="100dp"

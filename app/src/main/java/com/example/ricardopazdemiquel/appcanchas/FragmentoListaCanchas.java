@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
+import com.loopj.android.http.AsyncHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,11 +59,14 @@ public class FragmentoListaCanchas extends Fragment {
         View view = inflater.inflate(R.layout.fragmento_lista_canchas, container, false);
 
         lvCanchas = view.findViewById(R.id.lvCanchas);
-        arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
-        buscar_edit=view.findViewById(R.id.buscar_edit);
+        arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
+        AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
+        lvCanchas.setAdapter(adaptador);
+       /* buscar_edit=view.findViewById(R.id.buscar_edit);
+
         if(arr_canchas!=null){
             final AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
-
+     arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
             lvCanchas.setAdapter(adaptador);
             Toolbar toolbar = view.findViewById(R.id.toolbar2);
             ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
@@ -87,7 +91,7 @@ public class FragmentoListaCanchas extends Fragment {
             } catch (Exception e) {
 
             }
-        }
+        }*/
         return view;
     }
 

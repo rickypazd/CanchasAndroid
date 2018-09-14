@@ -41,7 +41,7 @@ public class Carga extends AppCompatActivity {
                     //new CargarListaTask().execute();<]
 
                 }else{
-                    Intent intent = new Intent(Carga.this,MainActivity.class);
+                    Intent intent = new Intent(Carga.this,Main2Activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.text.Html;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.github.snowdream.android.widget.SmartImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +35,8 @@ public class AdaptadorCanchas extends BaseAdapter {
     private JSONArray listaCanchas;
     private JSONArray filterData;
     private Context contexto;
+
+    LayoutInflater layoutInflater;
     private ItemFilter mFilter = new ItemFilter();
 
     public AdaptadorCanchas() {
@@ -41,6 +46,7 @@ public class AdaptadorCanchas extends BaseAdapter {
         this.contexto = contexto;
         this.listaCanchas = lista;
         this.filterData = lista;
+        layoutInflater=(LayoutInflater)contexto.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -63,14 +69,17 @@ public class AdaptadorCanchas extends BaseAdapter {
      return 0;
     }
 
+    SmartImageView imgCancha;
+
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
             view = LayoutInflater.from(contexto)
                     .inflate(R.layout.layout_item_cancha, viewGroup, false);
         }
+        ViewGroup viewgroup = (ViewGroup)layoutInflater.inflate(R.layout.layout_item_cancha,null);
+        imgCancha = view.findViewById(R.id.imgCancha);
 
-        ImageView imgCancha = view.findViewById(R.id.imgCancha);
         TextView tvNombre = view.findViewById(R.id.tvNombre);
         TextView tvValoracion = view.findViewById(R.id.tvValoracion);
         TextView tvCiudad = view.findViewById(R.id.tvCiudad);
@@ -84,7 +93,9 @@ public class AdaptadorCanchas extends BaseAdapter {
             //imgCancha.setImageResource(cancha.getImagen());
             URL url = null;
             if(cancha.getString("B64").length()>0){
-                new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
+                Rect rect = new Rect(imgCancha.getLeft(),imgCancha.getTop(),imgCancha.getRight(), imgCancha.getBottom());
+                imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"),rect);
+              //  new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
             }
 
             tvNombre.setText(cancha.getString("NOMBRE"));

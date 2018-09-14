@@ -27,6 +27,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -62,7 +64,7 @@ public class FragmentoMapa extends Fragment {
             }
         });
         try {
-            arr_canchas = ((MainActivity) getActivity()).getArr_canchas();
+            arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
 
 
         } catch (Exception e) {
@@ -86,8 +88,9 @@ public class FragmentoMapa extends Fragment {
                     for (int i = 0; i < arr_canchas.length(); i++) {
                         try {
                             obj = arr_canchas.getJSONObject(i);
+                            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.pelota);
                             Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(obj.getDouble("LAT"), obj.getDouble("LNG")))
-                                    .title(obj.getString("NOMBRE")));
+                                    .title(obj.getString("NOMBRE")).icon(icon));
                             marker.setTag(obj);
                         } catch (JSONException e) {
                             e.printStackTrace();

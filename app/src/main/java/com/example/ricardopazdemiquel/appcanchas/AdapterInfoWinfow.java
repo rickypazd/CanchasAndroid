@@ -36,33 +36,21 @@ public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter{
     }
 
     @Override
-    public View getInfoWindow(Marker marker) {
-        return null;
-    }
-
-    @Override
-    public View getInfoContents(Marker marker) {
-       View view = context.getLayoutInflater().inflate(R.layout.infowindow,null);
-       obj= (JSONObject)marker.getTag();
+    public View getInfoWindow(Marker marker)
+    {
+        View view = context.getLayoutInflater().inflate(R.layout.infowindow,null);
+        obj= (JSONObject)marker.getTag();
         tv_nombre=view.findViewById(R.id.tv_info_nombre);
         tv_desc=view.findViewById(R.id.tv_info_desc);
         btn_ver=view.findViewById(R.id.btn_info_ver);
-        imageView=view.findViewById(R.id.iv_info_foto);
+
         try {
             tv_nombre.setText(obj.getString("NOMBRE"));
             tv_desc.setText(Html.fromHtml(obj.getString("PRESENTACION")));
 
-            if(obj.getString("B64").length()>0){
-                Bitmap img =new AsyncTaskLoadImage(imageView).execute(context.getResources().getString(R.string.url_foto)+obj.getString("B64")).get();
-                imageView.setImageBitmap(img);
-            }
 
 
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
             e.printStackTrace();
         }
 
@@ -78,7 +66,12 @@ public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter{
                 }
             }
         });
-       return view;
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
     }
 
     public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {

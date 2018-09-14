@@ -3,78 +3,159 @@ package com.example.ricardopazdemiquel.appcanchas;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SearchEvent;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
-import com.facebook.AccessToken;
-import com.facebook.login.LoginManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class Main2Activity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener ,SearchView.OnQueryTextListener  {
 
-private JSONArray arr_canchas;
+    private ImageView btn_ver_menu;
+    private JSONArray arr_canchas;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigacion_canchas: // Buscar
-                    seleccionarFragmento("canchas");
-                    return true;
-                case R.id.navigacion_map: // Lista de canchas
-                    seleccionarFragmento("mapa");
-                    return true;
-                case R.id.navigacion_history: // Filtro
-                    seleccionarFragmento("history");
-                    return true;
-               // case R.id.navigacion_config: // Filtro
-                 //   seleccionarFragmento("config");
-                  //  return true;
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header = navigationView.inflateHeaderView(R.layout.nav_header_main2);
+        navigationView.setNavigationItemSelectedListener(this);
+        btn_ver_menu= findViewById(R.id.btn_ver_menu);
+        btn_ver_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else{
+                    drawer.openDrawer(GravityCompat.START);
+                }
             }
+        });
 
-            return false;
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigacion_canchas: // Buscar
+                        seleccionarFragmento("canchas");
+                        return true;
+                    case R.id.navigacion_map: // Lista de canchas
+                        seleccionarFragmento("mapa");
+                        return true;
+                    case R.id.navigacion_history: // Filtro
+                        seleccionarFragmento("history");
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        new CargarListaTask().execute();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
         }
-    };
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main2, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_camera) {
+            // Handle the camera action
+        } else if (id == R.id.nav_gallery) {
+
+        } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -102,32 +183,6 @@ private JSONArray arr_canchas;
                     .commit();
         }
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        if (getIntent().getBooleanExtra("SALIR", false)) {
-            finish();
-        }
-        Intent intent = new Intent(MainActivity.this,Main2Activity.class);
-        startActivity(intent);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-//        Button buton = findViewById(R.id.button);
-//        buton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, PresentacionActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-                new CargarListaTask().execute();
-
-    }
-
     public boolean primeraVezEjecutada() {
         SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
         boolean primeraVez = preferencias.getBoolean("PrimeraVez", false);
@@ -157,7 +212,7 @@ private JSONArray arr_canchas;
     }
 
     public JSONArray getArr_canchas(){
-        return arr_canchas;
+       return arr_canchas;
     }
 
     @Override
@@ -203,7 +258,7 @@ private JSONArray arr_canchas;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progreso = new ProgressDialog(MainActivity.this);
+            progreso = new ProgressDialog(Main2Activity.this);
             progreso.setIndeterminate(true);
             progreso.setTitle("obteniendo datos");
             progreso.setCancelable(false);
@@ -230,7 +285,7 @@ private JSONArray arr_canchas;
             super.onPostExecute(resp);
             progreso.dismiss();
             if(resp =="" || resp == null){
-                Toast.makeText(MainActivity.this,"Error al obtener Datos" ,
+                Toast.makeText(Main2Activity.this,"Error al obtener Datos" ,
                         Toast.LENGTH_SHORT).show();
                 return;
             }
