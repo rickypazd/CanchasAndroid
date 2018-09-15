@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
-public class FragmentoInfo extends Fragment implements View.OnClickListener {
+public class FragmentoInfo extends Fragment {
 
     private JSONObject obj_complejo;
 
@@ -22,7 +22,7 @@ public class FragmentoInfo extends Fragment implements View.OnClickListener {
     private TextView tv_politicas;
     private TextView tv_caracteristicas;
     private TextView tv_contactanos;
-    private Button reservar;
+    //private Button reservar;
 
     public FragmentoInfo() {
         // Required empty public constructor
@@ -36,8 +36,8 @@ public class FragmentoInfo extends Fragment implements View.OnClickListener {
         tv_politicas=view.findViewById(R.id.tv_politicas);
         tv_caracteristicas=view.findViewById(R.id.tv_caracteristicas);
         tv_contactanos=view.findViewById(R.id.tv_contactanos);
-        reservar = view.findViewById(R.id.btnReservar);
-        reservar.setOnClickListener(this);
+        //reservar = view.findViewById(R.id.btnReservar);
+        //reservar.setOnClickListener(this);
 
         try{
            obj_complejo=((detalleCancha)getActivity()).getComplejo();
@@ -52,14 +52,5 @@ public class FragmentoInfo extends Fragment implements View.OnClickListener {
     }
 
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.btnReservar:
-                Intent intent = new Intent(getActivity(),TablaReserva.class);
-                intent.putExtra("obj",obj_complejo.toString());
-                startActivity(intent);
-                break;
-        }
-    }
+
 }

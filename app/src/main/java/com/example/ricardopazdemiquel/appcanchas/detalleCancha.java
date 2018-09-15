@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -34,7 +37,7 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class detalleCancha extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener{
+public class detalleCancha extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener , View.OnClickListener {
 
 
     private SliderLayout mDemoSlider;
@@ -42,8 +45,10 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
     private ScrollView scrollView;
     private int id_complejo;
     private JSONObject complejo;
-    private TextView tv_nombre_cancha;
+    //private TextView tv_nombre_cancha;
     private JSONObject obj_complejo;
+    private Button reservar;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -73,7 +78,6 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
             case "detalle":
                 fragmentoGenerico = new FragmentoInfo();
                 break;
-
             case "horario":
                 fragmentoGenerico = new FragmentoHorario();
                 break;
@@ -94,7 +98,7 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
         setContentView(R.layout.activity_detalle_cancha);
         cardview=findViewById(R.id.contenDetalle);
         scrollView=findViewById(R.id.scrollviw);
-        tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
+        //tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -102,9 +106,23 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
 
         id_complejo=getIntent().getIntExtra("id_complejo",0);
 
+        reservar = findViewById(R.id.btnReservar);
+        reservar.setOnClickListener(this);
+
         new CargarListaTask(id_complejo).execute();
 
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+             case R.id.btnReservar:
+               Intent intent = new Intent(detalleCancha.this,TablaReserva.class);
+             intent.putExtra("obj",obj_complejo.toString());
+            startActivity(intent);
+            break;
+        }
     }
 
     @Override
@@ -174,7 +192,7 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
                 JSONObject obj = new JSONObject(resp);
                 obj_complejo=obj;
                 seleccionarFragmento("detalle");
-                tv_nombre_cancha.setText(obj.getString("NOMBRE"));
+                //tv_nombre_cancha.setText(obj.getString("NOMBRE"));
                 setTitle(obj.getString("NOMBRE"));
                 JSONArray arr_carrusel=obj.getJSONArray("FOTOS_CARRUSEL");
                 JSONObject object;

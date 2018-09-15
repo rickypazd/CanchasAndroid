@@ -5,13 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d8d8d8"
+    android:background="@color/colorWhite"
     >
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="150sp"
-        app:cardCornerRadius="10sp"
         android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,6 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="5dp"
+            android:background="#F0F0F0"
             android:orientation="vertical">
 
             <!--nombre y valoracion-->
@@ -51,12 +51,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:orientation="horizontal"
                     android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/text_nombre"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:textColor="#626262"
@@ -68,9 +68,9 @@
                    <RatingBar
                        android:id="@+id/ratingBar"
                        android:layout_width="wrap_content"
-                       android:layout_height="match_parent"
+                       android:layout_height="wrap_content"
                        android:backgroundTint="@color/colorPrimaryDark"
-                       android:progressTint="#fff200"
+                       android:progressTint="#019B4B"
                        android:rating="5"
                        android:layout_gravity="center|start"
                        android:gravity="center"
@@ -78,7 +78,6 @@
                        android:scaleX="1"
                        android:scaleY="1"
                        android:max="5"
-                       android:layout_weight="1"
                        android:isIndicator="true"
                        android:numStars="5"
                        android:stepSize="0.1"/>
@@ -89,6 +88,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1">
 
                 <TextView
@@ -97,13 +97,25 @@
                     android:layout_height="match_parent"
                     android:padding="10dp"
                     android:textSize="12sp"
-                    android:text="fsdjkahfksd fsgd fjksghdukfsduyhf isudfk 345345345 b fg f fbklfjkjfk gbjklfj bkljf lbjf fj lbjkl fbh ik hfkdh dfjh "
+                    android:background="@drawable/ic_button_border_gris"
+                    android:text="fsdjkahfksd fsgd fjksghdukfsdyhf isudfk 345345345 b fg f fbklfjkjfk gbjklfj"
                     android:textAllCaps="false"
                     android:inputType="textMultiLine"
                     android:textColor="#929292"
                     android:textStyle="normal" />
-
             </LinearLayout>
         </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="10dp"
+            android:background="#019B4B">
+        </RelativeLayout>
+
+
     </android.support.v7.widget.CardView>
+
+
 </android.support.constraint.ConstraintLayout>

@@ -1,212 +1,416 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FragmentoHorario">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Horario De Atencion"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        android:padding="10dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Lunes"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
-            android:divider="@android:color/black"
-            android:orientation="horizontal"
-            android:showDividers="end">
-
-            <TextView
-                android:id="@+id/tv_lunes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Lunes"
-                android:textSize="18sp" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_hora_lunes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/dfghfdfg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Martes"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_martes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Martes"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_hora_martes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/grt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Miercoles"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_miercoles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Miercoles"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_hora_miercoles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/gdfg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Jueves"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_jueves"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Jueves"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_hora_jueves"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/dsfsd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Viernes"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_viernes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Viernes"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_hora_viernes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/bxcvb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sábado"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_sabado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sabado"
-                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/tv_hora_sabado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+            <TextView
+                android:id="@+id/fghfge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
+                android:layout_weight="1"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="8dp"
+        android:background="#F0F0F0"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Domingo"
+                android:textColor="@android:color/black"
+                android:textSize="13sp"
+                android:textStyle="normal" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_domingo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/tv_hora_domingo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:text="8:30 AM"
                 android:layout_weight="1"
-                android:text="Domingo"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
 
             <TextView
-                android:id="@+id/tv_hora_domingo"
-                android:layout_width="wrap_content"
+                android:id="@+id/sdf"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="19:30 PM"
                 android:layout_weight="1"
-                android:elevation="0dp"
-                android:text="08:00 AM - 08:00 PM"
-                android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                />
+
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#019B4B">
+    </View>
+
+</LinearLayout>
+
+

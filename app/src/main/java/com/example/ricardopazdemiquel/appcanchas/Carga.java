@@ -34,13 +34,13 @@ public class Carga extends AppCompatActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
-                else if(AccessToken.getCurrentAccessToken() == null){
+               /* else if(AccessToken.getCurrentAccessToken() == null){
                     Intent intent = new Intent(Carga.this,login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     //new CargarListaTask().execute();<]
 
-                }else{
+                }*/else{
                     Intent intent = new Intent(Carga.this,Main2Activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
