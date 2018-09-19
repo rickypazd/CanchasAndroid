@@ -14,6 +14,7 @@ public class MetodoDePago extends AppCompatActivity {
 
     private Button btn_sin_pago;
     private Button btn_targeta;
+
     private  ArrayList<infoCelda> arr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,8 @@ public class MetodoDePago extends AppCompatActivity {
         btn_sin_pago.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MetodoDePago.this,detalle_reserva.class);
-                intent.putExtra("arr_reservas",arr);
+                Intent intent = new Intent(MetodoDePago.this,Fragment_reserva_finalizada.class);
+                //intent.putExtra("arr_reservas",arr);
                 startActivity(intent);
                 finish();
             }

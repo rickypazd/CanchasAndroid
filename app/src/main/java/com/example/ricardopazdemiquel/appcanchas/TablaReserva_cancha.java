@@ -8,31 +8,22 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.view.menu.MenuBuilder;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.daimajia.slider.library.Animations.DescriptionAnimation;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -44,15 +35,13 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
 
 import complementos.Contexto;
 import complementos.TablaDynamic;
 import complementos.infoCelda;
 
-public class TablaReserva extends AppCompatActivity {
+public class TablaReserva_cancha extends AppCompatActivity {
 
     private TableLayout tableLayout;
     private TablaDynamic tablaDynamic;
@@ -72,7 +61,7 @@ public class TablaReserva extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tabla_reserva);
+        setContentView(R.layout.activity_tabla_reserva_cancha);
         tableLayout=findViewById(R.id.tablalayout);
         tableLayout.setBackgroundColor(Color.BLACK);
         iv_about=findViewById(R.id.iv_about);
@@ -98,7 +87,7 @@ public class TablaReserva extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (p != null) {
-                    showPopup(TablaReserva.this,p);
+                    showPopup(TablaReserva_cancha.this,p);
                 }
 
             }
@@ -132,12 +121,12 @@ public class TablaReserva extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(tablaDynamic.getAhReservar().size()>0){
-                    Intent intent = new Intent(TablaReserva.this,detalle_reserva.class);
+                    Intent intent = new Intent(TablaReserva_cancha.this,detalle_reserva.class);
                     intent.putExtra("arr_reservas",tablaDynamic.getAhReservar());
                     startActivity(intent);
                     finish();
                 }else{
-                    Toast.makeText(TablaReserva.this,"Deve seleccionar su reserva" ,
+                    Toast.makeText(TablaReserva_cancha.this,"Deve seleccionar su reserva" ,
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -233,7 +222,7 @@ public class TablaReserva extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progreso = new ProgressDialog(TablaReserva.this);
+            progreso = new ProgressDialog(TablaReserva_cancha.this);
             progreso.setIndeterminate(true);
             progreso.setTitle("obteniendo datos");
             progreso.setCancelable(false);
@@ -264,7 +253,7 @@ public class TablaReserva extends AppCompatActivity {
             super.onPostExecute(resp);
             progreso.dismiss();
             if(resp ==""){
-                Toast.makeText(TablaReserva.this,"Error al obtener Datos" ,
+                Toast.makeText(TablaReserva_cancha.this,"Error al obtener Datos" ,
                         Toast.LENGTH_SHORT).show();
                 return;
             }

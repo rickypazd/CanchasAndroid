@@ -30,7 +30,7 @@ import android.widget.Toast;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
-import com.loopj.android.http.AsyncHttpClient;
+//import com.loopj.android.http.AsyncHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;

@@ -62,6 +62,11 @@
         <activity
             android:name=".Detalle_complejoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".Fragment_reserva_finalizada"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".TablaReserva"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 import complementos.infoCelda;
 
-public class detalle_reserva extends AppCompatActivity {
+public class detalle_reserva extends AppCompatActivity implements View.OnClickListener{
 
     private ArrayList<infoCelda> arr;
     private TableLayout tableLayout;
@@ -27,25 +27,27 @@ public class detalle_reserva extends AppCompatActivity {
         setContentView(R.layout.activity_detalle_reserva);
         arr = (ArrayList<infoCelda>) getIntent().getSerializableExtra("arr_reservas");
         tableLayout=findViewById(R.id.table_layout);
-        tableLayout.setBackgroundColor(Color.BLACK);
+        tableLayout.setBackgroundColor(Color.TRANSPARENT);
         tvtotal=findViewById(R.id.tv_total);
         btn_confirmar=findViewById(R.id.btn_confirmar);
+        btn_confirmar.setOnClickListener(this);
         TableRow header = new TableRow(this);
+        header.setBackgroundColor(Color.TRANSPARENT);
 
         TextView celfecha=new TextView(this);
         celfecha.setGravity(Gravity.CENTER);
         celfecha.setTextSize(18);
-        celfecha.setBackgroundColor(Color.WHITE);
+        celfecha.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         celfecha.setText("FECHA");
         TextView celhora=new TextView(this);
         celhora.setGravity(Gravity.CENTER);
         celhora.setTextSize(18);
-        celhora.setBackgroundColor(Color.WHITE);
+        celhora.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         celhora.setText("HORA");
         TextView celprecio=new TextView(this);
         celprecio.setGravity(Gravity.CENTER);
         celprecio.setTextSize(18);
-        celprecio.setBackgroundColor(Color.WHITE);
+        celprecio.setTextColor(getApplication().getResources().getColor(R.color.colorAccent));
         celprecio.setText("PRECIO");
 
         header.addView(celfecha,newTableRowParams());
@@ -62,42 +64,55 @@ public class detalle_reserva extends AppCompatActivity {
         for (int i = 0; i <arr.size() ; i++) {
             cel=arr.get(i);
             row= new TableRow(this);
+
             fecha=new TextView(this);
             fecha.setGravity(Gravity.CENTER);
-            fecha.setTextSize(18);
-            fecha.setBackgroundColor(Color.WHITE);
+            fecha.setTextSize(15);
+            fecha.setPadding(0,10,0,10);
+            fecha.setTextColor(Color.BLACK);
+            fecha.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_fecha));
             fecha.setText(cel.getFecha());
+
             hora=new TextView(this);
             hora.setGravity(Gravity.CENTER);
-            hora.setTextSize(18);
-            hora.setBackgroundColor(Color.WHITE);
+            hora.setTextSize(15);
+            hora.setPadding(0,10,0,10);
+            hora.setTextColor(Color.BLACK);
+            hora.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_hora));
             hora.setText(cel.getHora());
+
             precio=new TextView(this);
             precio.setGravity(Gravity.CENTER);
-            precio.setTextSize(18);
-            precio.setBackgroundColor(Color.WHITE);
-            precio.setText(cel.getCosto()+"");
+            precio.setPadding(0,10,0,10);
+            precio.setTextSize(15);
+            precio.setTextColor(Color.WHITE);
+            precio.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_precio));
+            precio.setText("Bs."+cel.getCosto()+" ");
+
+
             row.addView(fecha,newTableRowParams());
             row.addView(hora,newTableRowParams());
             row.addView(precio,newTableRowParams());
             tableLayout.addView(row);
             total+=cel.getCosto();
         }
-        tvtotal.setText("TOTAL: "+total);
+        tvtotal.setText("Total: Bs. "+total);
 
-        btn_confirmar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(detalle_reserva.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
     private TableRow.LayoutParams newTableRowParams(){
         TableRow.LayoutParams params= new TableRow.LayoutParams();
-        params.setMargins(1,1,1,1);
+        params.setMargins(0,0,0,15);
         params.weight=1;
         return params;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btn_confirmar:
+                Intent intent = new Intent(detalle_reserva.this,MetodoDePago.class);
+                startActivity(intent);
+                finish();
+        }
     }
 }

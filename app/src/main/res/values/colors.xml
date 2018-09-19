@@ -7,6 +7,9 @@
     <color name="colorBlack">#000000</color>
     <color name="colorGris">#626262</color>
     <color name="colorWhite">#fff</color>
+    <color name="colorTransparente">#00FFFFFF</color>
+    <color name="colorGris2">#F0F0F0</color>
+
 
     <color name="overlay_dark_10">#1A000000</color>
     <color name="overlay_dark_20">#33000000</color>
