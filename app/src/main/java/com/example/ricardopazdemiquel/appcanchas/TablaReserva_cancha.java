@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.Activity;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,11 +58,14 @@ public class TablaReserva_cancha extends AppCompatActivity {
     private Button btn_select_hora;
     private TextView tv_horas;
     private TextView tv_total;
+    private TextView text_dia;
+    private TextView text_año;
     private ImageView iv_about;
     Point p;
     JSONObject objcomplejo;
     private Spinner SpinnerCanchas;
     private int nivel;
+    private TextView text_fecha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +78,12 @@ public class TablaReserva_cancha extends AppCompatActivity {
         btn_adelante=findViewById(R.id.btn_adelante);
         btn_confirmar=findViewById(R.id.btn_confirmar);
         btn_select_hora=findViewById(R.id.btn_select_hora);
+        text_fecha = findViewById(R.id.text_fecha);
+        text_dia = findViewById(R.id.text_dia);
+        text_año = findViewById(R.id.text_año);
         tv_horas=findViewById(R.id.tv_horas);
         tv_total=findViewById(R.id.tv_total);
         SpinnerCanchas = findViewById(R.id.Spinner_canchas);
-
 
             String obj = getIntent().getStringExtra("obj");
         try {
@@ -146,17 +154,22 @@ public class TablaReserva_cancha extends AppCompatActivity {
 
     private void dialogDatePickerLight(final Button bt) {
         Calendar cur_calender = Calendar.getInstance();
-        DatePickerDialog datePicker = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePicker = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, year);
                         calendar.set(Calendar.MONTH, monthOfYear);
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        long date_ship_millis = calendar.getTimeInMillis();
-                        Toast.makeText(TablaReserva_cancha.this,Tools.getFormattedDateSimple(date_ship_millis)+"",Toast.LENGTH_LONG).show();
-
+                        long date_ship_millis = calendar.get(Calendar.DAY_OF_MONTH);
+                        long date_ship_millis2 = calendar.get(Calendar.YEAR);
+                        text_fecha.setText(date_ship_millis+"");
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                        String dayOfTheWeek =sdf.format( calendar.getTime());
+                        text_dia.setText(dayOfTheWeek+"");
+                        text_año.setText(date_ship_millis2+"");
+                        Toast.makeText(TablaReserva_cancha.this,dayOfTheWeek+"" + date_ship_millis2,Toast.LENGTH_LONG).show();
                     }
                 },
                 cur_calender.get(Calendar.YEAR),
@@ -165,7 +178,7 @@ public class TablaReserva_cancha extends AppCompatActivity {
         );
         //set dark light
         datePicker.setThemeDark(false);
-        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.setAccentColor(getResources().getColor(R.color.colorAccent));
         datePicker.setMinDate(cur_calender);
         datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
