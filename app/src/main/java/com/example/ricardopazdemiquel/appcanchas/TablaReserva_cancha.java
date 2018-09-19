@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +40,7 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 import complementos.TablaDynamic;
+import complementos.Tools;
 import complementos.infoCelda;
 
 public class TablaReserva_cancha extends AppCompatActivity {
@@ -47,9 +49,10 @@ public class TablaReserva_cancha extends AppCompatActivity {
     private TablaDynamic tablaDynamic;
     private Calendar domingo_actual;
     private Calendar domingo_inicio;
-    private Button btn_atras;
-    private Button btn_adelante;
+    private ImageView btn_atras;
+    private ImageView btn_adelante;
     private Button btn_confirmar;
+    private Button btn_select_hora;
     private TextView tv_horas;
     private TextView tv_total;
     private ImageView iv_about;
@@ -68,6 +71,7 @@ public class TablaReserva_cancha extends AppCompatActivity {
         btn_atras=findViewById(R.id.btn_atras);
         btn_adelante=findViewById(R.id.btn_adelante);
         btn_confirmar=findViewById(R.id.btn_confirmar);
+        btn_select_hora=findViewById(R.id.btn_select_hora);
         tv_horas=findViewById(R.id.tv_horas);
         tv_total=findViewById(R.id.tv_total);
         SpinnerCanchas = findViewById(R.id.Spinner_canchas);
@@ -131,7 +135,39 @@ public class TablaReserva_cancha extends AppCompatActivity {
                 }
             }
         });
+        btn_select_hora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogDatePickerLight((Button) v);
+            }
+        });
 
+    }
+
+    private void dialogDatePickerLight(final Button bt) {
+        Calendar cur_calender = Calendar.getInstance();
+        DatePickerDialog datePicker = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        long date_ship_millis = calendar.getTimeInMillis();
+                        Toast.makeText(TablaReserva_cancha.this,Tools.getFormattedDateSimple(date_ship_millis)+"",Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                cur_calender.get(Calendar.YEAR),
+                cur_calender.get(Calendar.MONTH),
+                cur_calender.get(Calendar.DAY_OF_MONTH)
+        );
+        //set dark light
+        datePicker.setThemeDark(false);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.setMinDate(cur_calender);
+        datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
 
     private void agregarSpinnerCanchas(JSONArray jsonArray){
