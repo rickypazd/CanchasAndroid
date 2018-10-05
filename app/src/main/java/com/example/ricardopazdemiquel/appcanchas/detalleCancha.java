@@ -118,7 +118,7 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
     public void onClick(View view) {
         switch (view.getId()){
              case R.id.btnReservar:
-               Intent intent = new Intent(detalleCancha.this,TablaReserva_cancha.class);
+               Intent intent = new Intent(detalleCancha.this,TablaReserva.class);
              intent.putExtra("obj",obj_complejo.toString());
             startActivity(intent);
             break;
