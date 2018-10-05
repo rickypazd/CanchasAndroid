@@ -46,10 +46,7 @@ public class FragmentoHistorial extends Fragment {
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
-
-
         public CargarListaTask(){
-
         }
 
         @Override
@@ -74,7 +71,6 @@ public class FragmentoHistorial extends Fragment {
             } catch (Exception ex) {
                 Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
             }
-
             return respuesta;
         }
 
@@ -82,17 +78,18 @@ public class FragmentoHistorial extends Fragment {
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp =="" || resp == null){
-                Toast.makeText(getActivity(),"Error al obtener Datos" ,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONArray arr = new JSONArray(resp);
-                AdaptadorHistory history= new AdaptadorHistory(getActivity(),arr);
-                lv.setAdapter(history);
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(resp == null){
+                Toast.makeText(getActivity(),"Error al obtener Datos",Toast.LENGTH_SHORT).show();
+            }else if(resp.isEmpty()){
+                Toast.makeText(getActivity(),"Error al obtener Datos",Toast.LENGTH_SHORT).show();
+            }else {
+                try {
+                    JSONArray arr = new JSONArray(resp);
+                    AdaptadorHistory history = new AdaptadorHistory(getActivity(), arr);
+                    lv.setAdapter(history);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
