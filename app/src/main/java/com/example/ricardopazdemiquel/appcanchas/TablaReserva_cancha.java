@@ -101,7 +101,6 @@ public class TablaReserva_cancha extends AppCompatActivity {
                 if (p != null) {
                     showPopup(TablaReserva_cancha.this,p);
                 }
-
             }
         });
         btn_atras.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +115,6 @@ public class TablaReserva_cancha extends AppCompatActivity {
                     tableLayout.removeAllViews();
                     new getHorasAsyn(1).execute();
                 }
-
             }
         });
         btn_adelante.setOnClickListener(new View.OnClickListener() {
@@ -149,7 +147,6 @@ public class TablaReserva_cancha extends AppCompatActivity {
                 dialogDatePickerLight((Button) v);
             }
         });
-
     }
 
     private void dialogDatePickerLight(final Button bt) {

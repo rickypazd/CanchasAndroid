@@ -97,8 +97,8 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
             total+=cel.getCosto();
         }
         tvtotal.setText("Total: Bs. "+total);
-
     }
+
     private TableRow.LayoutParams newTableRowParams(){
         TableRow.LayoutParams params= new TableRow.LayoutParams();
         params.setMargins(0,0,0,15);
