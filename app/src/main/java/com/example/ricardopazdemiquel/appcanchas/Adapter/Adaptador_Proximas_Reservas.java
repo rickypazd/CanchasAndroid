@@ -1,46 +1,28 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Rect;
-import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.Filter;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
-import com.github.snowdream.android.widget.SmartImageView;
+import com.example.ricardopazdemiquel.appcanchas.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import complementos.infoCelda;
-
-public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHolder> {
+public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_Proximas_Reservas.MyViewHolder> {
 
     private JSONArray listaHoras;
 
@@ -53,10 +35,10 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
     private JSONArray reservas;
 
     private HorasAdapterClick listener;
-    public AdaptadorHoras() {
+    public Adaptador_Proximas_Reservas() {
     }
 
-    public AdaptadorHoras(Context contexto, JSONArray lista,Calendar cal,JSONArray reservas,HorasAdapterClick listener) {
+    public Adaptador_Proximas_Reservas(Context contexto, JSONArray lista, Calendar cal, JSONArray reservas, HorasAdapterClick listener) {
         this.contexto = contexto;
         this.listaHoras = lista;
         this.cal=cal;
@@ -164,8 +146,6 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
              tvPrecio = v.findViewById(R.id.tvPrecio);
              cardviw= v.findViewById(R.id.cardviw);
              llSelect = v.findViewById(R.id.llSelect);
-
-
 
         }
     }

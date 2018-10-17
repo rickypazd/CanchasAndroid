@@ -3,6 +3,7 @@ package com.example.ricardopazdemiquel.appcanchas;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -10,11 +11,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -25,10 +25,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.example.ricardopazdemiquel.appcanchas.Fragment.FragmentoHistorial;
+import com.example.ricardopazdemiquel.appcanchas.Fragment.SetupViewPager_fragment;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -42,10 +46,12 @@ import java.util.Hashtable;
 import complementos.Contexto;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,SearchView.OnQueryTextListener  {
+        implements NavigationView.OnNavigationItemSelectedListener ,SearchView.OnQueryTextListener  ,OnClickListener {
 
     private ImageView btn_ver_menu;
     private JSONArray arr_canchas;
+    private android.support.v7.widget.CardView nav_mis_reservas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,19 +59,23 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main2);
         navigationView.setNavigationItemSelectedListener(this);
+
+        nav_mis_reservas = header.findViewById(R.id.nav_mis_reservas);
+        nav_mis_reservas.setOnClickListener(this);
+
         btn_ver_menu= findViewById(R.id.btn_ver_menu);
-        btn_ver_menu.setOnClickListener(new View.OnClickListener() {
+        btn_ver_menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,34 +138,9 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -164,11 +149,9 @@ public class Main2Activity extends AppCompatActivity
             case "canchas":
                 fragmentoGenerico = new FragmentoListaCanchas();
                 break;
-
             case "mapa":
                 fragmentoGenerico = new FragmentoMapa();
                 break;
-
             case "history":
                 fragmentoGenerico = new FragmentoHistorial();
                 break;
@@ -244,6 +227,42 @@ public class Main2Activity extends AppCompatActivity
                 runtime_permissions();
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        int id=v.getId();
+        switch (id){
+            case R.id.nav_mis_reservas:
+                Fragment fragmentoGenerico = null;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentoGenerico= new SetupViewPager_fragment();
+                fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                //intent = new Intent(Main2Activity.this , SetupViewPager_fragment.class);
+                //startActivity(intent);
+                break;
+            /*case R.id.btn_nav_miperfil:
+                intent =  new Intent(MainActivity.this , Perfil_ClienteFragment.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_nav_misviajes:
+                intent =  new Intent(MainActivity.this , MisViajes_Cliente_Activity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_nav_preferencias:
+                intent =  new Intent(MainActivity.this , Preferencias.class);
+                startActivity(intent);
+                break;*/
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 
     private class CargarListaTask extends AsyncTask<Void, String, String> {
