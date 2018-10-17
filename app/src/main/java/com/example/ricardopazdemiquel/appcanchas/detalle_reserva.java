@@ -11,13 +11,17 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import complementos.infoCelda;
 
 public class detalle_reserva extends AppCompatActivity implements View.OnClickListener{
 
-    private ArrayList<infoCelda> arr;
+    private JSONArray arr;
     private TableLayout tableLayout;
     private TextView tvtotal;
     private Button btn_confirmar;
@@ -25,7 +29,9 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_reserva);
-        arr = (ArrayList<infoCelda>) getIntent().getSerializableExtra("arr_reservas");
+        try {
+            arr =new JSONArray(getIntent().getStringExtra("arr_reservas"));
+
         tableLayout=findViewById(R.id.table_layout);
         tableLayout.setBackgroundColor(Color.TRANSPARENT);
         tvtotal=findViewById(R.id.tv_total);
@@ -55,14 +61,16 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
         header.addView(celprecio,newTableRowParams());
         tableLayout.addView(header);
 
-        infoCelda cel;
+        JSONObject cel;
         TableRow row;
         TextView fecha;
         TextView hora;
         TextView precio;
         int total=0;
-        for (int i = 0; i <arr.size() ; i++) {
-            cel=arr.get(i);
+        for (int i = 0; i <arr.length() ; i++) {
+
+                cel=arr.getJSONObject(i);
+
             row= new TableRow(this);
 
             fecha=new TextView(this);
@@ -71,7 +79,9 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
             fecha.setPadding(0,10,0,10);
             fecha.setTextColor(Color.BLACK);
             fecha.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_fecha));
-            fecha.setText(cel.getFecha());
+
+                fecha.setText(cel.getString("HORA"));
+
 
             hora=new TextView(this);
             hora.setGravity(Gravity.CENTER);
@@ -79,7 +89,8 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
             hora.setPadding(0,10,0,10);
             hora.setTextColor(Color.BLACK);
             hora.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_hora));
-            hora.setText(cel.getHora());
+
+                hora.setText(cel.getString("HORA"));
 
             precio=new TextView(this);
             precio.setGravity(Gravity.CENTER);
@@ -87,16 +98,23 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
             precio.setTextSize(15);
             precio.setTextColor(Color.WHITE);
             precio.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_precio));
-            precio.setText("Bs."+cel.getCosto()+" ");
+
+                precio.setText("Bs."+cel.getString("PRECIO")+" ");
+
 
 
             row.addView(fecha,newTableRowParams());
             row.addView(hora,newTableRowParams());
             row.addView(precio,newTableRowParams());
             tableLayout.addView(row);
-            total+=cel.getCosto();
+
+                total+=cel.getInt("PRECIO");
+
         }
         tvtotal.setText("Total: Bs. "+total);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private TableRow.LayoutParams newTableRowParams(){

@@ -73,10 +73,10 @@ public class AdaptadorCanchas extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        if (view == null) {
+
             view = LayoutInflater.from(contexto)
                     .inflate(R.layout.layout_item_cancha, viewGroup, false);
-        }
+
         ViewGroup viewgroup = (ViewGroup)layoutInflater.inflate(R.layout.layout_item_cancha,null);
         imgCancha = view.findViewById(R.id.imgCancha);
 

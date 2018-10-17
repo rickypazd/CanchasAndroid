@@ -12,6 +12,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,12 +22,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -46,10 +51,10 @@ import complementos.TablaDynamic;
 import complementos.Tools;
 import complementos.infoCelda;
 
-public class TablaReserva_cancha extends AppCompatActivity {
+public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdapterClick{
 
-    private TableLayout tableLayout;
-    private TablaDynamic tablaDynamic;
+
+
     private Calendar domingo_actual;
     private Calendar domingo_inicio;
     private ImageView btn_atras;
@@ -61,18 +66,20 @@ public class TablaReserva_cancha extends AppCompatActivity {
     private TextView text_dia;
     private TextView text_año;
     private ImageView iv_about;
+    private RecyclerView lv_horas;
     Point p;
     JSONObject objcomplejo;
     private Spinner SpinnerCanchas;
     private int nivel;
     private TextView text_fecha;
+    private AdaptadorHoras adapter;
+    private ArrayList<JSONObject> arr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabla_reserva_cancha);
-        tableLayout=findViewById(R.id.tablalayout);
-        tableLayout.setBackgroundColor(Color.BLACK);
+        lv_horas=findViewById(R.id.lv_horas);
         iv_about=findViewById(R.id.iv_about);
         btn_atras=findViewById(R.id.btn_atras);
         btn_adelante=findViewById(R.id.btn_adelante);
@@ -90,6 +97,41 @@ public class TablaReserva_cancha extends AppCompatActivity {
             objcomplejo = new JSONObject(obj);
             JSONArray jsonArray = objcomplejo.getJSONArray("CANCHAS");
             agregarSpinnerCanchas(jsonArray);
+            if(jsonArray.length()>0){
+                btn_atras.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        domingo_actual.add(Calendar.DAY_OF_WEEK,-1);
+                        long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
+                        long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
+                        text_fecha.setText(date_ship_millis+"");
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                        String dayOfTheWeek =sdf.format( domingo_actual.getTime());
+                        text_dia.setText(dayOfTheWeek+"");
+                        text_año.setText(date_ship_millis2+"");
+                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
+                    }
+                });
+                btn_adelante.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        domingo_actual.add(Calendar.DAY_OF_WEEK,1);
+                        long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
+                        long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
+                        text_fecha.setText(date_ship_millis+"");
+                        SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                        String dayOfTheWeek =sdf.format( domingo_actual.getTime());
+                        text_dia.setText(dayOfTheWeek+"");
+                        text_año.setText(date_ship_millis2+"");
+                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
+                    }
+                });
+            }else{
+                finish();
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,38 +145,23 @@ public class TablaReserva_cancha extends AppCompatActivity {
                 }
             }
         });
-        btn_atras.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Calendar cal =(Calendar)domingo_actual.clone();
-                cal.add(Calendar.DAY_OF_WEEK,-7);
-                if(cal.after(domingo_inicio) || cal.equals(domingo_inicio)){
-                    domingo_actual=(Calendar)cal.clone();
-                    tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
-                    tableLayout.removeAllViews();
-                    new getHorasAsyn(1).execute();
-                }
-            }
-        });
-        btn_adelante.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                domingo_actual.add(Calendar.DAY_OF_WEEK,7);
-                tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
-                tableLayout.removeAllViews();
-                new getHorasAsyn(1).execute();
-            }
-        });
 
         btn_confirmar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(tablaDynamic.getAhReservar().size()>0){
-                    Intent intent = new Intent(TablaReserva_cancha.this,detalle_reserva.class);
-                    intent.putExtra("arr_reservas",tablaDynamic.getAhReservar());
-                    startActivity(intent);
-                    finish();
+
+
+                if(arr.size()>0){
+                   Intent intent = new Intent(TablaReserva_cancha.this,detalle_reserva.class);
+                   JSONArray arrjs = new JSONArray();
+                    for (int i = 0; i < arr.size(); i++) {
+                        arrjs.put(arr.get(i));
+                    }
+                   intent.putExtra("arr_reservas",arrjs.toString());
+                   startActivity(intent);
+                   finish();
+
+
                 }else{
                     Toast.makeText(TablaReserva_cancha.this,"Deve seleccionar su reserva" ,
                             Toast.LENGTH_SHORT).show();
@@ -166,6 +193,8 @@ public class TablaReserva_cancha extends AppCompatActivity {
                         String dayOfTheWeek =sdf.format( calendar.getTime());
                         text_dia.setText(dayOfTheWeek+"");
                         text_año.setText(date_ship_millis2+"");
+                        domingo_actual=calendar;
+                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
                         Toast.makeText(TablaReserva_cancha.this,dayOfTheWeek+"" + date_ship_millis2,Toast.LENGTH_LONG).show();
                     }
                 },
@@ -189,15 +218,19 @@ public class TablaReserva_cancha extends AppCompatActivity {
 
                 nivel = position;
                 int i = (int) parent.getSelectedItemId();
-                tableLayout.removeAllViews();
-                tv_horas.setText("0");
-                tv_total.setText("0");
-
-                tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
+//                tableLayout.removeAllViews();
+//                tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
                 Calendar fechaActual= Calendar.getInstance();
-                 fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+                // fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
                 domingo_actual=(Calendar) fechaActual.clone();
                 domingo_inicio=(Calendar) fechaActual.clone();
+                long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
+                long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
+                text_fecha.setText(date_ship_millis+"");
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                String dayOfTheWeek =sdf.format( domingo_actual.getTime());
+                text_dia.setText(dayOfTheWeek+"");
+                text_año.setText(date_ship_millis2+"");
                 new getHorasAsyn(i).execute();
             }
             @Override
@@ -255,14 +288,47 @@ public class TablaReserva_cancha extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onClick(JSONObject obj, View view) {
+        JSONObject obje =(JSONObject) view.getTag();
+        try {
+            if(obje.getBoolean("active")){
+                obje.put("active",false);
+            }else{
+                obje.put("active",true);
+            }
+
+            TextView tvHoraIncio = view.findViewById(R.id.tvHoraIncio);
+            TextView tvPrecio = view.findViewById(R.id.tvPrecio);
+            LinearLayout llSelect = view.findViewById(R.id.llSelect);
+            if(obje.getBoolean("active")){
+                llSelect.setBackgroundColor(Color.rgb(0,0,0));
+                tvHoraIncio.setTextColor(Color.rgb(255,255,255));
+                arr.add(obj);
+            }else{
+                llSelect.setBackgroundColor(Color.rgb(255,255,255));
+                tvHoraIncio.setTextColor(Color.rgb(0,0,0));
+                arr.remove(obj);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private class getHorasAsyn extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
         private int id;
-
+        private int dia_actual;
         public getHorasAsyn(int id){
             this.id=id;
+             dia_actual=domingo_actual.get(Calendar.DAY_OF_WEEK);
+            dia_actual-=2;
+            if(dia_actual<0){
+                dia_actual=6;
+            }
+
         }
 
         @Override
@@ -279,9 +345,10 @@ public class TablaReserva_cancha extends AppCompatActivity {
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "get_dias_activos");
+            parametros.put("evento", "get_dia");
             parametros.put("fe_in", getDomingoActual());
             parametros.put("fe_fin", getDomingoSiguiente());
+            parametros.put("dia", dia_actual+"");
             parametros.put("id", id+"");
 
             String respuesta="";
@@ -304,77 +371,21 @@ public class TablaReserva_cancha extends AppCompatActivity {
                 return;
             }
             try {
+                arr= new ArrayList<>();
                 ArrayList<infoCelda> header = new ArrayList<>();
            JSONObject obje = new JSONObject(resp);
-           JSONArray arrdia = obje.getJSONArray("dias");
-           JSONArray arrhoras = obje.getJSONArray("horas");
            JSONArray arrcostos = obje.getJSONArray("costos");
            JSONArray arrreservas = obje.getJSONArray("reservas");
-           infoCelda cel = new infoCelda();
-           cel.setTipo(1);
-           cel.setTexto("HORAS");
-           header.add(cel);
-           JSONObject obj;
-           int dia;
-                for (int i = 0; i < arrdia.length(); i++) {
-                    obj=arrdia.getJSONObject(i);
-                    cel=new infoCelda();
-                    cel.setTipo(2);
-                    dia=obj.getInt("DIA");
-                    cel.setDia(dia);
-                    cel.setFecha(getFechaDia(dia));
-                    String fehca=cel.getFecha();
-                    cel.setTexto(fehca.substring(0,fehca.length()-3));
-                    header.add(cel);
-                }
 
-                tablaDynamic.addHeader(header);
-                tablaDynamic.createHeaderdia();
-                JSONObject objtemp;
-                ArrayList<infoCelda[]> data = new ArrayList<>();
-                JSONObject cos;
-                infoCelda celda,icaux;
-                    for (int i = 0; i <arrhoras.length() ; i++) {
-                        cos=arrhoras.getJSONObject(i);
-                        String horas =cos.getString("HORA");
-                        infoCelda[] celdas = new infoCelda[header.size()];
-                        for (int j = 0; j < header.size() ; j++) {
-                            celda = new infoCelda();
-                            if(j==0){
-                                celda.setTipo(3);
-                                celda.setHora(horas);
-                                celda.setTexto(horas.substring(0,5));
-                            }else{
-                                icaux=header.get(j);
-                                celda.setTipo(4);
-                                celda.setAbierto(0);
-                                celda.setHora(horas);
-                                celda.setDia(icaux.getDia());
-                                celda.setFecha(icaux.getFecha());
-                                for (int k = 0; k < arrcostos.length(); k++) {
-                                    objtemp=arrcostos.getJSONObject(k);
-                                    if(objtemp.getString("HORA").equals(celda.getHora()) && objtemp.getInt("DIA")==celda.getDia()){
-                                        celda.setAbierto(1);
-                                        celda.setCosto(objtemp.getInt("PRECIO"));
-                                        celda.setTexto(celda.getCosto()+"");
-                                        break;
-                                    }
-                                }
-                                for (int k = 0; k <arrreservas.length() ; k++) {
-                                    objtemp=arrreservas.getJSONObject(k);
-                                    if(objtemp.getString("FECHA").equals(celda.getFechaHora())){
-                                        celda.setEstado(objtemp.getInt("ESTADO"));
-                                        break;
-                                    }
-                                }
+           JSONArray arrGenerat= new JSONArray();
 
-                            }
-                            celdas[j]=celda;
-                        }
-                    data.add(celdas);
-                }
-                tablaDynamic.addData(data);
-                tablaDynamic.createDataTable();
+
+
+            adapter = new AdaptadorHoras(TablaReserva_cancha.this,arrcostos,domingo_actual,arrreservas,TablaReserva_cancha.this);
+            lv_horas.setLayoutManager(new LinearLayoutManager(TablaReserva_cancha.this));
+            lv_horas.setAdapter(adapter);
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -419,14 +430,13 @@ public class TablaReserva_cancha extends AppCompatActivity {
     private SimpleDateFormat formFechaConsular= new SimpleDateFormat("MM-dd-yyyy");
     private String getDomingoActual(){
            Calendar cal = (Calendar) domingo_actual.clone();
-           cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
-            cal.add(Calendar.DATE,-7);
+
            return formFechaConsular.format(cal.getTime());
     }
 
     private String getDomingoSiguiente(){
         Calendar cal = (Calendar) domingo_actual.clone();
-        cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+        cal.add(Calendar.DATE,1);
         return formFechaConsular.format(cal.getTime());
     }
 }
