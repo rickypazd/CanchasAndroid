@@ -94,10 +94,10 @@
         </LinearLayout>
 
     </ScrollView>
-    <!-- ><ListView
+    <ListView
         android:id="@+id/list_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/layout_item_historial" />-->
+        tools:listitem="@layout/layout_item_historial" />
 
 </LinearLayout>
