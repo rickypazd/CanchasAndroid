@@ -9,7 +9,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardviw"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
         app:cardBackgroundColor="@color/colorAccent"
@@ -23,49 +23,63 @@
             android:layout_height="match_parent"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
-            android:background="#fff"
+            android:background="@color/colorAccent"
             android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/tv_fecha"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorBlack" android:background="@drawable/ic_button_fecha"
+                    android:textSize="10sp"
+                    android:gravity="center"
+                    tools:text="24/02/2018" />
 
-            <!--nombre y valoracion-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingStart="10dp"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_nombre_complejo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorBlack" android:background="@drawable/ic_button_hora"
+                    android:textStyle="normal"
+                    android:textSize="10sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    tools:text="Cancha zona Roja" />
 
+                <TextView
+                    android:id="@+id/tv_hora"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorBlack"
+                    android:background="@drawable/ic_button_hora"
+                    android:textStyle="normal"
+                    android:textSize="10sp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    tools:text="07:00 - 08:00 hrs" />
 
-                    <TextView
-                        android:id="@+id/tvHoraIncio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="#444"
-                        android:textSize="14sp"
-                        android:gravity="center"
-                        tools:text="07:00 - 08:00 hrs" />
+            <TextView
+                    android:id="@+id/tv_tipo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/colorWhite"
+                    android:background="@drawable/ic_button_hora"
+                    android:textStyle="normal"
+                    android:textSize="10sp"
+                android:backgroundTint="@color/colorAccent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    tools:text="Reservado" />
 
             </LinearLayout>
 
-
-            <TextView
-                android:id="@+id/tvPrecio"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:textColor="#fff"
-                android:background="@color/colorPrimary"
-                android:textStyle="bold"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-
-                tools:text="Bs. 100" />
-        </LinearLayout>
-        <!--ciudad-->
-
-
     </android.support.v7.widget.CardView>
+
 </android.support.constraint.ConstraintLayout>

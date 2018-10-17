@@ -8,11 +8,9 @@
     <!-- TODO: Update blank fragment layout -->
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/lv_proximas_reservas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_icon_historial"
-            android:backgroundTint="@color/colorWhite"
-            tools:listitem="@layout/layout_item_historial" />
+            tools:listitem="@layout/layout_item_proximas_reservas" />
 
 </LinearLayout>

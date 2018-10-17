@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,10 +36,8 @@ import complementos.infoCelda;
 
 public class FragmentoHistorial extends Fragment {
 
-    private ListView lv;
+    private RecyclerView lv;
 
-    private ArrayList<infoCelda> arr;
-    private TableLayout tableLayout;
 
     public FragmentoHistorial() {
     }
@@ -48,7 +47,7 @@ public class FragmentoHistorial extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_fragmento_historial, container, false);
-        //lv=view.findViewById(R.id.list_history);
+        lv=view.findViewById(R.id.list_history);
         //new CargarListaTask().execute();
 
         /*arr = (ArrayList<infoCelda>) getActivity().getIntent().getSerializableExtra("arr_reservas");
@@ -56,13 +55,6 @@ public class FragmentoHistorial extends Fragment {
         tableLayout.setBackgroundColor(Color.TRANSPARENT);*/
         return view;
 }
-
-    private TableRow.LayoutParams newTableRowParams(){
-        TableRow.LayoutParams params= new TableRow.LayoutParams();
-        params.setMargins(0,0,0,15);
-        params.weight=1;
-        return params;
-    }
 
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 

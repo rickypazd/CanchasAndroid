@@ -29,9 +29,11 @@ import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.appcanchas.Fragment.FragmentoHistorial;
+import com.example.ricardopazdemiquel.appcanchas.Fragment.Fragmento_busqueda;
 import com.example.ricardopazdemiquel.appcanchas.Fragment.SetupViewPager_fragment;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
@@ -49,8 +51,11 @@ public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener ,SearchView.OnQueryTextListener  ,OnClickListener {
 
     private ImageView btn_ver_menu;
+    private TextView buscar_edit;
     private JSONArray arr_canchas;
     private android.support.v7.widget.CardView nav_mis_reservas;
+    private android.support.v7.widget.CardView nav_canchas;
+    private android.support.v7.widget.CardView nav_mapa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +77,12 @@ public class Main2Activity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         nav_mis_reservas = header.findViewById(R.id.nav_mis_reservas);
+        nav_canchas = header.findViewById(R.id.nav_canchas);
+        nav_mapa = header.findViewById(R.id.nav_mapa);
+
         nav_mis_reservas.setOnClickListener(this);
+        nav_canchas.setOnClickListener(this);
+        nav_mapa.setOnClickListener(this);
 
         btn_ver_menu= findViewById(R.id.btn_ver_menu);
         btn_ver_menu.setOnClickListener(new OnClickListener() {
@@ -86,6 +96,9 @@ public class Main2Activity extends AppCompatActivity
                 }
             }
         });
+
+        buscar_edit= findViewById(R.id.buscar_edit);
+        buscar_edit.setOnClickListener(this);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -153,7 +166,7 @@ public class Main2Activity extends AppCompatActivity
                 fragmentoGenerico = new FragmentoMapa();
                 break;
             case "history":
-                fragmentoGenerico = new FragmentoHistorial();
+                fragmentoGenerico= new SetupViewPager_fragment();
                 break;
             case "config":
                 fragmentoGenerico = new FragementoConfig();
@@ -166,6 +179,33 @@ public class Main2Activity extends AppCompatActivity
                     .commit();
         }
     }
+
+
+    @Override
+    public void onClick(View v) {
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        int id=v.getId();
+        switch (id){
+            case R.id.nav_mis_reservas:
+                fragmentoGenerico= new SetupViewPager_fragment();
+                break;
+            case R.id.nav_canchas:
+                fragmentoGenerico = new FragmentoListaCanchas();
+                break;
+            case R.id.nav_mapa:
+                fragmentoGenerico = new FragmentoMapa();
+                break;
+            case R.id.buscar_edit:
+                fragmentoGenerico = new Fragmento_busqueda();
+                break;
+        }
+        if (fragmentoGenerico != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+        }
+    }
+
+
     public boolean primeraVezEjecutada() {
         SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
         boolean primeraVez = preferencias.getBoolean("PrimeraVez", false);
@@ -229,36 +269,7 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent intent;
-        int id=v.getId();
-        switch (id){
-            case R.id.nav_mis_reservas:
-                Fragment fragmentoGenerico = null;
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentoGenerico= new SetupViewPager_fragment();
-                fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
-                //intent = new Intent(Main2Activity.this , SetupViewPager_fragment.class);
-                //startActivity(intent);
-                break;
-            /*case R.id.btn_nav_miperfil:
-                intent =  new Intent(MainActivity.this , Perfil_ClienteFragment.class);
-                startActivity(intent);
-                break;
-            case R.id.btn_nav_misviajes:
-                intent =  new Intent(MainActivity.this , MisViajes_Cliente_Activity.class);
-                startActivity(intent);
-                break;
-            case R.id.btn_nav_preferencias:
-                intent =  new Intent(MainActivity.this , Preferencias.class);
-                startActivity(intent);
-                break;*/
-        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -268,7 +279,6 @@ public class Main2Activity extends AppCompatActivity
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
-
 
         public CargarListaTask(){
 
@@ -303,18 +313,19 @@ public class Main2Activity extends AppCompatActivity
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp =="" || resp == null){
-                Toast.makeText(Main2Activity.this,"Error al obtener Datos" ,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONArray arr = new JSONArray(resp);
-                arr_canchas=arr;
-                seleccionarFragmento("canchas");
+            if(resp == null){
+                Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
+            }else if(resp.isEmpty()){
+                Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
+            }else {
+                try {
+                    JSONArray arr = new JSONArray(resp);
+                    arr_canchas = arr;
+                    seleccionarFragmento("canchas");
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#232B26"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvNombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="#019B4B"
+                        android:textSize="24sp"
+                        tools:text="La Bombonera" />
+
+                    <TextView
+                        android:id="@+id/tvValoracion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        tools:text="10K" />
+
+                </LinearLayout>
+
+
+                <!--la direccion-->
+                <TextView
+                    android:id="@+id/tvDireccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/placeholder_verde"
+                    android:drawableTint="@color/colorWhite"
+                    android:textColor="#ffffff"
+                    android:textSize="13sp"
+                    tools:text="Av. Angamos Este 1551" />
+
+                <!--la descripcion-->
+                <TextView
+                    android:id="@+id/tvDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone"
+                    tools:text="En La Bombonera contamos con alquiler de canchas deportivas de grass sintético y techadas, canchas adecuadas para el entrenamiento de diferentes tipos de deporte y personal calificado para ofrecerle un servicio con calidad..." />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_ver_complejo"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="#1bac06"
+                android:text="Ver Mas"
+                android:textColor="@color/cardview_light_background"
+                android:textSize="8sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <!--ciudad-->
+
+    </android.support.v7.widget.CardView>
+</android.support.constraint.ConstraintLayout>
