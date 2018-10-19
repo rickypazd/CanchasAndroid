@@ -48,17 +48,19 @@ public class FragmentoHistorial extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_fragmento_historial, container, false);
         lv=view.findViewById(R.id.list_history);
-        //new CargarListaTask().execute();
+        new CargarListaTask().execute();
 
-        /*arr = (ArrayList<infoCelda>) getActivity().getIntent().getSerializableExtra("arr_reservas");
-        tableLayout= view.findViewById(R.id.table_layout);
-        tableLayout.setBackgroundColor(Color.TRANSPARENT);*/
+        //arr = (ArrayList<infoCelda>) getActivity().getIntent().getSerializableExtra("arr_reservas");
+        //tableLayout= view.findViewById(R.id.table_layout);
+        //tableLayout.setBackgroundColor(Color.TRANSPARENT);
+
         return view;
 }
 
     private class CargarListaTask extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
+
         public CargarListaTask(){
         }
 

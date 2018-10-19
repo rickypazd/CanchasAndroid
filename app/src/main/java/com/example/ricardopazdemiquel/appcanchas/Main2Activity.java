@@ -15,6 +15,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -97,8 +99,7 @@ public class Main2Activity extends AppCompatActivity
             }
         });
 
-        buscar_edit= findViewById(R.id.buscar_edit);
-        buscar_edit.setOnClickListener(this);
+
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -120,6 +121,24 @@ public class Main2Activity extends AppCompatActivity
         });
 
         new CargarListaTask().execute();
+
+        buscar_edit= findViewById(R.id.buscar_edit);
+        buscar_edit.setOnClickListener(this);
+        buscar_edit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                AdaptadorCanchas a  = new AdaptadorCanchas();
+                a.FilterTextShared(s.toString().trim());
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -317,7 +336,9 @@ public class Main2Activity extends AppCompatActivity
                 Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
             }else if(resp.isEmpty()){
                 Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
-            }else {
+            }else if(resp.equals("falso")) {
+                Toast.makeText(Main2Activity.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            }else{
                 try {
                     JSONArray arr = new JSONArray(resp);
                     arr_canchas = arr;

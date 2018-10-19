@@ -52,14 +52,26 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
     public void onBindViewHolder( MyViewHolder holder, int i) {
         try {
                 final JSONObject obj = objArray.getJSONObject(i);
-                holder.tv_fecha.setText(obj.getString("sdfsd"));
-                holder.tv_nombre_complejo.setText(obj.getString("sd"));
-                holder.tv_tipo.setText(obj.getString("sd"));
-                holder.tv_hora.setText(obj.getString("sdfgsd"));
+                holder.tv_fecha.setText(obj.getString("fecha"));
+                holder.tv_nombre_complejo.setText(obj.getString("nombre_comp"));
+                holder.tv_tipo.setText(obj.getInt("ESTADO"));
+                holder.tv_hora.setText(obj.getString("hora"));
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getEstado(int estado){
+        switch (estado){
+            case 1:
+                return "Pendiente";
+            case 2:
+                return "Confirmado";
+            case 3:
+                return "Cancelado";
+        }
+        return "";
     }
 
     @Override
@@ -74,7 +86,6 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-
         public TextView tv_fecha;
         public TextView tv_nombre_complejo;
         public TextView tv_hora;

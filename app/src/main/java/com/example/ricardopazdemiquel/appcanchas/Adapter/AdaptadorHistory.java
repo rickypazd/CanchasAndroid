@@ -69,9 +69,9 @@ public class AdaptadorHistory extends RecyclerView.Adapter<AdaptadorHistory.MyVi
             case 1:
                 return "PENDIENTE";
             case 2:
-                return "CONFIRMADO";
+                return "Terminado";
             case 3:
-                return "CANCELADO";
+                return "Cancelado";
         }
         return "";
     }

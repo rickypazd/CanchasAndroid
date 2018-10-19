@@ -35,6 +35,7 @@ public class AdaptadorCanchas extends BaseAdapter {
     private JSONArray listaCanchas;
     private JSONArray filterData;
     private Context contexto;
+    private String nombre;
 
     LayoutInflater layoutInflater;
     private ItemFilter mFilter = new ItemFilter();
@@ -143,6 +144,10 @@ public class AdaptadorCanchas extends BaseAdapter {
         return mFilter;
     }
 
+    public void FilterTextShared(String nombre){
+        this.nombre = nombre;
+    }
+
     public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
         private final static String TAG = "AsyncTaskLoadImage";
         private ImageView imageView;
@@ -170,7 +175,7 @@ public class AdaptadorCanchas extends BaseAdapter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            String filterString = constraint.toString().toLowerCase();
+            nombre = constraint.toString().toLowerCase();
 
             FilterResults results = new FilterResults();
 
@@ -183,8 +188,9 @@ public class AdaptadorCanchas extends BaseAdapter {
 
             for (int i = 0; i < count; i++) {
                 try {
+                    //filterableString = list.getJSONObject(i).getString("NOMBRE");
                     filterableString = list.getJSONObject(i).getString("NOMBRE");
-                    if (filterableString.toLowerCase().contains(filterString)) {
+                    if (filterableString.toLowerCase().contains(nombre)) {
                         nlist.put(list.getJSONObject(i));
                     }
                 } catch (JSONException e) {
