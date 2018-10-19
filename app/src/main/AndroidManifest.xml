@@ -87,6 +87,13 @@
             android:name=".login"
             android:label="Conectarse" />
         <activity
+            android:name=".LoginCliente"
+            android:label="Conectarse" />
+        <activity
+            android:name=".Iniciar_cuenta_fb_Activity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="Iniciar_cuenta_fb_Activity" />
+        <activity
             android:name=".Main2Activity"
             android:label="@string/title_activity_main2"
             android:theme="@style/AppTheme.NoActionBar"></activity>
