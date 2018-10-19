@@ -1,104 +1,109 @@
 package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.text.Html;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ricardopazdemiquel.appcanchas.Detalle_complejoActivity;
+import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
+import java.text.SimpleDateFormat;
 
-public class AdaptadorHistory extends BaseAdapter {
 
-    private JSONArray listaHistory;
+public class AdaptadorHistory extends RecyclerView.Adapter<AdaptadorHistory.MyViewHolder> {
+
+    private JSONArray objArray;
+
     private Context contexto;
+    private SimpleDateFormat form;
+    private SimpleDateFormat form2;
+    private SimpleDateFormat formres;
+    private JSONArray reservas;
+
+    private HorasAdapterClick listener;
+    public AdaptadorHistory() {
+    }
 
     public AdaptadorHistory(Context contexto, JSONArray lista) {
         this.contexto = contexto;
-        this.listaHistory = lista;
+        this.objArray = lista;
+        form=new SimpleDateFormat("HH:mm:ss");
+        form2=new SimpleDateFormat("HH:mm");
+        formres= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
-    public int getCount() {
-        return listaHistory.length();
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_item_historial, parent, false);
+        MyViewHolder vh = new MyViewHolder(view);
+        return vh;
     }
 
     @Override
-    public Object getItem(int i) {
+    public void onBindViewHolder(AdaptadorHistory.MyViewHolder holder, int i) {
         try {
-            return listaHistory.get(i);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public long getItemId(int i) {
-     return 0;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        if (view == null) {
-            view = LayoutInflater.from(contexto)
-                    .inflate(R.layout.layout_item_historial, viewGroup, false);
-        }
-
-        TextView tv_complejo= view.findViewById(R.id.tv_Complejo);
-        TextView tv_estado= view.findViewById(R.id.tv_Estado);
-        Button btn_detalle = view.findViewById(R.id.btn_Ver_complejo);
-
-        try {
-            final JSONObject cancha = listaHistory.getJSONObject(i);
-            //imgCancha.setImageResource(cancha.getImagen());
-            tv_complejo.setText(cancha.getString("NOMBRE_COMP"));
-            String estado = getEstado(cancha.getInt("ESTADO"));
-            tv_estado.setText(estado);
-            btn_detalle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent inten = new Intent(contexto,Detalle_complejoActivity.class);
-                    inten.putExtra("complejo",cancha.toString());
-
-                    contexto.startActivity(inten);
-                }
-            });
+            final JSONObject obj = objArray.getJSONObject(i);
+            holder.tv_fecha.setText(obj.getString("fecha"));
+            holder.tv_nombre_complejo.setText(obj.getString("NOMBRE_COMP"));
+            holder.tv_hora.setText(obj.getString("hora"));
+            String estado = getEstado(obj.getInt("ESTADO"));
+            holder.tv_tipo.setText(estado);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return view;
     }
-
 
     private String getEstado(int estado){
         switch (estado){
             case 1:
                 return "PENDIENTE";
             case 2:
-                return "CONFIRMADO";
+                return "Terminado";
             case 3:
-                return "CANCELADO";
+                return "Cancelado";
         }
         return "";
     }
+
+
+    @Override
+    public int getItemCount() {
+        return objArray.length();
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return 0;
+    }
+
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView tv_fecha;
+        public TextView tv_nombre_complejo;
+        public TextView tv_hora;
+        public TextView tv_tipo;
+
+        public MyViewHolder(View v) {
+            super(v);
+            tv_fecha = v.findViewById(R.id.tv_fecha);
+            tv_nombre_complejo= v.findViewById(R.id.tv_nombre_complejo);
+            tv_hora= v.findViewById(R.id.tv_hora);
+            tv_tipo= v.findViewById(R.id.tv_tipo);
+        }
+    }
 }
+
+
+

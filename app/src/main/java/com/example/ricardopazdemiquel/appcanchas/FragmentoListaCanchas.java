@@ -48,8 +48,6 @@ public class FragmentoListaCanchas extends Fragment {
     private JSONArray arr_canchas;
     private EditText buscar_edit;
 
-
-
     public FragmentoListaCanchas() {
     }
 
