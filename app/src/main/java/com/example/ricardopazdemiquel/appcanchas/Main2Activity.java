@@ -127,8 +127,11 @@ public class Main2Activity extends AppCompatActivity
         buscar_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                AdaptadorCanchas a  = new AdaptadorCanchas();
-                a.FilterTextShared(s.toString().trim());
+                AdaptadorCanchas a  = new AdaptadorCanchas(Main2Activity.this ,arr_canchas);
+                FragmentoListaCanchas sdd = new FragmentoListaCanchas();
+                sdd.ActualizarView(a);
+                a.getFilter().filter(s.toString().trim());
+                //a.FilterTextShared(s.toString().trim());
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

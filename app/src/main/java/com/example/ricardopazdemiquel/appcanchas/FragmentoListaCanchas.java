@@ -19,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -47,8 +48,14 @@ public class FragmentoListaCanchas extends Fragment {
     private ListView lvCanchas;
     private JSONArray arr_canchas;
     private EditText buscar_edit;
+    AdaptadorCanchas adaptador;
 
     public FragmentoListaCanchas() {
+    }
+
+    public void ActualizarView(AdaptadorCanchas nombre) {
+        lvCanchas.setAdapter(nombre);
+        adaptador.notifyDataSetChanged();
     }
 
     @Nullable
@@ -58,7 +65,7 @@ public class FragmentoListaCanchas extends Fragment {
 
         lvCanchas = view.findViewById(R.id.lvCanchas);
         arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
-        AdaptadorCanchas adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
+        adaptador = new AdaptadorCanchas(getContext(), arr_canchas);
         lvCanchas.setAdapter(adaptador);
        /* buscar_edit=view.findViewById(R.id.buscar_edit);
 

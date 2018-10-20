@@ -91,6 +91,7 @@ public class AdaptadorCanchas extends BaseAdapter {
         Button btn_ver = view.findViewById(R.id.btn_ver_complejo);
         try {
             final JSONObject cancha = filterData.getJSONObject(i);
+            listaCanchas = filterData;
             //imgCancha.setImageResource(cancha.getImagen());
             URL url = null;
             if(cancha.getString("B64").length()>0){
@@ -175,7 +176,7 @@ public class AdaptadorCanchas extends BaseAdapter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-            nombre = constraint.toString().toLowerCase();
+            String filterString = constraint.toString().toLowerCase();
 
             FilterResults results = new FilterResults();
 
@@ -190,7 +191,7 @@ public class AdaptadorCanchas extends BaseAdapter {
                 try {
                     //filterableString = list.getJSONObject(i).getString("NOMBRE");
                     filterableString = list.getJSONObject(i).getString("NOMBRE");
-                    if (filterableString.toLowerCase().contains(nombre)) {
+                    if (filterableString.toLowerCase().contains(filterString)) {
                         nlist.put(list.getJSONObject(i));
                     }
                 } catch (JSONException e) {
@@ -207,8 +208,10 @@ public class AdaptadorCanchas extends BaseAdapter {
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            filterData=new JSONArray();
             filterData =(JSONArray) results.values;
             notifyDataSetChanged();
+
         }
 
     }
