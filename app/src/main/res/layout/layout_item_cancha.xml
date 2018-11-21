@@ -22,8 +22,8 @@
 
             <com.github.snowdream.android.widget.SmartImageView
                 android:id="@+id/imgCancha"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:background="#ffffff"
                 android:scaleType="fitCenter" />
 
@@ -46,7 +46,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textColor="#019B4B"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         tools:text="La Bombonera" />
 
                     <TextView
@@ -64,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#000"
                     android:textSize="14sp"
+                    android:layout_weight="1"
                     android:textStyle="bold"
                     android:visibility="gone"
                     tools:text="Santa Cruz de la Sierra" />
@@ -73,12 +74,11 @@
                     android:id="@+id/tvDireccion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
                     android:drawablePadding="8dp"
                     android:drawableStart="@drawable/placeholder_verde"
                     android:drawableTint="@color/colorWhite"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     tools:text="Av. Angamos Este 1551" />
 
                 <!--la descripcion-->
@@ -97,11 +97,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:layout_margin="8dp"
                     android:drawableStart="@drawable/phone_call"
                     android:drawableTint="@color/colorWhite"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     tools:text="[591]-77800221" />
 
                 <!--el correo-->
@@ -110,11 +109,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
-                    android:layout_margin="8dp"
                     android:drawableTint="@color/colorWhite"
                     android:drawableStart="@drawable/envelope"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     tools:text="bombobera@peloteada.com" />
 
 

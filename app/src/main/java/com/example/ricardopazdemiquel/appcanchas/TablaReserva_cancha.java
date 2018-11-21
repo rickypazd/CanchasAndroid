@@ -1,7 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.Activity;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +13,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,10 +21,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,25 +30,20 @@ import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Hashtable;
 
 import complementos.Contexto;
-import complementos.TablaDynamic;
-import complementos.Tools;
 import complementos.infoCelda;
 
-public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdapterClick{
-
+public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapterClick {
 
 
     private Calendar domingo_actual;
@@ -79,55 +70,55 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabla_reserva_cancha);
-        lv_horas=findViewById(R.id.lv_horas);
-        iv_about=findViewById(R.id.iv_about);
-        btn_atras=findViewById(R.id.btn_atras);
-        btn_adelante=findViewById(R.id.btn_adelante);
-        btn_confirmar=findViewById(R.id.btn_confirmar);
-        btn_select_hora=findViewById(R.id.btn_select_hora);
+        lv_horas = findViewById(R.id.lv_horas);
+        iv_about = findViewById(R.id.iv_about);
+        btn_atras = findViewById(R.id.btn_atras);
+        btn_adelante = findViewById(R.id.btn_adelante);
+        btn_confirmar = findViewById(R.id.btn_confirmar);
+        btn_select_hora = findViewById(R.id.btn_select_hora);
         text_fecha = findViewById(R.id.text_fecha);
         text_dia = findViewById(R.id.text_dia);
         text_año = findViewById(R.id.text_año);
-        tv_horas=findViewById(R.id.tv_horas);
-        tv_total=findViewById(R.id.tv_total);
+        tv_horas = findViewById(R.id.tv_horas);
+        tv_total = findViewById(R.id.tv_total);
         SpinnerCanchas = findViewById(R.id.Spinner_canchas);
 
-            String obj = getIntent().getStringExtra("obj");
+        String obj = getIntent().getStringExtra("obj");
         try {
             objcomplejo = new JSONObject(obj);
             JSONArray jsonArray = objcomplejo.getJSONArray("CANCHAS");
             agregarSpinnerCanchas(jsonArray);
-            if(jsonArray.length()>0){
+            if (jsonArray.length() > 0) {
                 btn_atras.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        domingo_actual.add(Calendar.DAY_OF_WEEK,-1);
+                        domingo_actual.add(Calendar.DAY_OF_WEEK, -1);
                         long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
                         long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
-                        text_fecha.setText(date_ship_millis+"");
+                        text_fecha.setText(date_ship_millis + "");
                         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                        String dayOfTheWeek =sdf.format( domingo_actual.getTime());
-                        text_dia.setText(dayOfTheWeek+"");
-                        text_año.setText(date_ship_millis2+"");
-                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
+                        String dayOfTheWeek = sdf.format(domingo_actual.getTime());
+                        text_dia.setText(dayOfTheWeek + "");
+                        text_año.setText(date_ship_millis2 + "");
+                        new getHorasAsyn((int) SpinnerCanchas.getSelectedItemId()).execute();
                     }
                 });
                 btn_adelante.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        domingo_actual.add(Calendar.DAY_OF_WEEK,1);
+                        domingo_actual.add(Calendar.DAY_OF_WEEK, 1);
                         long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
                         long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
-                        text_fecha.setText(date_ship_millis+"");
+                        text_fecha.setText(date_ship_millis + "");
                         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                        String dayOfTheWeek =sdf.format( domingo_actual.getTime());
-                        text_dia.setText(dayOfTheWeek+"");
-                        text_año.setText(date_ship_millis2+"");
-                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
+                        String dayOfTheWeek = sdf.format(domingo_actual.getTime());
+                        text_dia.setText(dayOfTheWeek + "");
+                        text_año.setText(date_ship_millis2 + "");
+                        new getHorasAsyn((int) SpinnerCanchas.getSelectedItemId()).execute();
                     }
                 });
-            }else{
+            } else {
                 finish();
             }
 
@@ -141,7 +132,7 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
             @Override
             public void onClick(View v) {
                 if (p != null) {
-                    showPopup(TablaReserva_cancha.this,p);
+                    showPopup(TablaReserva_cancha.this, p);
                 }
             }
         });
@@ -151,19 +142,19 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
             public void onClick(View v) {
 
 
-                if(arr.size()>0){
-                   Intent intent = new Intent(TablaReserva_cancha.this,detalle_reserva.class);
-                   JSONArray arrjs = new JSONArray();
+                if (arr.size() > 0) {
+                    Intent intent = new Intent(TablaReserva_cancha.this, detalle_reserva.class);
+                    JSONArray arrjs = new JSONArray();
                     for (int i = 0; i < arr.size(); i++) {
                         arrjs.put(arr.get(i));
                     }
-                   intent.putExtra("arr_reservas",arrjs.toString());
-                   startActivity(intent);
-                   finish();
+                    intent.putExtra("arr_reservas", arrjs.toString());
+                    startActivity(intent);
+                    finish();
 
 
-                }else{
-                    Toast.makeText(TablaReserva_cancha.this,"Deve seleccionar su reserva" ,
+                } else {
+                    Toast.makeText(TablaReserva_cancha.this, "Deve seleccionar su reserva",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -188,14 +179,14 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         long date_ship_millis = calendar.get(Calendar.DAY_OF_MONTH);
                         long date_ship_millis2 = calendar.get(Calendar.YEAR);
-                        text_fecha.setText(date_ship_millis+"");
+                        text_fecha.setText(date_ship_millis + "");
                         SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                        String dayOfTheWeek =sdf.format( calendar.getTime());
-                        text_dia.setText(dayOfTheWeek+"");
-                        text_año.setText(date_ship_millis2+"");
-                        domingo_actual=calendar;
-                        new getHorasAsyn((int)SpinnerCanchas.getSelectedItemId()).execute();
-                        Toast.makeText(TablaReserva_cancha.this,dayOfTheWeek+"" + date_ship_millis2,Toast.LENGTH_LONG).show();
+                        String dayOfTheWeek = sdf.format(calendar.getTime());
+                        text_dia.setText(dayOfTheWeek + "");
+                        text_año.setText(date_ship_millis2 + "");
+                        domingo_actual = calendar;
+                        new getHorasAsyn((int) SpinnerCanchas.getSelectedItemId()).execute();
+                        Toast.makeText(TablaReserva_cancha.this, dayOfTheWeek + "" + date_ship_millis2, Toast.LENGTH_LONG).show();
                     }
                 },
                 cur_calender.get(Calendar.YEAR),
@@ -209,8 +200,8 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
         datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
 
-    private void agregarSpinnerCanchas(JSONArray jsonArray){
-        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this,jsonArray);
+    private void agregarSpinnerCanchas(JSONArray jsonArray) {
+        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, jsonArray);
         SpinnerCanchas.setAdapter(spinnerAdapter);
         SpinnerCanchas.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -220,25 +211,25 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
                 int i = (int) parent.getSelectedItemId();
 //                tableLayout.removeAllViews();
 //                tablaDynamic = new TablaDynamic(tableLayout,getApplicationContext(),tv_horas,tv_total);
-                Calendar fechaActual= Calendar.getInstance();
+                Calendar fechaActual = Calendar.getInstance();
                 // fechaActual.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
-                domingo_actual=(Calendar) fechaActual.clone();
-                domingo_inicio=(Calendar) fechaActual.clone();
+                domingo_actual = (Calendar) fechaActual.clone();
+                domingo_inicio = (Calendar) fechaActual.clone();
                 long date_ship_millis = domingo_actual.get(Calendar.DAY_OF_MONTH);
                 long date_ship_millis2 = domingo_actual.get(Calendar.YEAR);
-                text_fecha.setText(date_ship_millis+"");
+                text_fecha.setText(date_ship_millis + "");
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                String dayOfTheWeek =sdf.format( domingo_actual.getTime());
-                text_dia.setText(dayOfTheWeek+"");
-                text_año.setText(date_ship_millis2+"");
+                String dayOfTheWeek = sdf.format(domingo_actual.getTime());
+                text_dia.setText(dayOfTheWeek + "");
+                text_año.setText(date_ship_millis2 + "");
                 new getHorasAsyn(i).execute();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
-
 
 
     @Override
@@ -290,24 +281,24 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
 
     @Override
     public void onClick(JSONObject obj, View view) {
-        JSONObject obje =(JSONObject) view.getTag();
+        JSONObject obje = (JSONObject) view.getTag();
         try {
-            if(obje.getBoolean("active")){
-                obje.put("active",false);
-            }else{
-                obje.put("active",true);
+            if (obje.getBoolean("active")) {
+                obje.put("active", false);
+            } else {
+                obje.put("active", true);
             }
 
             TextView tvHoraIncio = view.findViewById(R.id.tvHoraIncio);
             TextView tvPrecio = view.findViewById(R.id.tvPrecio);
             LinearLayout llSelect = view.findViewById(R.id.llSelect);
-            if(obje.getBoolean("active")){
-                llSelect.setBackgroundColor(Color.rgb(0,0,0));
-                tvHoraIncio.setTextColor(Color.rgb(255,255,255));
+            if (obje.getBoolean("active")) {
+                llSelect.setBackgroundColor(Color.rgb(0, 0, 0));
+                tvHoraIncio.setTextColor(Color.rgb(255, 255, 255));
                 arr.add(obj);
-            }else{
-                llSelect.setBackgroundColor(Color.rgb(255,255,255));
-                tvHoraIncio.setTextColor(Color.rgb(0,0,0));
+            } else {
+                llSelect.setBackgroundColor(Color.rgb(255, 255, 255));
+                tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
                 arr.remove(obj);
             }
         } catch (JSONException e) {
@@ -321,12 +312,13 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
         private ProgressDialog progreso;
         private int id;
         private int dia_actual;
-        public getHorasAsyn(int id){
-            this.id=id;
-             dia_actual=domingo_actual.get(Calendar.DAY_OF_WEEK);
-            dia_actual-=2;
-            if(dia_actual<0){
-                dia_actual=6;
+
+        public getHorasAsyn(int id) {
+            this.id = id;
+            dia_actual = domingo_actual.get(Calendar.DAY_OF_WEEK);
+            dia_actual -= 2;
+            if (dia_actual < 0) {
+                dia_actual = 6;
             }
 
         }
@@ -348,10 +340,10 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
             parametros.put("evento", "get_dia");
             parametros.put("fe_in", getDomingoActual());
             parametros.put("fe_fin", getDomingoSiguiente());
-            parametros.put("dia", dia_actual+"");
-            parametros.put("id", id+"");
+            parametros.put("dia", dia_actual + "");
+            parametros.put("id", id + "");
 
-            String respuesta="";
+            String respuesta = "";
             try {
                 respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             } catch (Exception ex) {
@@ -365,25 +357,24 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp ==""){
-                Toast.makeText(TablaReserva_cancha.this,"Error al obtener Datos" ,
+            if (resp == "") {
+                Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
-                arr= new ArrayList<>();
+                arr = new ArrayList<>();
                 ArrayList<infoCelda> header = new ArrayList<>();
-           JSONObject obje = new JSONObject(resp);
-           JSONArray arrcostos = obje.getJSONArray("costos");
-           JSONArray arrreservas = obje.getJSONArray("reservas");
+                JSONObject obje = new JSONObject(resp);
+                JSONArray arrcostos = obje.getJSONArray("costos");
+                JSONArray arrreservas = obje.getJSONArray("reservas");
 
-           JSONArray arrGenerat= new JSONArray();
+                JSONArray arrGenerat = new JSONArray();
 
 
-
-            adapter = new AdaptadorHoras(TablaReserva_cancha.this,arrcostos,domingo_actual,arrreservas,TablaReserva_cancha.this);
-            lv_horas.setLayoutManager(new LinearLayoutManager(TablaReserva_cancha.this));
-            lv_horas.setAdapter(adapter);
+                adapter = new AdaptadorHoras(TablaReserva_cancha.this, arrcostos, domingo_actual, arrreservas, TablaReserva_cancha.this);
+                lv_horas.setLayoutManager(new LinearLayoutManager(TablaReserva_cancha.this));
+                lv_horas.setAdapter(adapter);
 
 
             } catch (JSONException e) {
@@ -399,44 +390,46 @@ public class TablaReserva_cancha extends AppCompatActivity  implements HorasAdap
 
     }
 
-    private String getFechaDia(int dia){
+    private String getFechaDia(int dia) {
         Calendar cal = (Calendar) domingo_actual.clone();
         SimpleDateFormat form = new SimpleDateFormat("dd/MM/yy");
-        switch (dia){
+        switch (dia) {
             case 0:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 return form.format(cal.getTime());
             case 1:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.TUESDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.TUESDAY);
                 return form.format(cal.getTime());
             case 2:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.WEDNESDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
                 return form.format(cal.getTime());
             case 3:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.THURSDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.THURSDAY);
                 return form.format(cal.getTime());
             case 4:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.FRIDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
                 return form.format(cal.getTime());
             case 5:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.SATURDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
                 return form.format(cal.getTime());
             case 6:
-                cal.set(Calendar.DAY_OF_WEEK,Calendar.SUNDAY);
+                cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
                 return form.format(cal.getTime());
         }
         return "";
     }
-    private SimpleDateFormat formFechaConsular= new SimpleDateFormat("MM-dd-yyyy");
-    private String getDomingoActual(){
-           Calendar cal = (Calendar) domingo_actual.clone();
 
-           return formFechaConsular.format(cal.getTime());
+    private SimpleDateFormat formFechaConsular = new SimpleDateFormat("MM-dd-yyyy");
+
+    private String getDomingoActual() {
+        Calendar cal = (Calendar) domingo_actual.clone();
+
+        return formFechaConsular.format(cal.getTime());
     }
 
-    private String getDomingoSiguiente(){
+    private String getDomingoSiguiente() {
         Calendar cal = (Calendar) domingo_actual.clone();
-        cal.add(Calendar.DATE,1);
+        cal.add(Calendar.DATE, 1);
         return formFechaConsular.format(cal.getTime());
     }
 }
