@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.example.ricardopazdemiquel.appcanchas.R;
 import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONArray;

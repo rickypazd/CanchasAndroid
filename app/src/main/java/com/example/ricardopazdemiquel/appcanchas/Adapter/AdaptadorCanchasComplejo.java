@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,9 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.ricardopazdemiquel.appcanchas.R;
+import com.example.ricardopazdemiquel.appcanchas.viewHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;

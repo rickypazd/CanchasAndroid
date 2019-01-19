@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
@@ -29,6 +31,11 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_reserva);
+
+        Toolbar toolbar = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         try {
             arr =new JSONArray(getIntent().getStringExtra("arr_reservas"));
 
@@ -123,6 +130,23 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
         params.weight=1;
         return params;
     }
+
+    // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
+
 
     @Override
     public void onClick(View view) {

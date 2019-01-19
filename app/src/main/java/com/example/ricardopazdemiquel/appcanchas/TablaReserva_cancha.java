@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorHoras;
 import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;

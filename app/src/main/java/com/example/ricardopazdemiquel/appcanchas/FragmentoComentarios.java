@@ -1,8 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,10 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorComentario;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
-import com.facebook.AccessToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;

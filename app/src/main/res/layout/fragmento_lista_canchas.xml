@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
     <!--listitem te deja previsualizar un layout para tu lista-->
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/lvCanchas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

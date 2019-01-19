@@ -3,7 +3,6 @@ package com.example.ricardopazdemiquel.appcanchas;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -14,7 +13,6 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,12 +27,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ricardopazdemiquel.appcanchas.Fragment.FragmentoHistorial;
+import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorCanchas2;
 import com.example.ricardopazdemiquel.appcanchas.Fragment.Fragmento_busqueda;
 import com.example.ricardopazdemiquel.appcanchas.Fragment.SetupViewPager_fragment;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
@@ -58,6 +55,7 @@ public class Main2Activity extends AppCompatActivity
     private android.support.v7.widget.CardView nav_mis_reservas;
     private android.support.v7.widget.CardView nav_canchas;
     private android.support.v7.widget.CardView nav_mapa;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,10 +125,10 @@ public class Main2Activity extends AppCompatActivity
         buscar_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                AdaptadorCanchas a  = new AdaptadorCanchas(Main2Activity.this ,arr_canchas);
+                AdaptadorCanchas2 a  = new AdaptadorCanchas2(Main2Activity.this ,arr_canchas);
                 FragmentoListaCanchas sdd = new FragmentoListaCanchas();
                 sdd.ActualizarView(a);
-                a.getFilter().filter(s.toString().trim());
+                //a.getFilter().filter(s.toString().trim());
                 //a.FilterTextShared(s.toString().trim());
             }
             @Override

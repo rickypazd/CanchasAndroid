@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,8 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ricardopazdemiquel.appcanchas.R;
+import com.example.ricardopazdemiquel.appcanchas.detalleCancha;
 import com.github.snowdream.android.widget.SmartImageView;
 
 import org.json.JSONArray;

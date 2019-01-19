@@ -59,7 +59,7 @@
         <activity
             android:name=".detalleCancha"
             android:label="@string/title_activity_detalle_cancha"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".Detalle_complejoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -83,7 +83,10 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".MetodoDePago" />
-        <activity android:name=".detalle_reserva" />
+
+        <activity android:name=".detalle_reserva"
+            android:theme="@style/AppThemeone"/>
+
         <activity
             android:name=".login"
             android:label="Conectarse" />
