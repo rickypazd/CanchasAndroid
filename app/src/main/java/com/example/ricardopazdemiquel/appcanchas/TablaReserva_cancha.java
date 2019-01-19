@@ -13,9 +13,11 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -71,6 +73,11 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tabla_reserva_cancha);
+
+        Toolbar toolbar = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         lv_horas = findViewById(R.id.lv_horas);
         iv_about = findViewById(R.id.iv_about);
         btn_atras = findViewById(R.id.btn_atras);
@@ -166,6 +173,22 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                 dialogDatePickerLight((Button) v);
             }
         });
+    }
+
+    // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     private void dialogDatePickerLight(final Button bt) {

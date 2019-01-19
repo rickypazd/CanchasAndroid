@@ -24,7 +24,7 @@ public class FragmentoPresentacion3 extends Fragment {
             @Override
             public void onClick(View view) {
                 // al presionar el boton hay que cerrar la actividad contenedora
-                Intent intent = new Intent(getActivity(),MainActivity.class);
+                Intent intent = new Intent(getActivity(),login.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 getActivity().finish();

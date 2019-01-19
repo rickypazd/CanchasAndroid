@@ -24,7 +24,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="320dp"
                 app:srcCompat="@mipmap/pagos" />
 
             <TextView
@@ -39,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text="Podras realizar el pago por medio de tarjeta de credio \n debito, o en efectivo"
                 android:textAlignment="center"
+                android:layout_marginBottom="10dp"
                 android:textSize="13sp" />
 
             <Button
@@ -46,11 +47,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimary"
+                android:background="@drawable/ic_tabla_confirmar"
                 android:padding="10dp"
                 android:text="Listo"
-
-                android:textColor="#ffffff" />
+                android:textColor="@color/colorBlack" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

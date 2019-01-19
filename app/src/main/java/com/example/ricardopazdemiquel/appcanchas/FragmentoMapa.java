@@ -63,13 +63,7 @@ public class FragmentoMapa extends Fragment {
                 startActivity(intent);
             }
         });
-        try {
-            arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
 
-
-        } catch (Exception e) {
-
-        }
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
         MapsInitializer.initialize(getActivity().getApplicationContext());

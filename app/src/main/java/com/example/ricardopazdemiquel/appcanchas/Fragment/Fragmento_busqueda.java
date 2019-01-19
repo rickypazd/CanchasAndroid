@@ -27,10 +27,10 @@ public class Fragmento_busqueda extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_busqueda, container, false);
-        list_busquedas = view.findViewById(R.id.list_busquedas);
-        arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
-        Adaptador_busquedas adaptador = new Adaptador_busquedas(getContext(), arr_canchas);
-        list_busquedas.setAdapter(adaptador);
+        //list_busquedas = view.findViewById(R.id.list_busquedas);
+        //arr_canchas = ((Main2Activity) getActivity()).getArr_canchas();
+        //Adaptador_busquedas adaptador = new Adaptador_busquedas(getContext(), arr_canchas);
+        //list_busquedas.setAdapter(adaptador);
 
         return view;
     }

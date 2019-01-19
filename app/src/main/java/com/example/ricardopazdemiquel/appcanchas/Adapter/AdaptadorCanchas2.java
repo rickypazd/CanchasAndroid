@@ -57,26 +57,21 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             final JSONObject cancha = listaCanchas.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
             URL url = null;
-            if(cancha.getString("B64").length()>0){
-                Rect rect = new Rect(holder.imgCancha.getLeft(),holder.imgCancha.getTop(),holder.imgCancha.getRight(), holder.imgCancha.getBottom());
-                holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"),rect);
+            if (cancha.getString("FOTO_PERFIL").length() > 0) {
+                Rect rect = new Rect(holder.imgCancha.getLeft(), holder.imgCancha.getTop(), holder.imgCancha.getRight(), holder.imgCancha.getBottom());
+                holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto) + cancha.getString("B64"), rect);
                 //  new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
             }
-
             holder.tvNombre.setText(cancha.getString("NOMBRE"));
-            holder.tvValoracion.setText("10 K");
-            holder.tvCiudad.setText("Santa Cruz De La Cierra");
             holder.tvDireccion.setText(cancha.getString("DIRECCION"));
-            holder.tvDescripcion.setText(Html.fromHtml(cancha.getString("PRESENTACION")));
-            holder.tvNumero.setText(cancha.getJSONArray("TELEFONOS").getJSONObject(0).getString("TELEFONO"));
-            holder.tvCorreo.setText(cancha.getJSONArray("CORREOS").getJSONObject(0).getString("CORREO"));
+            holder.tvNumero.setText(cancha.getString("TELEFONO"));
+            holder.tvCorreo.setText(cancha.getString("CORREO"));
             holder.btn_ver.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent inten = new Intent(contexto,detalleCancha.class);
+                    Intent inten = new Intent(contexto, detalleCancha.class);
                     try {
-                        inten.putExtra("id_complejo",cancha.getInt("ID"));
-
+                        inten.putExtra("id_complejo", cancha.getInt("ID"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -86,9 +81,9 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             holder.imgCancha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent inten = new Intent(contexto,detalleCancha.class);
+                    Intent inten = new Intent(contexto, detalleCancha.class);
                     try {
-                        inten.putExtra("id_complejo",cancha.getInt("ID"));
+                        inten.putExtra("id_complejo", cancha.getInt("ID"));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -180,29 +175,31 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
 
     }*/
 
-    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
+    public class AsyncTaskLoadImage extends AsyncTask<String, String, Bitmap> {
         private final static String TAG = "AsyncTaskLoadImage";
         private ImageView imageView;
+
         public AsyncTaskLoadImage(ImageView imageView) {
             this.imageView = imageView;
         }
+
         @Override
         protected Bitmap doInBackground(String... params) {
             Bitmap bitmap = null;
             try {
                 URL url = new URL(params[0]);
-                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
+                bitmap = BitmapFactory.decodeStream((InputStream) url.getContent());
             } catch (IOException e) {
                 Log.e(TAG, e.getMessage());
             }
             return bitmap;
         }
+
         @Override
         protected void onPostExecute(Bitmap bitmap) {
             imageView.setImageBitmap(bitmap);
         }
     }
-
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

@@ -43,6 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#F0F0F0"
+                app:itemTextColor="@color/colorBlack"
+                app:itemIconTint="@color/colorBlack"
                 app:menu="@menu/navigation_deta">
             </android.support.design.widget.BottomNavigationView>
 

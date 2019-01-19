@@ -73,7 +73,6 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         switch (fragmento) {
             case "detalle":
                 fragmentoGenerico = new FragmentoInfo();

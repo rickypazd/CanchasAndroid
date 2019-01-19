@@ -3,6 +3,7 @@ package com.example.ricardopazdemiquel.appcanchas;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -55,7 +56,7 @@ public class Main2Activity extends AppCompatActivity
     private android.support.v7.widget.CardView nav_mis_reservas;
     private android.support.v7.widget.CardView nav_canchas;
     private android.support.v7.widget.CardView nav_mapa;
-
+    private android.support.v7.widget.CardView nav_preferencias;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +71,6 @@ public class Main2Activity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.inflateHeaderView(R.layout.nav_header_main2);
         navigationView.setNavigationItemSelectedListener(this);
@@ -79,10 +78,12 @@ public class Main2Activity extends AppCompatActivity
         nav_mis_reservas = header.findViewById(R.id.nav_mis_reservas);
         nav_canchas = header.findViewById(R.id.nav_canchas);
         nav_mapa = header.findViewById(R.id.nav_mapa);
+        nav_preferencias = header.findViewById(R.id.nav_preferencias);
 
         nav_mis_reservas.setOnClickListener(this);
         nav_canchas.setOnClickListener(this);
         nav_mapa.setOnClickListener(this);
+        nav_preferencias.setOnClickListener(this);
 
         btn_ver_menu= findViewById(R.id.btn_ver_menu);
         btn_ver_menu.setOnClickListener(new OnClickListener() {
@@ -96,7 +97,6 @@ public class Main2Activity extends AppCompatActivity
                 }
             }
         });
-
 
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -118,7 +118,7 @@ public class Main2Activity extends AppCompatActivity
             }
         });
 
-        new CargarListaTask().execute();
+        seleccionarFragmento("canchas");
 
         buscar_edit= findViewById(R.id.buscar_edit);
         buscar_edit.setOnClickListener(this);
@@ -140,7 +140,6 @@ public class Main2Activity extends AppCompatActivity
 
             }
         });
-
     }
 
     @Override
@@ -216,8 +215,12 @@ public class Main2Activity extends AppCompatActivity
             case R.id.nav_mapa:
                 fragmentoGenerico = new FragmentoMapa();
                 break;
-            case R.id.buscar_edit:
+            case R.id.nav_mis_contactanos:
                 fragmentoGenerico = new Fragmento_busqueda();
+                break;
+            case R.id.nav_preferencias:
+                Intent intent = new Intent(Main2Activity.this , Preferencias.class);
+                startActivity(intent);
                 break;
         }
         if (fragmentoGenerico != null) {
@@ -235,9 +238,9 @@ public class Main2Activity extends AppCompatActivity
             editor.putBoolean("PrimeraVez", true);
             editor.commit();
         }
-
         return !primeraVez;
     }
+
     public JSONObject getUsr_log() {
         SharedPreferences preferencias = getSharedPreferences("myPref", Context.MODE_PRIVATE);
         String usr = preferencias.getString("usr_log", "");
@@ -254,9 +257,6 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-    public JSONArray getArr_canchas(){
-       return arr_canchas;
-    }
 
     @Override
     public boolean onQueryTextSubmit(String s) {
@@ -282,80 +282,16 @@ public class Main2Activity extends AppCompatActivity
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == 100){
             if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
-                new CargarListaTask().execute();
+                seleccionarFragmento("canchas");
             }else {
                 runtime_permissions();
             }
         }
     }
 
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
     }
 
-    private class CargarListaTask extends AsyncTask<Void, String, String> {
-
-        private ProgressDialog progreso;
-
-        public CargarListaTask(){
-
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progreso = new ProgressDialog(Main2Activity.this);
-            progreso.setIndeterminate(true);
-            progreso.setTitle("obteniendo datos");
-            progreso.setCancelable(false);
-            progreso.show();
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            publishProgress("por favor espere...");
-            Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "get_complejos");
-            String respuesta="";
-            try {
-                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
-            } catch (Exception ex) {
-                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
-            }
-
-            return respuesta;
-        }
-
-        @Override
-        protected void onPostExecute(String resp) {
-            super.onPostExecute(resp);
-            progreso.dismiss();
-            if(resp == null){
-                Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
-            }else if(resp.isEmpty()){
-                Toast.makeText(Main2Activity.this,"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
-            }else if(resp.equals("falso")) {
-                Toast.makeText(Main2Activity.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
-            }else{
-                try {
-                    JSONArray arr = new JSONArray(resp);
-                    arr_canchas = arr;
-                    seleccionarFragmento("canchas");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-
-        }
-
-    }
 }

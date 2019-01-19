@@ -59,7 +59,7 @@
         <activity
             android:name=".detalleCancha"
             android:label="@string/title_activity_detalle_cancha"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppThemeone"/>
         <activity
             android:name=".Detalle_complejoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -73,7 +73,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".TablaReserva_cancha"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppThemeone" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -85,6 +85,9 @@
         <activity android:name=".MetodoDePago" />
 
         <activity android:name=".detalle_reserva"
+            android:theme="@style/AppThemeone"/>
+
+        <activity android:name=".Preferencias"
             android:theme="@style/AppThemeone"/>
 
         <activity
