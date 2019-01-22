@@ -68,8 +68,6 @@ public class Iniciar_cuenta_fb_Activity extends AppCompatActivity implements Vie
 
         btn_siguiente.setOnClickListener(this);
 
-
-
         Intent it = getIntent();
         if (it != null) {
             try {

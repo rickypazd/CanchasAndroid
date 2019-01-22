@@ -207,7 +207,6 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
         public SmartImageView imgCancha;
         public TextView tvNombre;
         public TextView tvValoracion;
-        public TextView tvCiudad;
         public TextView tvDireccion;
         public TextView tvDescripcion;
         public TextView tvNumero;
@@ -218,8 +217,6 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             super(v);
             imgCancha = v.findViewById(R.id.imgCancha);
             tvNombre = v.findViewById(R.id.tvNombre);
-            tvValoracion = v.findViewById(R.id.tvValoracion);
-            tvCiudad = v.findViewById(R.id.tvCiudad);
             tvDireccion = v.findViewById(R.id.tvDireccion);
             tvDescripcion = v.findViewById(R.id.tvDescripcion);
             tvNumero = v.findViewById(R.id.tvNumero);

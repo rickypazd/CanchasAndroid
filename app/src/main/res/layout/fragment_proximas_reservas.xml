@@ -7,10 +7,42 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/lv_proximas_reservas"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/liner_reservas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/layout_item_proximas_reservas" />
+            android:gravity="center"
+            android:visibility="gone"
+            android:translationZ="999dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Sin reservas"
+                android:gravity="center"
+                android:textSize="40dp"
+                android:textColor="@color/colorPrimary3"
+                android:textStyle="bold"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/lv_proximas_reservas"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:listitem="@layout/layout_item_proximas_reservas" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>

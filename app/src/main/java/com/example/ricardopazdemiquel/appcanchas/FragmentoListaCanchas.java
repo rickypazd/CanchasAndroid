@@ -109,7 +109,7 @@ public class FragmentoListaCanchas extends Fragment {
             parametros.put("evento", "get_complejos");
             String respuesta="";
             try {
-                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_android), MethodType.POST, parametros));
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             } catch (Exception ex) {
                 Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
             }

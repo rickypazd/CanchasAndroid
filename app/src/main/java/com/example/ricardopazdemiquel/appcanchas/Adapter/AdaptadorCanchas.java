@@ -85,7 +85,6 @@ public class AdaptadorCanchas extends BaseAdapter {
 
         TextView tvNombre = view.findViewById(R.id.tvNombre);
         TextView tvValoracion = view.findViewById(R.id.tvValoracion);
-        TextView tvCiudad = view.findViewById(R.id.tvCiudad);
         TextView tvDireccion = view.findViewById(R.id.tvDireccion);
         TextView tvDescripcion = view.findViewById(R.id.tvDescripcion);
         TextView tvNumero = view.findViewById(R.id.tvNumero);
@@ -104,7 +103,6 @@ public class AdaptadorCanchas extends BaseAdapter {
 
             tvNombre.setText(cancha.getString("NOMBRE"));
             tvValoracion.setText("10 K");
-            tvCiudad.setText("Santa Cruz De La Cierra");
             tvDireccion.setText(cancha.getString("DIRECCION"));
             tvDescripcion.setText(Html.fromHtml(cancha.getString("PRESENTACION")));
             tvNumero.setText(cancha.getJSONArray("TELEFONOS").getJSONObject(0).getString("TELEFONO"));

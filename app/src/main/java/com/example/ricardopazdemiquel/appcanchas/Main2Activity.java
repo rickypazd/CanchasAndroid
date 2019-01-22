@@ -184,7 +184,7 @@ public class Main2Activity extends AppCompatActivity
             case "mapa":
                 fragmentoGenerico = new FragmentoMapa();
                 break;
-            case "history":
+            case "historial":
                 fragmentoGenerico= new SetupViewPager_fragment();
                 break;
             case "config":
@@ -219,8 +219,7 @@ public class Main2Activity extends AppCompatActivity
                 fragmentoGenerico = new Fragmento_busqueda();
                 break;
             case R.id.nav_preferencias:
-                Intent intent = new Intent(Main2Activity.this , Preferencias.class);
-                startActivity(intent);
+                fragmentoGenerico = new Preferencias();
                 break;
         }
         if (fragmentoGenerico != null) {

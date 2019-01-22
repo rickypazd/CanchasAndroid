@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -37,23 +38,19 @@ import complementos.infoCelda;
 public class FragmentoHistorial extends Fragment {
 
     private RecyclerView lv;
-
+    private LinearLayout liner_reservas;
 
     public FragmentoHistorial() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_fragmento_historial, container, false);
-        lv=view.findViewById(R.id.list_history);
+
+        lv = view.findViewById(R.id.list_history);
+        liner_reservas = view.findViewById(R.id.liner_reservas);
+
         new CargarListaTask().execute();
-
-        //arr = (ArrayList<infoCelda>) getActivity().getIntent().getSerializableExtra("arr_reservas");
-        //tableLayout= view.findViewById(R.id.table_layout);
-        //tableLayout.setBackgroundColor(Color.TRANSPARENT);
-
         return view;
 }
 
@@ -78,7 +75,7 @@ public class FragmentoHistorial extends Fragment {
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "get_mis_reservas");
+            parametros.put("evento", "get_proximas_reservas");
             parametros.put("id", AccessToken.getCurrentAccessToken().getUserId());
             String respuesta="";
             try {
@@ -95,10 +92,13 @@ public class FragmentoHistorial extends Fragment {
             progreso.dismiss();
             if(resp == null){
                 Toast.makeText(getActivity(),"Error al obtener Datos",Toast.LENGTH_SHORT).show();
+                liner_reservas.setVisibility(View.VISIBLE);
             }else if(resp.isEmpty()){
                 Toast.makeText(getActivity(),"Error al obtener Datos",Toast.LENGTH_SHORT).show();
+                liner_reservas.setVisibility(View.VISIBLE);
             }else {
                 try {
+                    liner_reservas.setVisibility(View.GONE);
                     JSONArray arr = new JSONArray(resp);
                     AdaptadorHistory history = new AdaptadorHistory(getActivity(), arr);
                     lv.setAdapter(history);

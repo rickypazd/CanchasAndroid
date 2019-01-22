@@ -1,5 +1,7 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import com.example.ricardopazdemiquel.appcanchas.model.Cancha;
+
 import java.util.ArrayList;
 import java.util.List;
 

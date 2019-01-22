@@ -36,7 +36,7 @@ public class Carga extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else if(SPref.getUsr_log(Carga.this) == null){
-                    Intent intent = new Intent(Carga.this,Main2Activity.class);
+                    Intent intent = new Intent(Carga.this,login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }else{
@@ -59,21 +59,6 @@ public class Carga extends AppCompatActivity {
         }
 
         return !primeraVez;
-    }
-    public JSONObject getUsr_log() {
-        SharedPreferences preferencias = getSharedPreferences("myPref", Context.MODE_PRIVATE);
-        String usr = preferencias.getString("usr_log", "");
-        if (usr.length() <= 0) {
-            return null;
-        } else {
-            try {
-                JSONObject usr_log = new JSONObject(usr);
-                return usr_log;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
     }
 
 }

@@ -56,7 +56,7 @@ public class login extends AppCompatActivity {
         loginpelotead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(login.this,LoginCliente.class);
+                Intent intent = new Intent(login.this,Main2Activity.class);
                 startActivity(intent);
             }
         });

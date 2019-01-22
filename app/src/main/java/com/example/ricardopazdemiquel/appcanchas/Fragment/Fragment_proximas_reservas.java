@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -38,7 +39,7 @@ import complementos.infoCelda;
 public class Fragment_proximas_reservas extends Fragment {
 
     private RecyclerView lv_proximas_reservas;
-
+    private LinearLayout liner_reservas;
 
     public Fragment_proximas_reservas() {
     }
@@ -49,8 +50,10 @@ public class Fragment_proximas_reservas extends Fragment {
          //Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_proximas_reservas, container, false);
 
-        lv_proximas_reservas=view.findViewById(R.id.lv_proximas_reservas);
-        //new CargarListaTask().execute();
+        lv_proximas_reservas = view.findViewById(R.id.lv_proximas_reservas);
+        liner_reservas = view.findViewById(R.id.liner_reservas);
+
+        new CargarListaTask().execute();
 
         return view;
 }
@@ -92,11 +95,14 @@ public class Fragment_proximas_reservas extends Fragment {
             super.onPostExecute(resp);
             progreso.dismiss();
             if(resp == null){
-                Toast.makeText(getActivity(),"Hubo un error al conectarse al servidor, disculpe las molestias estamos trabajando para ustedes.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"Hubo un error al conectarse al servidor.",Toast.LENGTH_SHORT).show();
+                liner_reservas.setVisibility(View.VISIBLE);
             }else if(resp.isEmpty()){
                 Toast.makeText(getActivity(),"Error al obtener Datos",Toast.LENGTH_SHORT).show();
+                liner_reservas.setVisibility(View.VISIBLE);
             }else {
                 try {
+                    liner_reservas.setVisibility(View.GONE);
                     JSONArray arr = new JSONArray(resp);
                     Adaptador_Proximas_Reservas history = new Adaptador_Proximas_Reservas(getActivity(), arr);
                     lv_proximas_reservas.setAdapter(history);

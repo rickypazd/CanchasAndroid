@@ -1,5 +1,8 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -10,8 +13,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +36,7 @@ import java.util.Hashtable;
 
 
 
-public class Preferencias extends AppCompatActivity implements View.OnClickListener{
+public class Preferencias extends Fragment implements View.OnClickListener{
 
 
     private LinearLayout  liner_ver_perfil;
@@ -40,20 +45,16 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
     private TextView text_apellidos;
     private com.mikhaellopez.circularimageview.CircularImageView img_photo;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferencias);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_preferencias, container, false);
 
-        Toolbar toolbar = findViewById(R.id.toolbar3);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        liner_ver_perfil = findViewById(R.id.liner_ver_perfil);
-        liner_sign_out = findViewById(R.id.liner_sign_out);
-        text_nombre = findViewById(R.id.text_nombre);
-        text_apellidos = findViewById(R.id.text_apellidos);
-        img_photo = findViewById(R.id.img_photo);
+        liner_ver_perfil = view.findViewById(R.id.liner_ver_perfil);
+        liner_sign_out = view.findViewById(R.id.liner_sign_out);
+        text_nombre = view.findViewById(R.id.text_nombre);
+        text_apellidos = view.findViewById(R.id.text_apellidos);
+        img_photo = view.findViewById(R.id.img_photo);
         liner_sign_out.setOnClickListener(this);
         liner_ver_perfil.setOnClickListener(this);
 
@@ -83,29 +84,11 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }
-
+        return view;
     }
-
-    // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-    }
-
 
     public JSONObject getUsr_log() {
-        SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
+        SharedPreferences preferencias = getActivity().getSharedPreferences("myPref", getActivity().MODE_PRIVATE);
         String usr = preferencias.getString("usr_log", "");
         if (usr.length() <= 0) {
             return null;
@@ -125,7 +108,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             case R.id.liner_sign_out:
                 JSONObject usr = getUsr_log();
-                SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                SharedPreferences preferencias = getActivity().getSharedPreferences("myPref",getActivity().MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferencias.edit();
                 editor.putString("usr_log", "");
                 editor.commit();
@@ -134,7 +117,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Intent intent = new Intent(Preferencias.this, login.class);
+                Intent intent = new Intent(getActivity(), login.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
