@@ -37,7 +37,7 @@ public class Iniciar_cuenta_fb_Activity extends AppCompatActivity implements Vie
     private EditText edit_apellidoP;
     private EditText edit_telefono;
     private EditText edit_correo;
-    private com.mikhaellopez.circularimageview.CircularImageView img_photo;
+    //private com.mikhaellopez.circularimageview.CircularImageView img_photo;
 
 
     private Button btn_siguiente;
@@ -56,6 +56,9 @@ public class Iniciar_cuenta_fb_Activity extends AppCompatActivity implements Vie
         setContentView(R.layout.activity_iniciar_cuenta_fb);
 
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Toolbar toolbar = findViewById(R.id.toolbar3);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         edit_nombre = findViewById(R.id.edit_nombre);
@@ -63,7 +66,7 @@ public class Iniciar_cuenta_fb_Activity extends AppCompatActivity implements Vie
         edit_telefono = findViewById(R.id.edit_telefono);
 
         edit_correo = findViewById(R.id.edit_correo);
-        img_photo= findViewById(R.id.img_photo);
+        //img_photo= findViewById(R.id.img_photo);
         btn_siguiente = findViewById(R.id.btn_siguiente);
 
         btn_siguiente.setOnClickListener(this);
@@ -238,7 +241,7 @@ public class Iniciar_cuenta_fb_Activity extends AppCompatActivity implements Vie
                             SharedPreferences.Editor editor = preferencias.edit();
                             editor.putString("usr_log", objs.toString());
                             editor.commit();
-                            Intent intent = new Intent(Iniciar_cuenta_fb_Activity.this,MainActivity.class);
+                            Intent intent = new Intent(Iniciar_cuenta_fb_Activity.this,Main2Activity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }else{

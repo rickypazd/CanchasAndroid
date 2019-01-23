@@ -37,7 +37,7 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class detalleCancha extends AppCompatActivity  implements BaseSliderView.OnSliderClickListener , View.OnClickListener {
+public class detalleCancha extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, View.OnClickListener {
 
 
     private SliderLayout mDemoSlider;
@@ -91,19 +91,20 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
                     .commit();
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_cancha);
-        cardview=findViewById(R.id.contenDetalle);
-        scrollView=findViewById(R.id.scrollviw);
+        cardview = findViewById(R.id.contenDetalle);
+        scrollView = findViewById(R.id.scrollviw);
         //tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+        mDemoSlider = (SliderLayout) findViewById(R.id.slider);
 
-        id_complejo=getIntent().getIntExtra("id_complejo",0);
+        id_complejo = getIntent().getIntExtra("id_complejo", 0);
 
         reservar = findViewById(R.id.btnReservar);
         reservar.setOnClickListener(this);
@@ -115,12 +116,12 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-             case R.id.btnReservar:
-               Intent intent = new Intent(detalleCancha.this,TablaReserva_cancha.class);
-             intent.putExtra("obj",obj_complejo.toString());
-            startActivity(intent);
-            break;
+        switch (view.getId()) {
+            case R.id.btnReservar:
+                Intent intent = new Intent(this, TablaReserva_cancha.class);
+                intent.putExtra("obj", obj_complejo.toString());
+                startActivity(intent);
+                break;
         }
     }
 
@@ -135,12 +136,13 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
         super.onStop();
     }
 
-    public void rezize_fragment(int heigh){
-       cardview.setMinimumHeight(heigh);
+    public void rezize_fragment(int heigh) {
+        cardview.setMinimumHeight(heigh);
 
     }
-    public JSONObject getComplejo(){
-      return obj_complejo;
+
+    public JSONObject getComplejo() {
+        return obj_complejo;
     }
 
     private class CargarListaTask extends AsyncTask<Void, String, String> {
@@ -148,8 +150,8 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
         private ProgressDialog progreso;
         private int id;
 
-        public CargarListaTask(int id){
-            this.id=id;
+        public CargarListaTask(int id) {
+            this.id = id;
         }
 
         @Override
@@ -167,8 +169,8 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_complejos_id");
-            parametros.put("id", id+"");
-            String respuesta="";
+            parametros.put("id", id + "");
+            String respuesta = "";
             try {
                 respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             } catch (Exception ex) {
@@ -182,25 +184,25 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp ==""){
-                Toast.makeText(detalleCancha.this,"Error al obtener Datos" ,
+            if (resp == "") {
+                Toast.makeText(detalleCancha.this, "Error al obtener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
             try {
                 JSONObject obj = new JSONObject(resp);
-                obj_complejo=obj;
+                obj_complejo = obj;
                 seleccionarFragmento("detalle");
                 //tv_nombre_cancha.setText(obj.getString("NOMBRE"));
                 setTitle(obj.getString("NOMBRE"));
-                JSONArray arr_carrusel=obj.getJSONArray("FOTOS_CARRUSEL");
+                JSONArray arr_carrusel = obj.getJSONArray("FOTOS_CARRUSEL");
                 JSONObject object;
-                HashMap<String,String> url_maps = new HashMap<String, String>();
+                HashMap<String, String> url_maps = new HashMap<String, String>();
                 for (int i = 0; i < arr_carrusel.length(); i++) {
-                    object=arr_carrusel.getJSONObject(i);
-                    url_maps.put(""+i, getString(R.string.url_foto)+object.getString("FOTO"));
+                    object = arr_carrusel.getJSONObject(i);
+                    url_maps.put("" + i, getString(R.string.url_foto) + object.getString("FOTO"));
                 }
-                for(String name : url_maps.keySet()){
+                for (String name : url_maps.keySet()) {
                     TextSliderView textSliderView = new TextSliderView(detalleCancha.this);
                     // initialize a SliderLayout
                     textSliderView
@@ -212,7 +214,7 @@ public class detalleCancha extends AppCompatActivity  implements BaseSliderView.
                     //add your extra information
                     textSliderView.bundle(new Bundle());
                     textSliderView.getBundle()
-                            .putString("extra",name);
+                            .putString("extra", name);
 
                     mDemoSlider.addSlider(textSliderView);
                 }

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorCanchas2;
 import com.example.ricardopazdemiquel.appcanchas.Fragment.Fragmento_busqueda;
 import com.example.ricardopazdemiquel.appcanchas.Fragment.SetupViewPager_fragment;
+import com.example.ricardopazdemiquel.appcanchas.Utiles.SPref;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -43,12 +46,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Hashtable;
 
 import complementos.Contexto;
 
 public class Main2Activity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener ,SearchView.OnQueryTextListener  ,OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, OnClickListener {
 
     private ImageView btn_ver_menu;
     private TextView buscar_edit;
@@ -57,6 +63,9 @@ public class Main2Activity extends AppCompatActivity
     private android.support.v7.widget.CardView nav_canchas;
     private android.support.v7.widget.CardView nav_mapa;
     private android.support.v7.widget.CardView nav_preferencias;
+    private TextView text_telefono;
+    private TextView text_nombre;
+    private com.mikhaellopez.circularimageview.CircularImageView img_photo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,25 +88,29 @@ public class Main2Activity extends AppCompatActivity
         nav_canchas = header.findViewById(R.id.nav_canchas);
         nav_mapa = header.findViewById(R.id.nav_mapa);
         nav_preferencias = header.findViewById(R.id.nav_preferencias);
+        text_telefono = header.findViewById(R.id.text_telefono);
+        text_nombre = header.findViewById(R.id.text_nombre);
+        img_photo = header.findViewById(R.id.img_photo);
 
         nav_mis_reservas.setOnClickListener(this);
         nav_canchas.setOnClickListener(this);
         nav_mapa.setOnClickListener(this);
         nav_preferencias.setOnClickListener(this);
 
-        btn_ver_menu= findViewById(R.id.btn_ver_menu);
+        btn_ver_menu = findViewById(R.id.btn_ver_menu);
         btn_ver_menu.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
-                } else{
+                } else {
                     drawer.openDrawer(GravityCompat.START);
                 }
             }
         });
 
+        get_nav_perfil();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -120,21 +133,23 @@ public class Main2Activity extends AppCompatActivity
 
         seleccionarFragmento("canchas");
 
-        buscar_edit= findViewById(R.id.buscar_edit);
+        buscar_edit = findViewById(R.id.buscar_edit);
         buscar_edit.setOnClickListener(this);
         buscar_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                AdaptadorCanchas2 a  = new AdaptadorCanchas2(Main2Activity.this ,arr_canchas);
+                AdaptadorCanchas2 a = new AdaptadorCanchas2(Main2Activity.this, arr_canchas);
                 FragmentoListaCanchas sdd = new FragmentoListaCanchas();
                 sdd.ActualizarView(a);
                 //a.getFilter().filter(s.toString().trim());
                 //a.FilterTextShared(s.toString().trim());
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -185,7 +200,7 @@ public class Main2Activity extends AppCompatActivity
                 fragmentoGenerico = new FragmentoMapa();
                 break;
             case "historial":
-                fragmentoGenerico= new SetupViewPager_fragment();
+                fragmentoGenerico = new SetupViewPager_fragment();
                 break;
             case "config":
                 fragmentoGenerico = new FragementoConfig();
@@ -204,10 +219,10 @@ public class Main2Activity extends AppCompatActivity
     public void onClick(View v) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        int id=v.getId();
-        switch (id){
+        int id = v.getId();
+        switch (id) {
             case R.id.nav_mis_reservas:
-                fragmentoGenerico= new SetupViewPager_fragment();
+                fragmentoGenerico = new SetupViewPager_fragment();
                 break;
             case R.id.nav_canchas:
                 fragmentoGenerico = new FragmentoListaCanchas();
@@ -240,22 +255,6 @@ public class Main2Activity extends AppCompatActivity
         return !primeraVez;
     }
 
-    public JSONObject getUsr_log() {
-        SharedPreferences preferencias = getSharedPreferences("myPref", Context.MODE_PRIVATE);
-        String usr = preferencias.getString("usr_log", "");
-        if (usr.length() <= 0) {
-            return null;
-        } else {
-            try {
-                JSONObject usr_log = new JSONObject(usr);
-                return usr_log;
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
-
 
     @Override
     public boolean onQueryTextSubmit(String s) {
@@ -266,10 +265,11 @@ public class Main2Activity extends AppCompatActivity
     public boolean onQueryTextChange(String s) {
         return false;
     }
-    private boolean runtime_permissions() {
-        if(Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},100);
+    private boolean runtime_permissions() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
 
             return true;
         }
@@ -279,10 +279,10 @@ public class Main2Activity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 100){
-            if( grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == 100) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                 seleccionarFragmento("canchas");
-            }else {
+            } else {
                 runtime_permissions();
             }
         }
@@ -293,4 +293,50 @@ public class Main2Activity extends AppCompatActivity
         return false;
     }
 
+    private void get_nav_perfil() {
+        JSONObject usr = SPref.getUsr_log(Main2Activity.this);
+        runtime_permissions();
+        try {
+            if (usr != null) {
+                if (usr.getString("ID_FACE").length() > 0) {
+                    //cargar_img_face
+                    text_nombre.setText(usr.getString("NOMBRE") + " " + usr.getString("APELLIDO"));
+                    text_telefono.setText("+591 " + usr.getString("TELEFONO"));
+                    String id_face = usr.getString("ID_FACE");
+                    String url = "https://graph.facebook.com/" + id_face + "/picture?type=large";
+                    new AsyncTaskLoadImage(img_photo).execute(url);
+                }
+            } else {
+                return;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class AsyncTaskLoadImage extends AsyncTask<String, String, Bitmap> {
+        private final static String TAG = "AsyncTaskLoadImage";
+        private ImageView imageView;
+
+        public AsyncTaskLoadImage(ImageView imageView) {
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(params[0]);
+                bitmap = BitmapFactory.decodeStream((InputStream) url.getContent());
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            imageView.setImageBitmap(bitmap);
+        }
+    }
 }

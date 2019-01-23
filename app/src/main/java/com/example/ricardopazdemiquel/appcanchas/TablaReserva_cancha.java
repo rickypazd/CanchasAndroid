@@ -68,6 +68,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
     private TextView text_fecha;
     private AdaptadorHoras adapter;
     private ArrayList<JSONObject> arr;
+    private String Fecha_actual;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         Toolbar toolbar = findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_icon_left_arrow);
 
         lv_horas = findViewById(R.id.lv_horas);
         iv_about = findViewById(R.id.iv_about);
@@ -149,7 +151,6 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
             @Override
             public void onClick(View v) {
 
-
                 if (arr.size() > 0) {
                     Intent intent = new Intent(TablaReserva_cancha.this, detalle_reserva.class);
                     JSONArray arrjs = new JSONArray();
@@ -186,6 +187,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -199,7 +201,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                     public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.MONTH, (monthOfYear+1));
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         long date_ship_millis = calendar.get(Calendar.DAY_OF_MONTH);
                         long date_ship_millis2 = calendar.get(Calendar.YEAR);

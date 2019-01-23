@@ -15,49 +15,52 @@ import org.json.JSONObject;
 
 public class Carga extends AppCompatActivity {
 
+    private JSONObject usr_log;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_carga);
-        ejecutar();
 
+        usr_log = SPref.getUsr_log(this);
+
+        ejecutar();
     }
-    public void ejecutar(){
+
+
+    public void ejecutar() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                /*SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferencias.edit();
                 editor.remove("usr_log");
-                editor.commit();
+                editor.commit();*/
                 if (primeraVezEjecutada()) {
                     Intent intent = new Intent(Carga.this, PresentacionActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }
-                else if(SPref.getUsr_log(Carga.this) == null){
-                    Intent intent = new Intent(Carga.this,login.class);
+                } else if (usr_log == null) {
+                    Intent intent = new Intent(Carga.this, login.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                }else{
-                    Intent intent = new Intent(Carga.this,Main2Activity.class);
+                } else {
+                    Intent intent = new Intent(Carga.this, Main2Activity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                 }
             }
         }, 3000);
-
     }
+
     public boolean primeraVezEjecutada() {
         SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
         boolean primeraVez = preferencias.getBoolean("PrimeraVez", false);
-
         if (!primeraVez) {
             SharedPreferences.Editor editor = preferencias.edit();
             editor.putBoolean("PrimeraVez", true);
             editor.commit();
         }
-
         return !primeraVez;
     }
 

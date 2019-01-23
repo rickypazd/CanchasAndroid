@@ -9,7 +9,7 @@
     tools:context=".login">
 
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/loginButton"
+        android:id="@+id/loginFacebook"
         style="@style/FacebookLoginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

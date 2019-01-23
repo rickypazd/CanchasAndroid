@@ -71,9 +71,10 @@
         <activity
             android:name=".TablaReserva"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <activity
             android:name=".TablaReserva_cancha"
-            android:theme="@style/AppThemeone" />
+            android:theme="@style/AppThemethree" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -82,10 +83,11 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".MetodoDePago" />
+        <activity android:name=".MetodoDePago"
+            android:theme="@style/AppThemethree"/>
 
         <activity android:name=".detalle_reserva"
-            android:theme="@style/AppThemeone"/>
+            android:theme="@style/AppThemethree"/>
 
         <activity
             android:name=".login"
@@ -96,8 +98,8 @@
             android:label="Conectarse" />
         <activity
             android:name=".Iniciar_cuenta_fb_Activity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="Iniciar_cuenta_fb_Activity" />
+            android:theme="@style/AppThemethree" />
+
         <activity
             android:name=".Main2Activity"
             android:theme="@style/AppThemethree"

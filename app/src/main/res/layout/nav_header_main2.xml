@@ -10,13 +10,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="250dp"
         android:background="@drawable/ic_icon_fondo"
         android:gravity="center"
         android:orientation="vertical">
 
         <com.mikhaellopez.circularimageview.CircularImageView
-            android:id="@+id/imageView"
+            android:id="@+id/img_photo"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:translationZ="99dp"
@@ -46,6 +46,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_nombre"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -70,6 +71,7 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_telefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

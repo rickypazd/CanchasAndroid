@@ -10,10 +10,11 @@
     tools:context=".Iniciar_cuenta_fb_Activity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
+        android:id="@+id/toolbar3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        app:titleTextColor="@color/colorWhite"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp">
     </android.support.v7.widget.Toolbar>
@@ -53,7 +54,7 @@
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:background="@drawable/ic_icon_buttonface"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:padding="10dp"
                 android:inputType="textPersonName" />
 
@@ -70,9 +71,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Apellidos"
+                android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:background="@drawable/ic_icon_buttonface"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:padding="10dp"
                 android:inputType="textPersonName" />
 
@@ -91,7 +93,7 @@
                 android:textColor="@color/colorWhite"
                 android:textColorHint="@color/colorWhite"
                 android:background="@drawable/ic_icon_buttonface"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:padding="10dp"
                 android:inputType="textPersonName" />
 
@@ -112,7 +114,7 @@
                 android:textColorHint="@color/colorWhite"
                 android:background="@drawable/ic_icon_buttonface"
                 android:drawableStart="@drawable/ic_banderabolivia_siete"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:padding="10dp"
                 android:hint="Numero de telefóno"
                 android:inputType="text|phone" />

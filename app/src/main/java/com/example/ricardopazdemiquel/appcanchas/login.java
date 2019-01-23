@@ -28,6 +28,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,7 +41,7 @@ import complementos.Contexto;
 
 public class login extends AppCompatActivity {
 
-    private LoginButton loginButton;
+    private LoginButton loginFacebook;
     private Button login;
     private Button loginpelotead;
     private CallbackManager callbackManager;
@@ -51,17 +52,34 @@ public class login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         callbackManager = CallbackManager.Factory.create();
-        login=findViewById(R.id.fb);
-        loginpelotead=findViewById(R.id.loginpelotead);
+        login = findViewById(R.id.fb);
+        loginpelotead = findViewById(R.id.loginpelotead);
         loginpelotead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(login.this,Main2Activity.class);
+                Intent intent = new Intent(login.this, Main2Activity.class);
                 startActivity(intent);
             }
         });
-        loginButton= findViewById(R.id.loginButton);
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
+        InitLoginFacebook();
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginFacebook.callOnClick();
+            }
+        });
+    }
+
+
+    private void InitLoginFacebook() {
+        callbackManager = CallbackManager.Factory.create();
+
+        loginFacebook = findViewById(R.id.loginFacebook);
+        loginFacebook.setReadPermissions("email");
+
+        loginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 GraphRequest request = GraphRequest.newMeRequest(
@@ -70,41 +88,37 @@ public class login extends AppCompatActivity {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 Log.v("LoginActivity", response.toString());
-
                                 // Application code
                                 try {
-                                    String id=object.getString("id");
+                                    String id = object.getString("id");
                                     try {
-                                        String resp= new get_usr_face(id).execute().get();
-                                        if(resp==null){
-                                            Toast.makeText(login.this,"Error al conectarse con el servidor.",Toast.LENGTH_SHORT).show();
+                                        String resp = new get_usr_face(id).execute().get();
+                                        if (resp == null) {
+                                            Toast.makeText(login.this, "Error al conectarse con el servidor.", Toast.LENGTH_SHORT).show();
                                             LoginManager.getInstance().logOut();
-                                        }else{
+                                        } else {
                                             if (resp.contains("falso")) {
                                                 Log.e(Contexto.APP_TAG, "Hubo un error al conectarse al servidor.");
                                             } else {
                                                 try {
                                                     JSONObject obj = new JSONObject(resp);
-                                                    if(obj.getString("exito").equals("si")) {
-                                                        SharedPreferences preferencias = getSharedPreferences("myPref",MODE_PRIVATE);
+                                                    if (obj.getString("exito").equals("si")) {
+                                                        SharedPreferences preferencias = getSharedPreferences("myPref", MODE_PRIVATE);
                                                         SharedPreferences.Editor editor = preferencias.edit();
                                                         editor.putString("usr_log", obj.toString());
                                                         editor.commit();
-                                                        Intent intent = new Intent(login.this,Carga.class);
+
+                                                        Intent intent = new Intent(login.this, Main2Activity.class);
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         startActivity(intent);
-                                                    }else{
-
-                                                        ////esteeee <=-------
-                                                        Intent intent = new Intent(login.this,Iniciar_cuenta_fb_Activity.class);
-                                                        intent.putExtra("usr_face",object.toString());
+                                                    } else {
+                                                        Intent intent = new Intent(login.this, Iniciar_cuenta_fb_Activity.class);
+                                                        intent.putExtra("usr_face", object.toString());
                                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                                         startActivity(intent);
                                                         LoginManager.getInstance().logOut();
 
                                                     }
-
-
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
@@ -125,8 +139,6 @@ public class login extends AppCompatActivity {
                 parameters.putString("fields", "id,name,first_name,middle_name,last_name,email");
                 request.setParameters(parameters);
                 request.executeAsync();
-
-
 
             }
 
@@ -152,45 +164,44 @@ public class login extends AppCompatActivity {
                 LoginManager.getInstance().logInWithReadPermissions(login.this, Arrays.asList("public_profile,email,user_birthday"));
             }
         });
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginButton.callOnClick();
-            }
-        });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
+
     public class get_usr_face extends AsyncTask<Void, String, String> {
         private String id;
-        public get_usr_face(String id){
-            this.id=id;
+
+        public get_usr_face(String id) {
+            this.id = id;
         }
 
         @Override
-        protected void onPreExecute()
-        {
+        protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected String doInBackground(Void... params) {
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_usuario_face");
-            parametros.put("id_usr",id+"");
+            parametros.put("id_usr", id + "");
 //            parametros.put("token", Token.currentToken);
             String respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
             return respuesta;
         }
+
         @Override
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
 
 
         }
+
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);

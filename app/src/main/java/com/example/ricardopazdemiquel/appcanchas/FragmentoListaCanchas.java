@@ -1,6 +1,8 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 
 import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorCanchas2;
+import com.example.ricardopazdemiquel.appcanchas.Listener.Canchas_AdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
@@ -24,17 +27,20 @@ import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfi
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class FragmentoListaCanchas extends Fragment {
+public class FragmentoListaCanchas extends Fragment implements Canchas_AdapterClick {
 
     private RecyclerView lvCanchas;
     private EditText buscar_edit;
     AdaptadorCanchas2 adaptador;
     private RecyclerView.LayoutManager layoutManager;
+
+
     public FragmentoListaCanchas() {
     }
 
@@ -85,11 +91,18 @@ public class FragmentoListaCanchas extends Fragment {
         return view;
     }
 
+    @Override
+    public void onClick(int id, View view) {
+        Intent inten = new Intent(getActivity(), detalleCancha.class);
+        inten.putExtra("id_complejo", id);
+        startActivity(inten);
+    }
+
     private class Cargar_lista_complejos extends AsyncTask<Void, String, String> {
 
         private ProgressDialog progreso;
 
-        public Cargar_lista_complejos(){
+        public Cargar_lista_complejos() {
         }
 
         @Override
@@ -107,9 +120,9 @@ public class FragmentoListaCanchas extends Fragment {
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
             parametros.put("evento", "get_complejos");
-            String respuesta="";
+            String respuesta = "";
             try {
-                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_android), MethodType.POST, parametros));
             } catch (Exception ex) {
                 Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
             }
@@ -120,13 +133,13 @@ public class FragmentoListaCanchas extends Fragment {
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if(resp == null){
-                Toast.makeText(getActivity(),"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
-            }else if(resp.isEmpty()){
-                Toast.makeText(getActivity(),"Error al obtener Datos" , Toast.LENGTH_SHORT).show();
-            }else if(resp.equals("falso")) {
+            if (resp == null) {
                 Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
-            }else{
+            } else if (resp.isEmpty()) {
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.equals("falso")) {
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
                 try {
                     JSONArray arr = new JSONArray(resp);
                     AdaptadorCanchas2 adaptador = new AdaptadorCanchas2(getContext(), arr);
@@ -144,6 +157,5 @@ public class FragmentoListaCanchas extends Fragment {
         }
 
     }
-
 
 }

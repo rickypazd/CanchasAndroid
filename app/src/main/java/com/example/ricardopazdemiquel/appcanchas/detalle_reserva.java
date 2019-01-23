@@ -35,6 +35,7 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
         Toolbar toolbar = findViewById(R.id.toolbar3);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_icon_left_arrow);
 
         try {
             arr =new JSONArray(getIntent().getStringExtra("arr_reservas"));

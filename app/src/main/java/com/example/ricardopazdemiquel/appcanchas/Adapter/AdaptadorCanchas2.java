@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ricardopazdemiquel.appcanchas.Listener.Canchas_AdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.R;
 import com.example.ricardopazdemiquel.appcanchas.detalleCancha;
 import com.github.snowdream.android.widget.SmartImageView;
@@ -33,6 +34,7 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
 
     private JSONArray listaCanchas;
     private Context contexto;
+    private Canchas_AdapterClick listener;
 
     public AdaptadorCanchas2() {
     }
@@ -57,27 +59,29 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             final JSONObject cancha = listaCanchas.getJSONObject(i);
             //imgCancha.setImageResource(cancha.getImagen());
             URL url = null;
-            if (cancha.getString("FOTO_PERFIL").length() > 0) {
-                Rect rect = new Rect(holder.imgCancha.getLeft(), holder.imgCancha.getTop(), holder.imgCancha.getRight(), holder.imgCancha.getBottom());
-                holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto) + cancha.getString("B64"), rect);
-                //  new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
-            }
+
             holder.tvNombre.setText(cancha.getString("NOMBRE"));
             holder.tvDireccion.setText(cancha.getString("DIRECCION"));
             holder.tvNumero.setText(cancha.getString("TELEFONO"));
             holder.tvCorreo.setText(cancha.getString("CORREO"));
+
+            holder.btn_ver.setTag(cancha.getInt("ID"));
+            //holder.text_propiedad.setTag(obj.getInt("id"));
             holder.btn_ver.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    Intent inten = new Intent(contexto, detalleCancha.class);
+                public void onClick(View view) {
+                    int id_casa = (int) view.getTag();
+                    //Toast.makeText(contexto, "id" + sfs, Toast.LENGTH_SHORT).show();
+                    Intent intent  = new Intent(contexto,detalleCancha.class);
                     try {
-                        inten.putExtra("id_complejo", cancha.getInt("ID"));
+                        intent.putExtra("id_complejo", cancha.getInt("ID"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    contexto.startActivity(inten);
+                    contexto.startActivity(intent);
                 }
             });
+
             holder.imgCancha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -91,7 +95,11 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
                     contexto.startActivity(inten);
                 }
             });
-
+            if (cancha.getString("FOTO_PERFIL").length() > 0) {
+                Rect rect = new Rect(holder.imgCancha.getLeft(), holder.imgCancha.getTop(), holder.imgCancha.getRight(), holder.imgCancha.getBottom());
+                holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto) + cancha.getString("B64"), rect);
+                //  new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -206,9 +214,7 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
 
         public SmartImageView imgCancha;
         public TextView tvNombre;
-        public TextView tvValoracion;
         public TextView tvDireccion;
-        public TextView tvDescripcion;
         public TextView tvNumero;
         public TextView tvCorreo;
         public Button btn_ver;
@@ -218,7 +224,6 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             imgCancha = v.findViewById(R.id.imgCancha);
             tvNombre = v.findViewById(R.id.tvNombre);
             tvDireccion = v.findViewById(R.id.tvDireccion);
-            tvDescripcion = v.findViewById(R.id.tvDescripcion);
             tvNumero = v.findViewById(R.id.tvNumero);
             tvCorreo = v.findViewById(R.id.tvCorreo);
             btn_ver = v.findViewById(R.id.btn_ver_complejo);
