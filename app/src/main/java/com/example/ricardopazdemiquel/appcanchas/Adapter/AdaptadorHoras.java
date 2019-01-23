@@ -32,21 +32,22 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
     private SimpleDateFormat formres;
     LayoutInflater layoutInflater;
     private Calendar cal;
-    private JSONArray reservas;
+
 
     private HorasAdapterClick listener;
+
     public AdaptadorHoras() {
     }
 
-    public AdaptadorHoras(Context contexto, JSONArray lista,Calendar cal,JSONArray reservas,HorasAdapterClick listener) {
+    public AdaptadorHoras(Context contexto, JSONArray lista, Calendar cal, HorasAdapterClick listener) {
         this.contexto = contexto;
         this.listaHoras = lista;
-        this.cal=cal;
-        this.reservas=reservas;
-        form=new SimpleDateFormat("HH:mm:ss");
-        form2=new SimpleDateFormat("HH:mm");
-        formres= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        this.listener=listener;
+        this.cal = cal;
+
+        form = new SimpleDateFormat("HH:mm:ss");
+        form2 = new SimpleDateFormat("HH:mm");
+        formres = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.listener = listener;
 
     }
 
@@ -60,55 +61,58 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder( MyViewHolder holder, int i) {
-        JSONObject obj = new JSONObject();
+    public void onBindViewHolder(MyViewHolder holder, final int i) {
+
         try {
-            final JSONObject hora= listaHoras.getJSONObject(i);
-            try {
-                obj.put("active",false);
-                obj.put("disponible",true);
-                obj.put("detalle",hora);
-                holder.itemView.setTag(obj);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            final JSONObject hora = listaHoras.getJSONObject(i);
+            if(!hora.has("active")){
+                hora.put("active",false);
+                listaHoras.put(i,hora);
 
+            }
+            
             Date fech = form.parse(hora.getString("HORA"));
-            fech.setHours(fech.getHours()+1);
+            fech.setHours(fech.getHours() + 1);
             Date fech2 = form.parse(hora.getString("HORA"));
-            holder.tvHoraIncio.setText(form2.format(fech2)+" - "+form2.format(fech)+" hrs");
-            holder.tvPrecio.setText("Bs. "+hora.getString("PRECIO"));
-            JSONObject temp;
-            Date datetmp;
-            boolean exi=true;
-            for (int j = 0; j <reservas.length() ; j++) {
-                temp=reservas.getJSONObject(j);
-                datetmp=formres.parse(temp.getString("FECHA"));
-                if(form.format(fech2).equals(form.format(datetmp))){
-                    exi=false;
-
-                    if(temp.getInt("ESTADO")==1){
-                        holder.tvPrecio.setText("Pendiente");
-                        holder.tvPrecio.setTextSize(11);
-                        holder.tvPrecio.setBackgroundColor(Color.rgb(222,222,0));
-                        holder.cardviw.setCardBackgroundColor(Color.rgb(88,88,88));
-
-                    }
-                    if(temp.getInt("ESTADO")==2){
-                        holder.tvPrecio.setText("No Disponible");
-                        holder.tvPrecio.setTextSize(11);
-                        holder.tvPrecio.setBackgroundColor(Color.rgb(43,255,255));
-                    }
-                    return;
-
-                }
+            holder.tvHoraIncio.setText(form2.format(fech2) + " - " + form2.format(fech) + " hrs");
+            holder.tvPrecio.setText("Bs. " + hora.getString("PRECIO"));
+            if (hora.getBoolean("active")) {
+                holder.llSelect.setBackgroundColor(Color.rgb(0, 0, 0));
+                holder.tvHoraIncio.setTextColor(Color.rgb(255, 255, 255));
+            } else {
+                holder.llSelect.setBackgroundColor(Color.rgb(255, 255, 255));
+                holder.tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
             }
+            switch (hora.getInt("ESTADO")) {
+                case 1:
+                    holder.llSelect.setBackgroundColor(Color.rgb(255, 255, 0));
+                    holder.tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
+                    break;
+                case 2:
+                    holder.llSelect.setBackgroundColor(Color.rgb(0, 255, 0));
+                    holder.tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
+                    break;
+            }
+
+
+
             //imgCancha.setImageResource(cancha.getImagen());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(listener!=null){
-                        listener.onClick(hora,v);
+                    if (listener != null) {
+                        listener.onClick(hora, v);
+                        try {
+                            if (hora.getBoolean("active")) {
+                                hora.put("active",false);
+                                listaHoras.put(i,hora);
+                            } else {
+                                hora.put("active",true);
+                                listaHoras.put(i,hora);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 }
@@ -129,7 +133,7 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
 
     @Override
     public long getItemId(int i) {
-     return 0;
+        return 0;
     }
 
 
@@ -142,11 +146,10 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
 
         public MyViewHolder(View v) {
             super(v);
-             tvHoraIncio = v.findViewById(R.id.tvHoraIncio);
-             tvPrecio = v.findViewById(R.id.tvPrecio);
-             cardviw= v.findViewById(R.id.cardviw);
-             llSelect = v.findViewById(R.id.llSelect);
-
+            tvHoraIncio = v.findViewById(R.id.tvHoraIncio);
+            tvPrecio = v.findViewById(R.id.tvPrecio);
+            cardviw = v.findViewById(R.id.cardviw);
+            llSelect = v.findViewById(R.id.llSelect);
 
 
         }

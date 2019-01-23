@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.example.ricardopazdemiquel.appcanchas.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,12 +42,12 @@ public class SpinnerAdapter extends BaseAdapter {
 
             JSONObject proyecto = null;
             try {
-                proyecto = (JSONObject) jsonArray.get(i);
-                int a = proyecto.getInt("ID");
-                return a ;
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            proyecto = (JSONObject) jsonArray.get(i);
+            int a = proyecto.getInt("ID");
+            return a ;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return 0;
     }
 
