@@ -1,40 +1,52 @@
 package com.example.ricardopazdemiquel.appcanchas.Fragment;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+import android.support.v4.app.Fragment;
 
+import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorHistory;
 import com.example.ricardopazdemiquel.appcanchas.R;
+import com.example.ricardopazdemiquel.appcanchas.Utiles.SPref;
 import com.example.ricardopazdemiquel.appcanchas.Utiles.SectionsPageAdapter;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
+import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Hashtable;
+
+import complementos.Contexto;
 
 
-public class SetupViewPager_fragment extends android.support.v4.app.Fragment {
+public class SetupViewPager_fragment extends Fragment {
 
     private static final String TAG = "menuActivity";
     private SectionsPageAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
 
-
-    /*@Override
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_view_pager);
 
-        mSectionsPagerAdapter = new SectionsPageAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
-
-        setupViewPager(mViewPager);
-    }*/
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_view_pager, container, false);
 
-        mSectionsPagerAdapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
-        mViewPager = (ViewPager) view.findViewById(R.id.container);
+        mSectionsPagerAdapter = new SectionsPageAdapter(getChildFragmentManager());
+        mViewPager = view.findViewById(R.id.container);
         setupViewPager(mViewPager);
 
         TabLayout tabLayout = view.findViewById(R.id.tabs);
@@ -43,10 +55,8 @@ public class SetupViewPager_fragment extends android.support.v4.app.Fragment {
         return view;
     }
 
-
-
     private void setupViewPager(ViewPager viewPager){
-        SectionsPageAdapter adapter = new SectionsPageAdapter(getActivity().getSupportFragmentManager());
+        SectionsPageAdapter adapter = new SectionsPageAdapter(getChildFragmentManager());
         adapter.addFragment(new Fragment_proximas_reservas(),"Proximas Reservas");
         adapter.addFragment(new FragmentoHistorial(),"Historial");
         viewPager.setAdapter(adapter);

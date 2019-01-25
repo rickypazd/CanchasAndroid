@@ -54,7 +54,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
-                android:src="@android:drawable/ic_menu_rotate"
+                android:src="@drawable/ic_icon_cargar"
                 android:tint="@color/colorAccent" />
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

@@ -22,23 +22,24 @@ import java.text.SimpleDateFormat;
 public class AdaptadorHistory extends RecyclerView.Adapter<AdaptadorHistory.MyViewHolder> {
 
     private JSONArray objArray;
-
     private Context contexto;
     private SimpleDateFormat form;
     private SimpleDateFormat form2;
     private SimpleDateFormat formres;
     private JSONArray reservas;
 
-    private HorasAdapterClick listener;
+    //private HorasAdapterClick listener;
+
     public AdaptadorHistory() {
     }
 
     public AdaptadorHistory(Context contexto, JSONArray lista) {
         this.contexto = contexto;
         this.objArray = lista;
-        form=new SimpleDateFormat("HH:mm:ss");
+        /*form=new SimpleDateFormat("HH:mm:ss");
         form2=new SimpleDateFormat("HH:mm");
         formres= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        */
     }
 
     @Override
@@ -53,9 +54,11 @@ public class AdaptadorHistory extends RecyclerView.Adapter<AdaptadorHistory.MyVi
     public void onBindViewHolder(AdaptadorHistory.MyViewHolder holder, int i) {
         try {
             final JSONObject obj = objArray.getJSONObject(i);
-            holder.tv_fecha.setText(obj.getString("fecha"));
-            holder.tv_nombre_complejo.setText(obj.getString("NOMBRE_COMP"));
-            holder.tv_hora.setText(obj.getString("hora"));
+            holder.tv_fecha.setText(obj.getString("FECHA"));
+            holder.tv_nombre_complejo.setText(obj.getString("NOMBRE_COMPLEJO"));
+            String hora1 = obj.getString("HORA_INICIO");
+            String hora2 = obj.getString("HORA_FIN");
+            holder.tv_hora.setText(hora1 +" - "+hora2+" hrs");
             String estado = getEstado(obj.getInt("ESTADO"));
             holder.tv_tipo.setText(estado);
 
@@ -67,7 +70,7 @@ public class AdaptadorHistory extends RecyclerView.Adapter<AdaptadorHistory.MyVi
     private String getEstado(int estado){
         switch (estado){
             case 1:
-                return "PENDIENTE";
+                return "Pendiente";
             case 2:
                 return "Terminado";
             case 3:

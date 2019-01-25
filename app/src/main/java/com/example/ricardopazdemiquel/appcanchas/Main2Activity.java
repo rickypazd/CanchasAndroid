@@ -246,7 +246,6 @@ public class Main2Activity extends AppCompatActivity
     public boolean primeraVezEjecutada() {
         SharedPreferences preferencias = getPreferences(MODE_PRIVATE);
         boolean primeraVez = preferencias.getBoolean("PrimeraVez", false);
-
         if (!primeraVez) {
             SharedPreferences.Editor editor = preferencias.edit();
             editor.putBoolean("PrimeraVez", true);

@@ -70,7 +70,7 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
                 listaHoras.put(i,hora);
 
             }
-            
+
             Date fech = form.parse(hora.getString("HORA"));
             fech.setHours(fech.getHours() + 1);
             Date fech2 = form.parse(hora.getString("HORA"));

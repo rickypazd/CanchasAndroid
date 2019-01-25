@@ -29,15 +29,16 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
     private JSONArray reservas;
 
     private HorasAdapterClick listener;
+
     public Adaptador_Proximas_Reservas() {
     }
 
     public Adaptador_Proximas_Reservas(Context contexto, JSONArray lista) {
         this.contexto = contexto;
         this.objArray = lista;
-        form=new SimpleDateFormat("HH:mm:ss");
-        form2=new SimpleDateFormat("HH:mm");
-        formres= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        form = new SimpleDateFormat("HH:mm:ss");
+        form2 = new SimpleDateFormat("HH:mm");
+        formres = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
     @Override
@@ -49,27 +50,43 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
     }
 
     @Override
-    public void onBindViewHolder( MyViewHolder holder, int i) {
+    public void onBindViewHolder(MyViewHolder holder, int i) {
         try {
-                final JSONObject obj = objArray.getJSONObject(i);
-                holder.tv_fecha.setText(obj.getString("fecha"));
-                holder.tv_nombre_complejo.setText(obj.getString("nombre_comp"));
-                holder.tv_tipo.setText(obj.getInt("ESTADO"));
-                holder.tv_hora.setText(obj.getString("hora"));
-
+            final JSONObject obj = objArray.getJSONObject(i);
+            int estado = obj.getInt("ESTADO");
+            switch (estado) {
+                case 1:
+                    holder.tv_fecha.setText(obj.getString("FECHA"));
+                    holder.tv_nombre_complejo.setText(obj.getString("NOMBRE_COMPLEJO"));
+                    String hora1 = obj.getString("HORA_INICIO");
+                    String hora2 = obj.getString("HORA_FIN");
+                    holder.tv_hora.setText(hora1 + " - " + hora2 + " hrs");
+                    holder.tv_tipo.setText(getEstado(estado));
+                    break;
+                case 2:
+                    holder.tv_fecha.setText(obj.getString("FECHA"));
+                    holder.tv_nombre_complejo.setText(obj.getString("NOMBRE_COMPLEJO"));
+                    String hora3 = obj.getString("HORA_INICIO");
+                    String hora4 = obj.getString("HORA_FIN");
+                    holder.tv_hora.setText(hora3 + " - " + hora4 + " hrs");
+                    holder.tv_tipo.setText(getEstado(estado));
+                    break;
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private String getEstado(int estado){
-        switch (estado){
+    private String getEstado(int estado) {
+        switch (estado) {
             case 1:
                 return "Pendiente";
             case 2:
-                return "Confirmado";
+                return "Reservado";
             case 3:
                 return "Cancelado";
+            case 4:
+                return "Terminado";
         }
         return "";
     }
@@ -81,7 +98,7 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
 
     @Override
     public long getItemId(int i) {
-     return 0;
+        return 0;
     }
 
 
@@ -93,10 +110,10 @@ public class Adaptador_Proximas_Reservas extends RecyclerView.Adapter<Adaptador_
 
         public MyViewHolder(View v) {
             super(v);
-             tv_fecha = v.findViewById(R.id.tv_fecha);
-             tv_nombre_complejo= v.findViewById(R.id.tv_nombre_complejo);
-             tv_hora= v.findViewById(R.id.tv_hora);
-             tv_tipo= v.findViewById(R.id.tv_tipo);
+            tv_fecha = v.findViewById(R.id.tv_fecha);
+            tv_nombre_complejo = v.findViewById(R.id.tv_nombre_complejo);
+            tv_hora = v.findViewById(R.id.tv_hora);
+            tv_tipo = v.findViewById(R.id.tv_tipo);
         }
     }
 }
