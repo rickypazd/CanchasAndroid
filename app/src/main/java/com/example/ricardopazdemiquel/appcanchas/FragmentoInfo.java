@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import org.json.JSONObject;
 
+@SuppressLint("ValidFragment")
 public class FragmentoInfo extends Fragment {
 
     private JSONObject obj_complejo;
@@ -24,8 +26,9 @@ public class FragmentoInfo extends Fragment {
     private TextView tv_contactanos;
     //private Button reservar;
 
-    public FragmentoInfo() {
-        // Required empty public constructor
+    @SuppressLint("ValidFragment")
+    public FragmentoInfo(JSONObject object) {
+        this.obj_complejo = object;
     }
 
     @Override
@@ -40,10 +43,9 @@ public class FragmentoInfo extends Fragment {
         //reservar.setOnClickListener(this);
 
         try{
-           obj_complejo=((detalleCancha)getActivity()).getComplejo();
+           //obj_complejo=((detalleCancha)getActivity()).getComplejo();
            tv_presentacion.setText(Html.fromHtml(obj_complejo.getString("PRESENTACION")));
            tv_politicas.setText(Html.fromHtml(obj_complejo.getString("POLITICAS")));
-
 
         }catch (Exception e){
 

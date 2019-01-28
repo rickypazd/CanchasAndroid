@@ -20,6 +20,7 @@ import com.example.ricardopazdemiquel.appcanchas.Utiles.SPref;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+import com.example.ricardopazdemiquel.appcanchas.dialog.finalizar_reserva_dialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +74,6 @@ public class MetodoDePago extends AppCompatActivity implements View.OnClickListe
         btn_targeta = findViewById(R.id.btn_reserva_targeta);
         btn_sin_pago.setOnClickListener(this);
         btn_targeta.setOnClickListener(this);
-
     }
 
     // Opcion para ir atras sin reiniciar en la actividad anterior de nuevo
@@ -150,11 +150,8 @@ public class MetodoDePago extends AppCompatActivity implements View.OnClickListe
             } else if (resp.equals("falso")) {
                 Toast.makeText(MetodoDePago.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(MetodoDePago.this, "Reserva exitosa", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(MetodoDePago.this, Main2Activity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
+                android.app.FragmentManager fragmentManager = getFragmentManager();
+                new finalizar_reserva_dialog(1).show(fragmentManager, "Dialog");
             }
         }
 
@@ -163,7 +160,6 @@ public class MetodoDePago extends AppCompatActivity implements View.OnClickListe
             super.onProgressUpdate(values);
 
         }
-
     }
 
 }

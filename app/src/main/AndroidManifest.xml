@@ -56,16 +56,13 @@
             android:name=".PresentacionActivity"
             android:label="@string/title_activity_presentacion"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".detalleCancha"
-            android:label="@string/title_activity_detalle_cancha"
-            android:theme="@style/AppThemeone"/>
+
         <activity
             android:name=".Detalle_complejoActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".Fragment_reserva_finalizada"
+            android:name=".dialog.finalizar_reserva_dialog"
             android:theme="@style/AppThemeone" />
 
         <activity

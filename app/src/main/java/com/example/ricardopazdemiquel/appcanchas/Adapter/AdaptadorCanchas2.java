@@ -7,6 +7,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Log;
@@ -36,8 +39,7 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
     private Context contexto;
     private Canchas_AdapterClick listener;
 
-    public AdaptadorCanchas2() {
-    }
+
 
     public AdaptadorCanchas2(Context contexto, JSONArray lista) {
         this.contexto = contexto;
@@ -72,13 +74,24 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
                 public void onClick(View view) {
                     int id_casa = (int) view.getTag();
                     //Toast.makeText(contexto, "id" + sfs, Toast.LENGTH_SHORT).show();
-                    Intent intent  = new Intent(contexto,detalleCancha.class);
+                    /*Intent intent  = new Intent(contexto,detalleCancha.class);
                     try {
                         intent.putExtra("id_complejo", cancha.getInt("ID"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    contexto.startActivity(intent);
+                    contexto.startActivity(intent);*/
+
+                    Fragment fragmentoGenerico = null;
+                    FragmentManager fragmentManager = ((AppCompatActivity)contexto).getSupportFragmentManager();
+                    try {
+                        fragmentoGenerico = new detalleCancha(cancha.getInt("ID"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (fragmentoGenerico != null) {
+                        fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                    }
                 }
             });
 

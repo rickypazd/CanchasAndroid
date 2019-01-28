@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,14 +25,17 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 
+@SuppressLint("ValidFragment")
 public class FragmentoComentarios extends Fragment {
 
 
     private ListView lv;
     private JSONObject obj_complejo;
 
-    public FragmentoComentarios() {
+    @SuppressLint("ValidFragment")
+    public FragmentoComentarios(JSONObject obj) {
         // Required empty public constructor
+        this.obj_complejo = obj;
     }
 
 
@@ -43,7 +47,7 @@ public class FragmentoComentarios extends Fragment {
         lv=view.findViewById(R.id.list_comentario);
 
         try {
-            obj_complejo=((detalleCancha)getActivity()).getComplejo();
+            //obj_complejo=((detalleCancha)getActivity()).getComplejo();
             JSONArray arr = obj_complejo.getJSONArray("COMENTARIOS");
             AdaptadorComentario comentario = new AdaptadorComentario(getActivity(),arr);
             lv.setAdapter(comentario);

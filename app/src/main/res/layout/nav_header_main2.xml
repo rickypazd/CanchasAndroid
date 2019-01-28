@@ -244,7 +244,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_icon_resevaasset_1"
+                        android:drawableStart="@drawable/ic_icon_contactanos"
                         android:drawableTint="@color/colorWhite"
                         android:scaleX="1.7"
                         android:scaleY="1.7" />

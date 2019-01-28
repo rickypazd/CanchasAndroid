@@ -1,18 +1,22 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,7 +41,8 @@ import java.util.Hashtable;
 
 import complementos.Contexto;
 
-public class detalleCancha extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, View.OnClickListener {
+@SuppressLint("ValidFragment")
+public class detalleCancha extends Fragment implements BaseSliderView.OnSliderClickListener, View.OnClickListener {
 
 
     private SliderLayout mDemoSlider;
@@ -72,16 +77,16 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
 
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         switch (fragmento) {
             case "detalle":
-                fragmentoGenerico = new FragmentoInfo();
+                fragmentoGenerico = new FragmentoInfo(getComplejo());
                 break;
             case "horario":
-                fragmentoGenerico = new FragmentoHorario();
+                fragmentoGenerico = new FragmentoHorario(getComplejo());
                 break;
             case "comentarios":
-                fragmentoGenerico = new FragmentoComentarios();
+                fragmentoGenerico = new FragmentoComentarios(getComplejo());
                 break;
         }
 
@@ -92,7 +97,33 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
         }
     }
 
+    @SuppressLint("ValidFragment")
+    public detalleCancha(int id) {
+        this.id_complejo = id;
+    }
+
+    @Nullable
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_detalle_cancha, container, false);
+
+        //id_complejo = getActivity().getIntent().getIntExtra("id_complejo", 0);
+        new CargarListaTask(id_complejo).execute();
+        cardview = view.findViewById(R.id.contenDetalle);
+        scrollView = view.findViewById(R.id.scrollviw);
+        //tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
+        BottomNavigationView navigation = (BottomNavigationView) view.findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        mDemoSlider = (SliderLayout) view.findViewById(R.id.slider);
+
+        reservar = view.findViewById(R.id.btnReservar);
+        reservar.setOnClickListener(this);
+
+        return view;
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_cancha);
@@ -101,24 +132,18 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
         //tv_nombre_cancha=findViewById(R.id.tv_nombre_cancha);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         mDemoSlider = (SliderLayout) findViewById(R.id.slider);
-
         id_complejo = getIntent().getIntExtra("id_complejo", 0);
-
         reservar = findViewById(R.id.btnReservar);
         reservar.setOnClickListener(this);
-
         new CargarListaTask(id_complejo).execute();
-
-
-    }
+    }*/
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnReservar:
-                Intent intent = new Intent(this, TablaReserva_cancha.class);
+                Intent intent = new Intent(getActivity(), TablaReserva_cancha.class);
                 intent.putExtra("obj", obj_complejo.toString());
                 startActivity(intent);
                 break;
@@ -131,7 +156,7 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         mDemoSlider.stopAutoCycle();
         super.onStop();
     }
@@ -157,7 +182,7 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progreso = new ProgressDialog(detalleCancha.this);
+            progreso = new ProgressDialog(getActivity());
             progreso.setIndeterminate(true);
             progreso.setTitle("obteniendo datos");
             progreso.setCancelable(false);
@@ -185,7 +210,7 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
             super.onPostExecute(resp);
             progreso.dismiss();
             if (resp == "") {
-                Toast.makeText(detalleCancha.this, "Error al obtener Datos",
+                Toast.makeText(getActivity(), "Error al obtener Datos",
                         Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -194,7 +219,7 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
                 obj_complejo = obj;
                 seleccionarFragmento("detalle");
                 //tv_nombre_cancha.setText(obj.getString("NOMBRE"));
-                setTitle(obj.getString("NOMBRE"));
+                //setTitle(obj.getString("NOMBRE"));
                 JSONArray arr_carrusel = obj.getJSONArray("FOTOS_CARRUSEL");
                 JSONObject object;
                 HashMap<String, String> url_maps = new HashMap<String, String>();
@@ -203,7 +228,7 @@ public class detalleCancha extends AppCompatActivity implements BaseSliderView.O
                     url_maps.put("" + i, getString(R.string.url_foto) + object.getString("FOTO"));
                 }
                 for (String name : url_maps.keySet()) {
-                    TextSliderView textSliderView = new TextSliderView(detalleCancha.this);
+                    TextSliderView textSliderView = new TextSliderView(getActivity());
                     // initialize a SliderLayout
                     textSliderView
                             .description(name)

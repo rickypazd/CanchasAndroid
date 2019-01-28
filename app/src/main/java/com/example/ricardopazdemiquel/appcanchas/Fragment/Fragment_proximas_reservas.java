@@ -131,11 +131,9 @@ public class Fragment_proximas_reservas extends Fragment {
                 }
             }
         }
-
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-
         }
     }
 }

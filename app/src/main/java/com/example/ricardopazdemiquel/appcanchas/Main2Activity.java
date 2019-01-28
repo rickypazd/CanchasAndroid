@@ -112,6 +112,8 @@ public class Main2Activity extends AppCompatActivity
 
         get_nav_perfil();
 
+        new Cargar_lista_complejos().execute();
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -338,4 +340,71 @@ public class Main2Activity extends AppCompatActivity
             imageView.setImageBitmap(bitmap);
         }
     }
+
+    public JSONArray get_complejos(){
+        return arr_canchas;
+    }
+
+    private class Cargar_lista_complejos extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+
+        public Cargar_lista_complejos() {
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(Main2Activity.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("obteniendo datos");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "get_complejos");
+            String respuesta = "";
+            try {
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_android), MethodType.POST, parametros));
+            } catch (Exception ex) {
+                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
+            }
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+            if (resp == null) {
+                Toast.makeText(Main2Activity.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.isEmpty()) {
+                Toast.makeText(Main2Activity.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.equals("falso")) {
+                Toast.makeText(Main2Activity.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    JSONArray arr = new JSONArray(resp);
+                    arr_canchas = arr;
+                    seleccionarFragmento("canchas");
+                    //AdaptadorCanchas2 adaptador = new AdaptadorCanchas2(getContext(), arr);
+                    //lvCanchas.setAdapter(adaptador);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+    }
+
 }

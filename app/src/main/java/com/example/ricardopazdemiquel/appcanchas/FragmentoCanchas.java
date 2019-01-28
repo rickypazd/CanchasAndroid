@@ -32,7 +32,7 @@ public class FragmentoCanchas extends Fragment {
         LinearLayoutManager mylinear = new LinearLayoutManager(getActivity());
         mylinear.setOrientation(LinearLayoutManager.HORIZONTAL);
         try{
-            obj_complejo=((detalleCancha)getActivity()).getComplejo();
+            //obj_complejo=((detalleCancha)getActivity()).getComplejo();
             JSONArray arr = obj_complejo.getJSONArray("CANCHAS");
 
             AdaptadorCanchasComplejo adaptador = new AdaptadorCanchasComplejo(arr,getContext());

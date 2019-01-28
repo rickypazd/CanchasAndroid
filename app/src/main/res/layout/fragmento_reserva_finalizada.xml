@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimaryDark"
-        app:title="Reserva"
-        app:titleTextColor="@color/colorWhite"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp">
-    </android.support.v7.widget.Toolbar>
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,8 +12,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center|bottom"
-            android:layout_weight="0.7">
+            android:layout_weight="0.7"
+            android:gravity="center|bottom">
 
             <ImageView
                 android:layout_width="120dp"
@@ -62,9 +49,8 @@
 
             </LinearLayout>
 
-
-
             <TextView
+                android:id="@+id/text_mensaje"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="El administrador se comunicará contigo."
@@ -112,10 +98,10 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Compartir"
                             android:layout_gravity="center"
+                            android:text="Compartir"
                             android:textColor="@color/colorAccent"
                             android:textSize="22sp" />
 
@@ -141,6 +127,27 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1">
+
+            <Button
+                android:id="@+id/btn_listo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_icon_button_crearcuenta"
+                android:text="Listo"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
+                android:textSize="18dp"
+                android:textAllCaps="false"
+                />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

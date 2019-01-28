@@ -1,5 +1,6 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressLint("ValidFragment")
 public class FragmentoHorario extends Fragment {
 
     private JSONObject obj_complejo;
@@ -26,8 +28,9 @@ public class FragmentoHorario extends Fragment {
     private TextView tv_hora_sabado;
     private TextView tv_hora_domingo;
 
-    public FragmentoHorario() {
-        // Required empty public constructor
+    @SuppressLint("ValidFragment")
+    public FragmentoHorario(JSONObject object) {
+        this.obj_complejo = object;
     }
 
     @Override
@@ -44,7 +47,7 @@ public class FragmentoHorario extends Fragment {
         tv_hora_domingo=view.findViewById(R.id.tv_hora_domingo);
 
             try{
-                obj_complejo=((detalleCancha)getActivity()).getComplejo();
+                //obj_complejo=((detalleCancha)getActivity()).getComplejo();
                 JSONArray arr= obj_complejo.getJSONArray("HORARIOS");
                 JSONObject obj;
                 int dia;

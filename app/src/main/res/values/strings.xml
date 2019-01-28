@@ -1,7 +1,7 @@
 <resources>
-    <string name="url_servlet_admin">http://192.168.1.114:8080/canchas/indexController</string>
-    <string name="url_servlet_android">http://192.168.1.114:8080/canchas/androidController</string>
-    <string name="url_foto">http://192.168.1.114:8080/canchas/</string>
+    <string name="url_servlet_admin">http://192.168.0.12:8080/canchas/indexController</string>
+    <string name="url_servlet_android">http://192.168.0.12:8080/canchas/androidController</string>
+    <string name="url_foto">http://192.168.0.12:8080/canchas/</string>
 
     <string name="app_name">Peloteada</string>
     <string name="title_home">Home</string>
