@@ -40,7 +40,6 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
     private Canchas_AdapterClick listener;
 
 
-
     public AdaptadorCanchas2(Context contexto, JSONArray lista) {
         this.contexto = contexto;
         this.listaCanchas = lista;
@@ -83,7 +82,7 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
                     contexto.startActivity(intent);*/
 
                     Fragment fragmentoGenerico = null;
-                    FragmentManager fragmentManager = ((AppCompatActivity)contexto).getSupportFragmentManager();
+                    FragmentManager fragmentManager = ((AppCompatActivity) contexto).getSupportFragmentManager();
                     try {
                         fragmentoGenerico = new detalleCancha(cancha.getInt("ID"));
                     } catch (JSONException e) {
@@ -98,14 +97,16 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             holder.imgCancha.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent inten = new Intent(contexto, detalleCancha.class);
+                    Fragment fragmentoGenerico = null;
+                    FragmentManager fragmentManager = ((AppCompatActivity) contexto).getSupportFragmentManager();
                     try {
-                        inten.putExtra("id_complejo", cancha.getInt("ID"));
-
+                        fragmentoGenerico = new detalleCancha(cancha.getInt("ID"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    contexto.startActivity(inten);
+                    if (fragmentoGenerico != null) {
+                        fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                    }
                 }
             });
             if (cancha.getString("FOTO_PERFIL").length() > 0) {

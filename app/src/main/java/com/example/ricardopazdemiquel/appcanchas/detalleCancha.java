@@ -31,6 +31,8 @@ import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+import com.example.ricardopazdemiquel.appcanchas.dialog.map_reserva_dialog;
+import com.example.ricardopazdemiquel.appcanchas.dialog.tipos_de_cancha_dialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,9 +145,11 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnReservar:
-                Intent intent = new Intent(getActivity(), TablaReserva_cancha.class);
+                /*Intent intent = new Intent(getActivity(), TablaReserva_cancha.class);
                 intent.putExtra("obj", obj_complejo.toString());
-                startActivity(intent);
+                startActivity(intent);*/
+                android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
+                new tipos_de_cancha_dialog(obj_complejo).show(fragmentManager, "Dialog");
                 break;
         }
     }

@@ -74,6 +74,7 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -133,7 +134,7 @@ public class Main2Activity extends AppCompatActivity
             }
         });
 
-        seleccionarFragmento("canchas");
+        //seleccionarFragmento("canchas");
 
         buscar_edit = findViewById(R.id.buscar_edit);
         buscar_edit.setOnClickListener(this);

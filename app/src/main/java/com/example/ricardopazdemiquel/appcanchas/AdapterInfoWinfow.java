@@ -1,10 +1,14 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -23,49 +27,42 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
-public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter{
+public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter, View.OnClickListener {
 
     private Activity context;
     private JSONObject obj;
-    private TextView tv_nombre;
-    private Button btn_ver;
-    private TextView tv_desc;
-    private ImageView imageView;
+    private Button btn_reservar;
+    public TextView tvNombre;
+    public TextView tvDireccion;
+    public TextView tvNumero;
+    public TextView tvCorreo;
+    private Context contexto;
+
     public AdapterInfoWinfow(Activity context) {
         this.context = context;
     }
 
     @Override
-    public View getInfoWindow(Marker marker)
-    {
-        View view = context.getLayoutInflater().inflate(R.layout.infowindow,null);
-        obj= (JSONObject)marker.getTag();
-        tv_nombre=view.findViewById(R.id.tv_info_nombre);
-        tv_desc=view.findViewById(R.id.tv_info_desc);
-        btn_ver=view.findViewById(R.id.btn_info_ver);
+    public View getInfoWindow(Marker marker) {
+        View view = context.getLayoutInflater().inflate(R.layout.map_reserva_dialog, null);
+        obj = (JSONObject) marker.getTag();
+        tvNombre = view.findViewById(R.id.tvNombre);
+        tvDireccion = view.findViewById(R.id.tvDireccion);
+        tvNumero = view.findViewById(R.id.tvNumero);
+        tvCorreo = view.findViewById(R.id.tvCorreo);
+        btn_reservar = view.findViewById(R.id.btn_reservar);
 
         try {
-            tv_nombre.setText(obj.getString("NOMBRE"));
-            tv_desc.setText(Html.fromHtml(obj.getString("PRESENTACION")));
-
-
-
+            tvNombre.setText(obj.getString("NOMBRE"));
+            tvDireccion.setText(obj.getString("DIRECCION"));
+            tvNumero.setText(obj.getString("TELEFONO"));
+            tvCorreo.setText(obj.getString("CORREO"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        btn_ver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Intent inten = new Intent(context,detalleCancha.class);
-                    inten.putExtra("id_complejo",obj.getInt("ID"));
-                    context.startActivity(inten);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        btn_reservar.setOnClickListener(this);
+
         return view;
     }
 
@@ -74,26 +71,20 @@ public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter{
         return null;
     }
 
-    public class AsyncTaskLoadImage  extends AsyncTask<String, String, Bitmap> {
-        private final static String TAG = "AsyncTaskLoadImage";
-        private ImageView imageView;
-        public AsyncTaskLoadImage(ImageView imageView) {
-            this.imageView = imageView;
-        }
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            Bitmap bitmap = null;
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.btn_reservar) {
+            Fragment fragmentoGenerico = null;
+            FragmentManager fragmentManager = ((AppCompatActivity)contexto).getSupportFragmentManager();
             try {
-                URL url = new URL(params[0]);
-                bitmap = BitmapFactory.decodeStream((InputStream)url.getContent());
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
+                fragmentoGenerico = new detalleCancha(obj.getInt("ID"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-            return bitmap;
-        }
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            imageView.setImageBitmap(bitmap);
+            if (fragmentoGenerico != null) {
+                fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+            }
         }
     }
+
 }
