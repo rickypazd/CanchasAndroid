@@ -155,10 +155,6 @@ public class FragmentoMapa extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_buscar:
-                Intent intent = new Intent(getActivity(), buscar.class);
-                startActivity(intent);
-                break;
             case R.id.btn_select_fecha:
                 dialogDatePickerLight((LinearLayout) view);
                 break;

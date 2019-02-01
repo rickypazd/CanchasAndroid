@@ -127,7 +127,7 @@ public class Main2Activity extends AppCompatActivity
                         seleccionarFragmento("mapa");
                         return true;
                     case R.id.navigacion_history: // Filtro
-                        seleccionarFragmento("history");
+                        seleccionarFragmento("historial");
                         return true;
                 }
                 return false;
@@ -138,6 +138,7 @@ public class Main2Activity extends AppCompatActivity
 
         buscar_edit = findViewById(R.id.buscar_edit);
         buscar_edit.setOnClickListener(this);
+
         buscar_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -222,8 +223,12 @@ public class Main2Activity extends AppCompatActivity
     public void onClick(View v) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
+            case R.id.buscar_edit:
+                Intent intent = new Intent(this ,  SearchToolbarLight.class);
+                intent.putExtra("obj", arr_canchas.toString());
+                startActivity(intent);
+                break;
             case R.id.nav_mis_reservas:
                 fragmentoGenerico = new SetupViewPager_fragment();
                 break;

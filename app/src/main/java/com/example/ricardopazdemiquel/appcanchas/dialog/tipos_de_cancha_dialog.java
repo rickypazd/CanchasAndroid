@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,14 @@ public class tipos_de_cancha_dialog extends DialogFragment {
         //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogFragmanetstyle);
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.tipos_de_canchas_dialog, null);
+        DisplayMetrics dm = new DisplayMetrics();
+
+        //Una estructura que describe información general sobre una pantalla, como su tamaño, densidad y escala de fuente.
+        /*getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width= dm.widthPixels;
+        int height = dm.heightPixels;
+        getActivity().getWindow().setLayout((int)(width*.8),(int)(height*.6));*/
+
         builder.setView(view);
 
         lv_lista = view.findViewById(R.id.lv_lista);
@@ -68,9 +77,12 @@ public class tipos_de_cancha_dialog extends DialogFragment {
         try {
             if (obj != null) {
                 new Cargar_tipos_de_canchas(obj.getInt("ID")).execute();
+            }else{
+                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
         }
 
         return builder.create();

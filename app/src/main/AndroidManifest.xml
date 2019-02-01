@@ -40,9 +40,6 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".buscar"
-            android:theme="@style/AppTheme.CustomThemePop" />
-        <activity
             android:name=".Carga"
             android:label="@string/app_name"
             android:theme="@style/AppThemetwo">
@@ -62,8 +59,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".dialog.finalizar_reserva_dialog"
-            android:theme="@style/AppThemeone" />
+            android:name=".SearchToolbarLight"
+            android:theme="@style/AppThemethree" />
 
         <activity
             android:name=".TablaReserva"

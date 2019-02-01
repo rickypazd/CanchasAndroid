@@ -1,4 +1,4 @@
-package com.example.ricardopazdemiquel.appcanchas;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ricardopazdemiquel.appcanchas.R;
+import com.example.ricardopazdemiquel.appcanchas.detalleCancha;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
