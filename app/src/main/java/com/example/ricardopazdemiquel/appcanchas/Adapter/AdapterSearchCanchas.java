@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.appcanchas.R;
 import com.google.gson.Gson;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /*import com.google.gson.Gson;
 import com.material.components.R;*/
@@ -52,11 +55,12 @@ public class AdapterSearchCanchas extends RecyclerView.Adapter<AdapterSearchCanc
             final int pos = position;
             final JSONObject cancha = arrayCanchas.getJSONObject(pos);
             final String aux = cancha.getString("NOMBRE");
+            final int id = cancha.getInt("ID");
             holder.title.setText(aux);
             holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    onItemClickListener.onItemClick(v, aux, pos);
+                    onItemClickListener.onItemClick(v, aux, id);
                 }
             });
         } catch (JSONException e) {

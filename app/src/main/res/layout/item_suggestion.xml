@@ -3,40 +3,53 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/lyt_parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="@dimen/spacing_xxlarge"
+    android:layout_height="70dp"
     android:background="?attr/selectableItemBackground"
     android:clickable="true"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:minHeight="@dimen/spacing_xxlarge"
+    android:orientation="vertical">
 
-    <View
-        android:layout_width="@dimen/spacing_smlarge"
-        android:layout_height="0dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_weight="1">
 
-    <ImageView
-        android:layout_width="@dimen/spacing_mlarge"
-        android:layout_height="@dimen/spacing_mlarge"
-        android:tint="@color/grey_40"
-        app:srcCompat="@drawable/ic_history" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_icon_canchas_list" />
 
-    <View
-        android:layout_width="@dimen/spacing_smlarge"
-        android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:maxLines="1"
+            android:layout_marginStart="10dp"
+            android:singleLine="true"
+            android:text="dfgfdg"
+            android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+            android:textColor="@color/colorBlack" />
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="Text Suggestion"
-        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-        android:textColor="@color/grey_40" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp">
 
-    <View
-        android:layout_width="@dimen/spacing_large"
-        android:layout_height="0dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/colorGris"/>
+
+    </LinearLayout>
 
 </LinearLayout>

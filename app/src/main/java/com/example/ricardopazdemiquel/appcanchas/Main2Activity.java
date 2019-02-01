@@ -66,6 +66,7 @@ public class Main2Activity extends AppCompatActivity
     private TextView text_telefono;
     private TextView text_nombre;
     private com.mikhaellopez.circularimageview.CircularImageView img_photo;
+    static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,7 +219,6 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onClick(View v) {
         Fragment fragmentoGenerico = null;
@@ -227,7 +227,7 @@ public class Main2Activity extends AppCompatActivity
             case R.id.buscar_edit:
                 Intent intent = new Intent(this ,  SearchToolbarLight.class);
                 intent.putExtra("obj", arr_canchas.toString());
-                startActivity(intent);
+                startActivityForResult(intent, PICK_CONTACT_REQUEST);
                 break;
             case R.id.nav_mis_reservas:
                 fragmentoGenerico = new SetupViewPager_fragment();
@@ -245,6 +245,34 @@ public class Main2Activity extends AppCompatActivity
                 fragmentoGenerico = new Preferencias();
                 break;
         }
+        if (fragmentoGenerico != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
+        if (resultCode == RESULT_CANCELED) {
+            // Si es así mostramos mensaje de cancelado por pantalla.
+            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            // De lo contrario, recogemos el resultado de la segunda actividad.
+            int resultado = data.getExtras().getInt("RESULTADO");
+            // Y tratamos el resultado en función de si se lanzó para rellenar el
+            // nombre o el apellido.
+            if (requestCode == 1) {
+                onStar(resultado);
+            }
+        }
+    }
+
+    public void onStar(int id){
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentoGenerico = new detalleCancha(id);
         if (fragmentoGenerico != null) {
             fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
         }

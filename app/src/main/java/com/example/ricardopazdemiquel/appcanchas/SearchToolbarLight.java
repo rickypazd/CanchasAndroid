@@ -1,8 +1,11 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -40,6 +43,8 @@ import java.util.ArrayList;
 
 import complementos.Tools;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class SearchToolbarLight extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -53,8 +58,8 @@ public class SearchToolbarLight extends AppCompatActivity {
     private AdapterSuggestionSearch mAdapterSuggestion;
     private AdapterSearchCanchas adapter;
     private LinearLayout lyt_suggestion;
-    private JSONArray arr ;
-    private JSONObject obj ;
+    private JSONArray arr;
+    private JSONObject obj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +105,38 @@ public class SearchToolbarLight extends AppCompatActivity {
         //set data and list adapter suggestion
        /* mAdapterSuggestion = new AdapterSuggestionSearch(this);
         recyclerSuggestion.setAdapter(mAdapterSuggestion);
-        showSuggestionSearch();
-        mAdapterSuggestion.setOnItemClickListener(new AdapterSuggestionSearch.OnItemClickListener() {
+        showSuggestionSearch();*/
+        adapter.setOnItemClickListener(new AdapterSearchCanchas.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String viewModel, int pos) {
                 et_search.setText(viewModel);
-                ViewAnimation.collapse(lyt_suggestion);
-                hideKeyboard();
-                searchAction();
+
+                // Recogemos el intent que ha llamado a esta actividad.
+                Intent i = getIntent();
+                // Le metemos el resultado que queremos mandar a la
+                // actividad principal.
+                i.putExtra("RESULTADO", pos);
+                // Establecemos el resultado, y volvemos a la actividad
+                // principal. La variable que introducimos en primer lugar
+                // "RESULT_OK" es de la propia actividad, no tenemos que
+                // declararla nosotros.
+                setResult(RESULT_OK, i);
+                finish();
+
+
+                /*Fragment fragmentoGenerico = null;
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentoGenerico = new detalleCancha(pos);
+                if (fragmentoGenerico != null) {
+                    fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                }*/
+
+                //ViewAnimation.collapse(lyt_suggestion);
+                //Toast.makeText(getApplicationContext(), viewModel +" "+pos, Toast.LENGTH_SHORT).show();
+                //hideKeyboard();
+                //searchAction();
             }
-        });*/
+        });
 
         bt_clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +149,7 @@ public class SearchToolbarLight extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     hideKeyboard();
-                    searchAction();
+                    //searchAction();
                     return true;
                 }
                 return false;
@@ -149,11 +176,13 @@ public class SearchToolbarLight extends AppCompatActivity {
         public void onTextChanged(CharSequence c, int i, int i1, int i2) {
             if (c.toString().trim().length() == 0) {
                 bt_clear.setVisibility(View.GONE);
+                adapter.setCountries(arr);
             } else {
                 bt_clear.setVisibility(View.VISIBLE);
                 processoQuery(c.toString());
             }
         }
+
         @Override
         public void beforeTextChanged(CharSequence c, int i, int i1, int i2) {
         }
@@ -164,11 +193,11 @@ public class SearchToolbarLight extends AppCompatActivity {
     };
 
 
-    private void processoQuery(String s){
+    private void processoQuery(String s) {
         final JSONArray list = arr;
         int count = list.length();
         final JSONArray newArry = new JSONArray();
-        String filterableString ;
+        String filterableString;
         for (int i = 0; i < count; i++) {
             try {
                 filterableString = list.getJSONObject(i).getString("NOMBRE");
