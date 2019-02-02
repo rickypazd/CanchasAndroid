@@ -1,61 +1,53 @@
-package com.example.ricardopazdemiquel.appcanchas.dialog;
+package com.example.ricardopazdemiquel.appcanchas.Adapter;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
+import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.appcanchas.R;
 import com.example.ricardopazdemiquel.appcanchas.detalleCancha;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.Marker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Edson on 02/12/2017.
- */
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
-@SuppressLint("ValidFragment")
-public class map_reserva_dialog extends DialogFragment implements View.OnClickListener {
+public class AdapterInfoWinfow implements GoogleMap.InfoWindowAdapter, View.OnClickListener {
 
+    private Activity context;
     private JSONObject obj;
     private Button btn_reservar;
     public TextView tvNombre;
     public TextView tvDireccion;
     public TextView tvNumero;
     public TextView tvCorreo;
+    private Context contexto;
 
-    @SuppressLint("ValidFragment")
-    public map_reserva_dialog(JSONObject obj) {
-        this.obj = obj;
+    public AdapterInfoWinfow(Activity context) {
+        this.context = context;
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return createLoginDialogo();
-    }
-
-    public AlertDialog createLoginDialogo() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogFragmanetstyle);
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.map_reserva_dialog, null);
-        builder.setView(view);
-
+    public View getInfoWindow(Marker marker) {
+        View view = context.getLayoutInflater().inflate(R.layout.map_reserva_dialog, null);
+        obj = (JSONObject) marker.getTag();
         tvNombre = view.findViewById(R.id.tvNombre);
         tvDireccion = view.findViewById(R.id.tvDireccion);
         tvNumero = view.findViewById(R.id.tvNumero);
@@ -73,14 +65,19 @@ public class map_reserva_dialog extends DialogFragment implements View.OnClickLi
 
         btn_reservar.setOnClickListener(this);
 
-        return builder.create();
+        return view;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        return null;
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_reservar) {
             Fragment fragmentoGenerico = null;
-            FragmentManager fragmentManager = ((AppCompatActivity)getActivity()).getSupportFragmentManager();
+            FragmentManager fragmentManager = ((AppCompatActivity)contexto).getSupportFragmentManager();
             try {
                 fragmentoGenerico = new detalleCancha(obj.getInt("ID"));
             } catch (JSONException e) {
@@ -89,10 +86,7 @@ public class map_reserva_dialog extends DialogFragment implements View.OnClickLi
             if (fragmentoGenerico != null) {
                 fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
             }
-            dismiss();
         }
     }
 
- }
-
-
+}

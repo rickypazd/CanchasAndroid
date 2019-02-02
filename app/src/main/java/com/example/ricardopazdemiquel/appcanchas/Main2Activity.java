@@ -66,6 +66,7 @@ public class Main2Activity extends AppCompatActivity
     private TextView text_telefono;
     private TextView text_nombre;
     private com.mikhaellopez.circularimageview.CircularImageView img_photo;
+    static final int PICK_CONTACT_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,7 @@ public class Main2Activity extends AppCompatActivity
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -126,17 +128,18 @@ public class Main2Activity extends AppCompatActivity
                         seleccionarFragmento("mapa");
                         return true;
                     case R.id.navigacion_history: // Filtro
-                        seleccionarFragmento("history");
+                        seleccionarFragmento("historial");
                         return true;
                 }
                 return false;
             }
         });
 
-        seleccionarFragmento("canchas");
+        //seleccionarFragmento("canchas");
 
         buscar_edit = findViewById(R.id.buscar_edit);
         buscar_edit.setOnClickListener(this);
+
         buscar_edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -216,13 +219,16 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-
     @Override
     public void onClick(View v) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-        int id = v.getId();
-        switch (id) {
+        switch (v.getId()) {
+            case R.id.buscar_edit:
+                Intent intent = new Intent(this ,  SearchToolbarLight.class);
+                intent.putExtra("obj", arr_canchas.toString());
+                startActivityForResult(intent, PICK_CONTACT_REQUEST);
+                break;
             case R.id.nav_mis_reservas:
                 fragmentoGenerico = new SetupViewPager_fragment();
                 break;
@@ -239,6 +245,34 @@ public class Main2Activity extends AppCompatActivity
                 fragmentoGenerico = new Preferencias();
                 break;
         }
+        if (fragmentoGenerico != null) {
+            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
+        if (resultCode == RESULT_CANCELED) {
+            // Si es así mostramos mensaje de cancelado por pantalla.
+            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+            // De lo contrario, recogemos el resultado de la segunda actividad.
+            int resultado = data.getExtras().getInt("RESULTADO");
+            // Y tratamos el resultado en función de si se lanzó para rellenar el
+            // nombre o el apellido.
+            if (requestCode == 1) {
+                onStar(resultado);
+            }
+        }
+    }
+
+    public void onStar(int id){
+        Fragment fragmentoGenerico = null;
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentoGenerico = new detalleCancha(id);
         if (fragmentoGenerico != null) {
             fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
         }

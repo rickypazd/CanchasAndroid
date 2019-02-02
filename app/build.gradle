@@ -43,6 +43,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.github.snowdream.android:smartimageview:0.0.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
     // third party dependencies -------------------------------------------------------------------
     compile 'com.balysv:material-ripple:1.0.2'                  // ripple effect
