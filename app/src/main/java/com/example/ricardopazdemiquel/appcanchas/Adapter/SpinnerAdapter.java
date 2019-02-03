@@ -60,7 +60,7 @@ public class SpinnerAdapter extends BaseAdapter {
 
                     JSONObject proyecto = null;
                     proyecto = (JSONObject) jsonArray.get(i);
-                    textView.setText(proyecto.getString("NOMBRE"));
+                    textView.setText(proyecto.getString("TIPO"));
 
             } catch (JSONException e) {
                 e.printStackTrace();

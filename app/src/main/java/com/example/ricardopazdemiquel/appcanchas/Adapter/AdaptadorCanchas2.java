@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ricardopazdemiquel.appcanchas.Listener.Canchas_AdapterClick;
+import com.example.ricardopazdemiquel.appcanchas.Main2Activity;
 import com.example.ricardopazdemiquel.appcanchas.R;
 import com.example.ricardopazdemiquel.appcanchas.detalleCancha;
 import com.github.snowdream.android.widget.SmartImageView;
@@ -85,11 +86,13 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
                     FragmentManager fragmentManager = ((AppCompatActivity) contexto).getSupportFragmentManager();
                     try {
                         fragmentoGenerico = new detalleCancha(cancha.getInt("ID"));
+
+                        if (fragmentoGenerico != null) {
+                            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                            ((Main2Activity) contexto).setSelect_fragment(4, cancha.getInt("ID"));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
-                    if (fragmentoGenerico != null) {
-                        fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
                     }
                 }
             });
@@ -101,11 +104,13 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
                     FragmentManager fragmentManager = ((AppCompatActivity) contexto).getSupportFragmentManager();
                     try {
                         fragmentoGenerico = new detalleCancha(cancha.getInt("ID"));
+
+                        if (fragmentoGenerico != null) {
+                            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+                            ((Main2Activity) contexto).setSelect_fragment(4, cancha.getInt("ID"));
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                    }
-                    if (fragmentoGenerico != null) {
-                        fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
                     }
                 }
             });

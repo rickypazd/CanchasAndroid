@@ -1,6 +1,7 @@
 package com.example.ricardopazdemiquel.appcanchas;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +32,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -56,48 +60,76 @@ import complementos.Contexto;
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnQueryTextListener, OnClickListener {
 
+    private DrawerLayout drawer;
     private ImageView btn_ver_menu;
     private TextView buscar_edit;
+    private ImageButton btn_recargar;
     private JSONArray arr_canchas;
     private android.support.v7.widget.CardView nav_mis_reservas;
     private android.support.v7.widget.CardView nav_canchas;
     private android.support.v7.widget.CardView nav_mapa;
+    private android.support.v7.widget.CardView nav_mis_contactanos;
     private android.support.v7.widget.CardView nav_preferencias;
     private TextView text_telefono;
     private TextView text_nombre;
     private com.mikhaellopez.circularimageview.CircularImageView img_photo;
     static final int PICK_CONTACT_REQUEST = 1;
+    private ImageView nav_select1, nav_select2, nav_select3;
+    static final int RECARGAR_CANCHA = 1;
+    static final int RECARGAR_MAPA = 2;
+    static final int RECARGAR_HISTORIAL = 3;
+    static final int RECARGAR_COMPLEJO = 4;
+    private int select_fragment , id_complejo;
+
+    public int getSelect_fragment() {
+        return select_fragment;
+    }
+
+    public void setSelect_fragment(int select_fragment , int id) {
+        this.select_fragment = select_fragment;
+        this.id_complejo = id;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View header = navigationView.inflateHeaderView(R.layout.nav_header_main2);
+        final View header = navigationView.inflateHeaderView(R.layout.nav_header_main2);
         navigationView.setNavigationItemSelectedListener(this);
+
+        btn_recargar = findViewById(R.id.btn_recargar);
+        buscar_edit = findViewById(R.id.buscar_edit);
 
         nav_mis_reservas = header.findViewById(R.id.nav_mis_reservas);
         nav_canchas = header.findViewById(R.id.nav_canchas);
         nav_mapa = header.findViewById(R.id.nav_mapa);
+        nav_mis_contactanos = header.findViewById(R.id.nav_mis_contactanos);
         nav_preferencias = header.findViewById(R.id.nav_preferencias);
         text_telefono = header.findViewById(R.id.text_telefono);
         text_nombre = header.findViewById(R.id.text_nombre);
         img_photo = header.findViewById(R.id.img_photo);
 
+        nav_select1 = findViewById(R.id.nav_select1);
+        nav_select2 = findViewById(R.id.nav_select2);
+        nav_select3 = findViewById(R.id.nav_select3);
+
         nav_mis_reservas.setOnClickListener(this);
         nav_canchas.setOnClickListener(this);
         nav_mapa.setOnClickListener(this);
+        nav_mis_contactanos.setOnClickListener(this);
         nav_preferencias.setOnClickListener(this);
+        btn_recargar.setOnClickListener(this);
+        buscar_edit.setOnClickListener(this);
 
         btn_ver_menu = findViewById(R.id.btn_ver_menu);
         btn_ver_menu.setOnClickListener(new OnClickListener() {
@@ -121,13 +153,13 @@ public class Main2Activity extends AppCompatActivity
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.navigacion_canchas: // Buscar
+                    case R.id.navigacion_canchas:
                         seleccionarFragmento("canchas");
                         return true;
-                    case R.id.navigacion_map: // Lista de canchas
+                    case R.id.navigacion_map:
                         seleccionarFragmento("mapa");
                         return true;
-                    case R.id.navigacion_history: // Filtro
+                    case R.id.navigacion_history:
                         seleccionarFragmento("historial");
                         return true;
                 }
@@ -137,29 +169,6 @@ public class Main2Activity extends AppCompatActivity
 
         //seleccionarFragmento("canchas");
 
-        buscar_edit = findViewById(R.id.buscar_edit);
-        buscar_edit.setOnClickListener(this);
-
-        buscar_edit.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                AdaptadorCanchas2 a = new AdaptadorCanchas2(Main2Activity.this, arr_canchas);
-                FragmentoListaCanchas sdd = new FragmentoListaCanchas();
-                sdd.ActualizarView(a);
-                //a.getFilter().filter(s.toString().trim());
-                //a.FilterTextShared(s.toString().trim());
-            }
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
     @Override
@@ -196,26 +205,36 @@ public class Main2Activity extends AppCompatActivity
     private void seleccionarFragmento(String fragmento) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
-
         switch (fragmento) {
             case "canchas":
                 fragmentoGenerico = new FragmentoListaCanchas();
+                nav_select1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                nav_select2.setBackground(getDrawable(R.drawable.fondobar));
+                nav_select3.setBackground(getDrawable(R.drawable.fondobar));
+                setSelect_fragment(1,0);
                 break;
             case "mapa":
                 fragmentoGenerico = new FragmentoMapa();
+                nav_select2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                nav_select1.setBackground(getDrawable(R.drawable.fondobar));
+                nav_select3.setBackground(getDrawable(R.drawable.fondobar));
+                setSelect_fragment(2,0);
                 break;
             case "historial":
                 fragmentoGenerico = new SetupViewPager_fragment();
+                nav_select3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                nav_select1.setBackground(getDrawable(R.drawable.fondobar));
+                nav_select2.setBackground(getDrawable(R.drawable.fondobar));
+                setSelect_fragment(3,0);
                 break;
-            case "config":
-                fragmentoGenerico = new FragementoConfig();
+            case "complejo":
+                fragmentoGenerico = new detalleCancha(id_complejo);
                 break;
         }
 
         if (fragmentoGenerico != null) {
-            fragmentManager.beginTransaction().
-                    replace(R.id.fragmentoContenedor, fragmentoGenerico)
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+
         }
     }
 
@@ -225,28 +244,54 @@ public class Main2Activity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         switch (v.getId()) {
             case R.id.buscar_edit:
-                Intent intent = new Intent(this ,  SearchToolbarLight.class);
+                Intent intent = new Intent(this, SearchToolbarLight.class);
                 intent.putExtra("obj", arr_canchas.toString());
                 startActivityForResult(intent, PICK_CONTACT_REQUEST);
                 break;
+            case R.id.btn_recargar:
+                refreshFragment();
+                break;
             case R.id.nav_mis_reservas:
+                setSelect_fragment(3,0);
                 fragmentoGenerico = new SetupViewPager_fragment();
                 break;
             case R.id.nav_canchas:
+                setSelect_fragment(1,0);
                 fragmentoGenerico = new FragmentoListaCanchas();
                 break;
             case R.id.nav_mapa:
+                setSelect_fragment(2,0);
                 fragmentoGenerico = new FragmentoMapa();
                 break;
             case R.id.nav_mis_contactanos:
-                fragmentoGenerico = new Fragmento_busqueda();
+                setSelect_fragment(20,0);
+                fragmentoGenerico = new Contactanos_fragment();
                 break;
             case R.id.nav_preferencias:
+                setSelect_fragment(20,0);
                 fragmentoGenerico = new Preferencias();
                 break;
         }
         if (fragmentoGenerico != null) {
             fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
+            drawer.closeDrawers();
+        }
+    }
+
+    private void refreshFragment() {
+        switch (getSelect_fragment()) {
+            case RECARGAR_CANCHA:
+                new Cargar_lista_complejos().execute();
+                break;
+            case RECARGAR_MAPA:
+                seleccionarFragmento("mapa");
+                break;
+            case RECARGAR_HISTORIAL:
+                seleccionarFragmento("historial");
+                break;
+            case RECARGAR_COMPLEJO:
+                seleccionarFragmento("complejo");
+                break;
         }
     }
 
@@ -269,7 +314,7 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-    public void onStar(int id){
+    public void onStar(int id) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentoGenerico = new detalleCancha(id);
@@ -375,7 +420,7 @@ public class Main2Activity extends AppCompatActivity
         }
     }
 
-    public JSONArray get_complejos(){
+    public JSONArray get_complejos() {
         return arr_canchas;
     }
 

@@ -35,16 +35,12 @@
                     android:hint="Buscar"
                     android:textColorHint="@color/colorWhite"
                     android:paddingStart="10dp"
-                    android:imeOptions="actionSearch"
                     android:drawableStart="@drawable/ic_icon_buscar"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/colorAccent"
                     android:maxLines="1"
                     android:textSize="15dp"
-                    android:textColor="@color/colorWhite"
-                    android:singleLine="true">
-
-                    <requestFocus />
+                    android:textColor="@color/colorWhite">
 
                 </EditText>
 

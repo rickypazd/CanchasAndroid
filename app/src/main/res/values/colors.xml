@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#232b26</color>
     <color name="colorPrimaryDark">#024f12</color>
     <color name="colorAccent">#019b4b</color>
@@ -340,4 +341,12 @@
         <item type="color">#607d8b</item>
         <item type="color">#ff9800</item>
     </array>
+
+    <color name="greery_1000">
+        <selector xmlns:android="http://schemas.android.com/apk/res/android">
+            <item android:color="@color/your_color" android:state_checked="true" />
+            <item android:color="@color/your_color" android:state_checked="false" />
+        </selector>
+    </color>
+
 </resources>

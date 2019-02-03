@@ -12,28 +12,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="11dp"
             android:layout_marginStart="10dp"
             android:gravity="center"
             android:text="Filtrar por:"
             android:textColor="@color/colorBlack"
             android:textSize="16sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/btn_select_fecha"
@@ -66,11 +56,47 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:textColor="@color/colorBlack"
                 android:enabled="false"
-                android:inputType="date" />
+                android:inputType="date"
+                android:textColor="@color/colorBlack" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_buscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorPrimary"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:text="BUSCAR"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="11dp"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="Filtrar por:"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
 
         <LinearLayout
             android:id="@+id/btn_select_hora"
@@ -103,27 +129,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:textColor="@color/colorBlack"
                 android:enabled="false"
-                android:inputType="datetime" />
+                android:inputType="datetime"
+                android:textColor="@color/colorBlack" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_buscar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
-        android:drawableStart="@android:drawable/ic_menu_search"
-        android:text="BUSCAR"
-        android:textColor="@android:color/background_light"
-        android:textStyle="bold"
-        android:visibility="gone" />
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"

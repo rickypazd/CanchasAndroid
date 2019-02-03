@@ -28,97 +28,35 @@ import complementos.Contexto;
 @SuppressLint("ValidFragment")
 public class FragmentoComentarios extends Fragment {
 
-
     private ListView lv;
     private JSONObject obj_complejo;
 
     @SuppressLint("ValidFragment")
     public FragmentoComentarios(JSONObject obj) {
-        // Required empty public constructor
         this.obj_complejo = obj;
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_fragmento_comentarios, container, false);
-        lv=view.findViewById(R.id.list_comentario);
-
+        View view = inflater.inflate(R.layout.fragment_fragmento_comentarios, container, false);
+        lv = view.findViewById(R.id.list_comentario);
         try {
-            //obj_complejo=((detalleCancha)getActivity()).getComplejo();
             JSONArray arr = obj_complejo.getJSONArray("COMENTARIOS");
-            AdaptadorComentario comentario = new AdaptadorComentario(getActivity(),arr);
-            lv.setAdapter(comentario);
+            if (arr == null) {
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            }else if(arr.length() < 0){
+                //ghgfhfgh
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
+                AdaptadorComentario comentario = new AdaptadorComentario(getActivity(), arr);
+                lv.setAdapter(comentario);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //new CargarListaTask().execute();
-
         return view;
-    }
-
-
-
-    private class CargarListaTask extends AsyncTask<Void, String, String> {
-
-        private ProgressDialog progreso;
-        public CargarListaTask(){
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progreso = new ProgressDialog(getActivity());
-            progreso.setIndeterminate(true);
-            progreso.setTitle("obteniendo datos");
-            progreso.setCancelable(false);
-            progreso.show();
-        }
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            publishProgress("por favor espere...");
-            Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "get_comentario");
-            parametros.put("id_complejo", "sd");
-            String respuesta="";
-            try {
-                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_admin), MethodType.POST, parametros));
-            } catch (Exception ex) {
-                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
-            }
-
-            return respuesta;
-        }
-
-
-        @Override
-        protected void onPostExecute(String resp) {
-            super.onPostExecute(resp);
-            progreso.dismiss();
-            if(resp =="" || resp == null){
-                Toast.makeText(getActivity(),"Error al obtener Datos" ,
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONArray arr = new JSONArray(resp);
-                AdaptadorComentario comentario = new AdaptadorComentario(getActivity(),arr);
-                lv.setAdapter(comentario);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(String... values) {
-            super.onProgressUpdate(values);
-
-        }
-
     }
 
 
