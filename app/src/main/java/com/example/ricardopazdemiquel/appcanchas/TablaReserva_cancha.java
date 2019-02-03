@@ -29,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ricardopazdemiquel.appcanchas.Adapter.AdaptadorHoras;
+import com.example.ricardopazdemiquel.appcanchas.Adapter.Adapter_tipo_canchas;
 import com.example.ricardopazdemiquel.appcanchas.Adapter.SpinnerAdapter;
 import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
@@ -47,7 +48,7 @@ import java.util.Hashtable;
 import complementos.Contexto;
 import complementos.infoCelda;
 
-public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapterClick {
+public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapterClick, View.OnClickListener {
 
 
     private Calendar domingo_actual;
@@ -55,6 +56,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
     private ImageView btn_atras;
     private ImageView btn_adelante;
     private Button btn_confirmar;
+    private Button btn_cancelar;
     private Button btn_select_hora;
     private TextView tv_horas;
     private TextView tv_total;
@@ -70,6 +72,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
     private AdaptadorHoras adapter;
     private ArrayList<JSONObject> arr;
     private String Fecha_actual;
+    private int id_complejo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,19 +89,22 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         btn_atras = findViewById(R.id.btn_atras);
         btn_adelante = findViewById(R.id.btn_adelante);
         btn_confirmar = findViewById(R.id.btn_confirmar);
+        btn_cancelar = findViewById(R.id.btn_cancelar);
         btn_select_hora = findViewById(R.id.btn_select_hora);
         text_fecha = findViewById(R.id.text_fecha);
         text_dia = findViewById(R.id.text_dia);
         text_año = findViewById(R.id.text_año);
         tv_horas = findViewById(R.id.tv_horas);
         tv_total = findViewById(R.id.tv_total);
+        btn_cancelar.setOnClickListener(this);
         SpinnerCanchas = findViewById(R.id.Spinner_canchas);
 
         String obj = getIntent().getStringExtra("obj");
         try {
             objcomplejo = new JSONObject(obj);
             JSONArray jsonArray = objcomplejo.getJSONArray("CANCHAS");
-            agregarSpinnerCanchas(jsonArray);
+            id_complejo = objcomplejo.getInt("ID");
+            new Cargar_tipos_de_canchas(id_complejo).execute();
             if (jsonArray.length() > 0) {
                 btn_atras.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -159,9 +165,9 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                     }
                     JSONObject obj = new JSONObject();
                     try {
-                        obj.put("id_cancha",(int) SpinnerCanchas.getSelectedItemId());
-                        obj.put("fecha",Fecha_actual);
-                        obj.put("horas",arrjs);
+                        obj.put("id_cancha", (int) SpinnerCanchas.getSelectedItemId());
+                        obj.put("fecha", Fecha_actual);
+                        obj.put("horas", arrjs);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -336,6 +342,15 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_cancelar:
+                onBackPressed();
+                break;
+        }
+    }
+
 
     private class getHorasAsyn extends AsyncTask<Void, String, String> {
 
@@ -368,11 +383,12 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
             SimpleDateFormat fecha = new SimpleDateFormat("dd/MM/yyyy");
-            String fechastr= fecha.format(domingo_actual.getTime());
-            parametros.put("evento", "get_dia_con_reservas");
+            String fechastr = fecha.format(domingo_actual.getTime());
+            parametros.put("evento", "get_dia_con_reservas_tipo");
             parametros.put("fecha", fechastr);
             parametros.put("dia", dia_actual + "");
-            parametros.put("id", id + "");
+            parametros.put("id_complejo", id_complejo + "");
+            parametros.put("id_tipo", id + "");
 
             String respuesta = "";
             try {
@@ -388,20 +404,23 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if (resp == "") {
+            if (resp == null) {
                 Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
-            }
-            try {
-                arr = new ArrayList<>();
-                ArrayList<infoCelda> header = new ArrayList<>();
-                JSONArray arrcostos = new JSONArray(resp);
-                adapter = new AdaptadorHoras(TablaReserva_cancha.this, arrcostos, domingo_actual, TablaReserva_cancha.this);
-                lv_horas.setLayoutManager(new LinearLayoutManager(TablaReserva_cancha.this));
-                lv_horas.setAdapter(adapter);
+            } else if (resp.isEmpty()) {
+                Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    arr = new ArrayList<>();
+                    ArrayList<infoCelda> header = new ArrayList<>();
+                    JSONArray arrcostos = new JSONArray(resp);
+                    adapter = new AdaptadorHoras(TablaReserva_cancha.this, arrcostos, domingo_actual, TablaReserva_cancha.this);
+                    lv_horas.setLayoutManager(new LinearLayoutManager(TablaReserva_cancha.this));
+                    lv_horas.setAdapter(adapter);
 
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -410,7 +429,6 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
             super.onProgressUpdate(values);
 
         }
-
     }
 
     private String getFechaDia(int dia) {
@@ -455,4 +473,72 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         cal.add(Calendar.DATE, 1);
         return formFechaConsular.format(cal.getTime());
     }
+
+
+    private class Cargar_tipos_de_canchas extends AsyncTask<Void, String, String> {
+
+        private ProgressDialog progreso;
+        private int id_complejo;
+
+        public Cargar_tipos_de_canchas(int tipo) {
+            this.id_complejo = tipo;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progreso = new ProgressDialog(TablaReserva_cancha.this);
+            progreso.setIndeterminate(true);
+            progreso.setTitle("obteniendo datos");
+            progreso.setCancelable(false);
+            progreso.show();
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            publishProgress("por favor espere...");
+            Hashtable<String, String> parametros = new Hashtable<>();
+            parametros.put("evento", "get_tipos_canchas_de_complejo");
+            parametros.put("id_complejo", id_complejo + "");
+            String respuesta = "";
+            try {
+                respuesta = HttpConnection.sendRequest(new StandarRequestConfiguration(getString(R.string.url_servlet_android), MethodType.POST, parametros));
+            } catch (Exception ex) {
+                Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
+            }
+            return respuesta;
+        }
+
+        @Override
+        protected void onPostExecute(String resp) {
+            super.onPostExecute(resp);
+            progreso.dismiss();
+            if (resp == null) {
+                Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.isEmpty()) {
+                Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.equals("falso")) {
+                Toast.makeText(TablaReserva_cancha.this, "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    JSONArray arr = new JSONArray(resp);
+                    agregarSpinnerCanchas(arr);
+
+                    //Adapter_tipo_canchas adaptador = new Adapter_tipo_canchas(TablaReserva_cancha.this, arr);
+                    //lv_lista.setAdapter(adaptador);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+
+        }
+
+    }
+
+
 }

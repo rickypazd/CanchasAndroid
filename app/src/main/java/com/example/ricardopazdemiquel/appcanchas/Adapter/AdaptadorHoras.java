@@ -65,10 +65,12 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
 
         try {
             final JSONObject hora = listaHoras.getJSONObject(i);
+
+            JSONArray arr = hora.getJSONArray("CANCHAS");
+
             if(!hora.has("active")){
                 hora.put("active",false);
                 listaHoras.put(i,hora);
-
             }
 
             Date fech = form.parse(hora.getString("HORA"));

@@ -13,7 +13,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowEnterAnimation">@color/colorPrimaryDark</item>
-        <item name="android:windowBackground">@color/green_900</item>
+        <item name="android:windowBackground">@drawable/ic_icon_fondo</item>
     </style>
 
     <style name="Theme.Transparent" parent="android:Theme">

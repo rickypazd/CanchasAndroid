@@ -13,397 +13,333 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:layout_marginStart="40dp"
                 android:text="Lunes"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_lunes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="TOTAL:0"
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/dfghfdfg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:layout_marginStart="40dp"
                 android:text="Martes"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_martes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="TOTAL:0"
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/grt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:layout_marginStart="40dp"
                 android:text="Miercoles"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_miercoles"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="TOTAL:0"
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/gdfg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:layout_marginStart="40dp"
                 android:text="Jueves"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_jueves"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="Tdsadf  "
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/dsfsd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="30dp"
+                android:paddingStart="30dp"
+                android:layout_marginStart="40dp"
                 android:text="Viernes"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_viernes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="Tdsadf  "
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/bxcvb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:layout_marginStart="40dp"
                 android:text="Sábado"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_sabado"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="Tdsadfdfd 14:00: "
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/fghfge"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="8dp"
-        android:background="#F0F0F0"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:layout_marginBottom="10dp"
+        android:padding="5dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_text_horarios"
+                android:gravity="center"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"
+                android:layout_marginStart="40dp"
                 android:text="Domingo"
-                android:textColor="@android:color/black"
-                android:textSize="13sp"
-                android:textStyle="normal" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="12dp"
+                android:translationZ="2dp" />
 
             <TextView
                 android:id="@+id/tv_hora_domingo"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="40dp"
+                android:layout_marginStart="100dp"
+                android:background="@drawable/ic_text_horas"
+                android:gravity="center"
+                android:paddingEnd="40dp"
+                android:paddingStart="50dp"
+                android:text="Tdsadf  "
                 android:textColor="@color/colorBlack"
-                />
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/sdf"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text=""
-                android:layout_weight="1"
-                android:textSize="15dp"
-                android:textColor="@color/colorBlack"
-                />
+        </RelativeLayout>
 
-        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#019B4B">
-    </View>
 
 </LinearLayout>
 

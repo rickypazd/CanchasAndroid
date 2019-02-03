@@ -54,7 +54,7 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
     private JSONObject complejo;
     //private TextView tv_nombre_cancha;
     private JSONObject obj_complejo;
-    private Button reservar;
+    private Button reservar,btn_ver_mapa;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -104,6 +104,7 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
         this.id_complejo = id;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,7 +121,10 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
         mDemoSlider = (SliderLayout) view.findViewById(R.id.slider);
 
         reservar = view.findViewById(R.id.btnReservar);
+        btn_ver_mapa = view.findViewById(R.id.btn_ver_mapa);
+
         reservar.setOnClickListener(this);
+        btn_ver_mapa.setOnClickListener(this);
 
         return view;
     }
@@ -145,11 +149,20 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnReservar:
-                /*Intent intent = new Intent(getActivity(), TablaReserva_cancha.class);
+                Intent intent = new Intent(getActivity(), TablaReserva_cancha.class);
                 intent.putExtra("obj", obj_complejo.toString());
-                startActivity(intent);*/
-                android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
+                startActivity(intent);
+                /*android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
                 new tipos_de_cancha_dialog(obj_complejo).show(fragmentManager, "Dialog");
+                break;*/
+                break;
+            case R.id.btn_ver_mapa:
+                Intent intent2 = new Intent(getActivity(), Complejo_map_activity.class);
+                intent2.putExtra("obj", obj_complejo.toString());
+                startActivity(intent2);
+                /*android.app.FragmentManager fragmentManager = getActivity().getFragmentManager();
+                new tipos_de_cancha_dialog(obj_complejo).show(fragmentManager, "Dialog");
+                break;*/
                 break;
         }
     }
@@ -205,7 +218,6 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
             } catch (Exception ex) {
                 Log.e(Contexto.APP_TAG, "Hubo un error al cargar la lista");
             }
-
             return respuesta;
         }
 
@@ -213,47 +225,48 @@ public class detalleCancha extends Fragment implements BaseSliderView.OnSliderCl
         protected void onPostExecute(String resp) {
             super.onPostExecute(resp);
             progreso.dismiss();
-            if (resp == "") {
-                Toast.makeText(getActivity(), "Error al obtener Datos",
-                        Toast.LENGTH_SHORT).show();
-                return;
-            }
-            try {
-                JSONObject obj = new JSONObject(resp);
-                obj_complejo = obj;
-                seleccionarFragmento("detalle");
-                //tv_nombre_cancha.setText(obj.getString("NOMBRE"));
-                //setTitle(obj.getString("NOMBRE"));
-                JSONArray arr_carrusel = obj.getJSONArray("FOTOS_CARRUSEL");
-                JSONObject object;
-                HashMap<String, String> url_maps = new HashMap<String, String>();
-                for (int i = 0; i < arr_carrusel.length(); i++) {
-                    object = arr_carrusel.getJSONObject(i);
-                    url_maps.put("" + i, getString(R.string.url_foto) + object.getString("FOTO"));
+            if (resp == null) {
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else if (resp.isEmpty()) {
+                Toast.makeText(getActivity(), "Error al obtener Datos", Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    JSONObject obj = new JSONObject(resp);
+                    obj_complejo = obj;
+                    seleccionarFragmento("detalle");
+                    //tv_nombre_cancha.setText(obj.getString("NOMBRE"));
+                    //setTitle(obj.getString("NOMBRE"));
+                    JSONArray arr_carrusel = obj.getJSONArray("FOTOS_CARRUSEL");
+                    JSONObject object;
+                    HashMap<String, String> url_maps = new HashMap<String, String>();
+                    for (int i = 0; i < arr_carrusel.length(); i++) {
+                        object = arr_carrusel.getJSONObject(i);
+                        url_maps.put("" + i, getString(R.string.url_foto) + object.getString("FOTO"));
+                    }
+                    for (String name : url_maps.keySet()) {
+                        TextSliderView textSliderView = new TextSliderView(getActivity());
+                        // initialize a SliderLayout
+                        textSliderView
+                                .description(name)
+                                .image(url_maps.get(name))
+                                .setScaleType(BaseSliderView.ScaleType.Fit)
+                                .setOnSliderClickListener(detalleCancha.this);
+
+                        //add your extra information
+                        textSliderView.bundle(new Bundle());
+                        textSliderView.getBundle()
+                                .putString("extra", name);
+
+                        mDemoSlider.addSlider(textSliderView);
+                    }
+                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+                    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+                    mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+                    mDemoSlider.setDuration(4000);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                for (String name : url_maps.keySet()) {
-                    TextSliderView textSliderView = new TextSliderView(getActivity());
-                    // initialize a SliderLayout
-                    textSliderView
-                            .description(name)
-                            .image(url_maps.get(name))
-                            .setScaleType(BaseSliderView.ScaleType.Fit)
-                            .setOnSliderClickListener(detalleCancha.this);
-
-                    //add your extra information
-                    textSliderView.bundle(new Bundle());
-                    textSliderView.getBundle()
-                            .putString("extra", name);
-
-                    mDemoSlider.addSlider(textSliderView);
-                }
-                mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-                mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-                mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-                mDemoSlider.setDuration(4000);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
 
