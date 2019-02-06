@@ -145,7 +145,6 @@
                 app:itemIconTint="@drawable/tab_color_selector"
                 app:itemTextColor="@drawable/tab_color_selector"
                 app:menu="@menu/navigation">
-
             </android.support.design.widget.BottomNavigationView>
 
         </FrameLayout>

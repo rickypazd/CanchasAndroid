@@ -114,7 +114,7 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
                 hora.setTextColor(Color.BLACK);
                 hora.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_hora));
 
-                hora.setText(cel.getString("HORA"));
+                hora.setText(cel.getString("hora"));
 
                 precio = new TextView(this);
                 precio.setGravity(Gravity.CENTER);
@@ -123,7 +123,7 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
                 precio.setTextColor(Color.WHITE);
                 precio.setBackground(getApplication().getResources().getDrawable(R.drawable.ic_button_precio));
 
-                precio.setText("Bs." + cel.getString("PRECIO") + " ");
+                precio.setText("Bs." + cel.getString("precio") + " ");
 
 
                 row.addView(fecha, newTableRowParams());
@@ -131,7 +131,7 @@ public class detalle_reserva extends AppCompatActivity implements View.OnClickLi
                 row.addView(precio, newTableRowParams());
                 tableLayout.addView(row);
 
-                total += cel.getInt("PRECIO");
+                total += cel.getInt("precio");
 
             }
             tvtotal.setText("Total: Bs. " + total);

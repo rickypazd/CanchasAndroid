@@ -66,18 +66,20 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
         try {
             final JSONObject hora = listaHoras.getJSONObject(i);
 
-            JSONArray arr = hora.getJSONArray("CANCHAS");
+            JSONArray array = hora.getJSONArray("CANCHAS");
 
-            if(!hora.has("active")){
-                hora.put("active",false);
-                listaHoras.put(i,hora);
+            if (!hora.has("active")) {
+                hora.put("active", false);
+                listaHoras.put(i, hora);
             }
 
             Date fech = form.parse(hora.getString("HORA"));
             fech.setHours(fech.getHours() + 1);
             Date fech2 = form.parse(hora.getString("HORA"));
             holder.tvHoraIncio.setText(form2.format(fech2) + " - " + form2.format(fech) + " hrs");
-            holder.tvPrecio.setText("Bs. " + hora.getString("PRECIO"));
+
+            final JSONObject obj = get_cancha(array);
+            holder.tvPrecio.setText("Bs. " + obj.getString("precio"));
             if (hora.getBoolean("active")) {
                 holder.llSelect.setBackgroundColor(Color.rgb(0, 0, 0));
                 holder.tvHoraIncio.setTextColor(Color.rgb(255, 255, 255));
@@ -85,7 +87,8 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
                 holder.llSelect.setBackgroundColor(Color.rgb(255, 255, 255));
                 holder.tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
             }
-            switch (hora.getInt("ESTADO")) {
+
+            switch (obj.getInt("estado")) {
                 case 1:
                     holder.llSelect.setBackgroundColor(Color.rgb(255, 255, 0));
                     holder.tvHoraIncio.setTextColor(Color.rgb(0, 0, 0));
@@ -97,7 +100,6 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
             }
 
 
-
             //imgCancha.setImageResource(cancha.getImagen());
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,11 +108,11 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
                         listener.onClick(hora, v);
                         try {
                             if (hora.getBoolean("active")) {
-                                hora.put("active",false);
-                                listaHoras.put(i,hora);
+                                hora.put("active", false);
+                                listaHoras.put(i, hora);
                             } else {
-                                hora.put("active",true);
-                                listaHoras.put(i,hora);
+                                hora.put("active", true);
+                                listaHoras.put(i, hora);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -124,8 +126,36 @@ public class AdaptadorHoras extends RecyclerView.Adapter<AdaptadorHoras.MyViewHo
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
 
+    int estado;
+    JSONObject cancha_temp;
+    JSONObject obj;
 
+    public JSONObject get_cancha(JSONArray array) {
+        for (int a = 0; a < array.length(); a++) {
+            try {
+                obj = array.getJSONObject(a);
+                estado = obj.getInt("estado");
+                if (estado == 0) {
+                    return obj;
+                    // devuelve cancha
+                } else if (estado == 1) {
+                    cancha_temp = obj;
+                }
+                if (a == array.length() - 1) {
+                    if (cancha_temp == null) {
+                        return obj;
+                    } else {
+                        return cancha_temp;
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return obj;
     }
 
     @Override

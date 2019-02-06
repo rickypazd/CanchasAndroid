@@ -116,8 +116,8 @@ public class AdaptadorCanchas2 extends RecyclerView.Adapter<AdaptadorCanchas2.My
             });
             if (cancha.getString("FOTO_PERFIL").length() > 0) {
                 Rect rect = new Rect(holder.imgCancha.getLeft(), holder.imgCancha.getTop(), holder.imgCancha.getRight(), holder.imgCancha.getBottom());
-                holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto) + cancha.getString("B64"), rect);
-                //  new AsyncTaskLoadImage(imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("B64"));
+               // holder.imgCancha.setImageUrl(contexto.getResources().getString(R.string.url_foto) + cancha.getString("B64"), rect);
+                  new AsyncTaskLoadImage(holder.imgCancha).execute(contexto.getResources().getString(R.string.url_foto)+cancha.getString("FOTO_PERFIL"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

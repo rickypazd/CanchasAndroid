@@ -62,7 +62,7 @@ public class MetodoDePago extends AppCompatActivity implements View.OnClickListe
         try {
             obj = new JSONObject(getIntent().getStringExtra("obj"));
             arr = obj.getJSONArray("horas");
-            id_cancha = obj.getString("id_cancha");
+            //id_cancha = obj.getString("id_cancha");
             fecha = obj.getString("fecha");
             JSONObject usr_log = SPref.getUsr_log(this);
             id_usr = usr_log.getString("ID");
@@ -125,8 +125,8 @@ public class MetodoDePago extends AppCompatActivity implements View.OnClickListe
         protected String doInBackground(Void... params) {
             publishProgress("por favor espere...");
             Hashtable<String, String> parametros = new Hashtable<>();
-            parametros.put("evento", "realizar_reserva");
-            parametros.put("id_cancha", id_cancha);
+            parametros.put("evento", "ok_res_sin_tarjeta");
+            //parametros.put("id_cancha", id_cancha);
             parametros.put("fecha", fecha);
             parametros.put("arr", arr.toString());
             parametros.put("id_usr", id_usr);
