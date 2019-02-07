@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -79,13 +80,15 @@ public class Main2Activity extends AppCompatActivity
     static final int RECARGAR_MAPA = 2;
     static final int RECARGAR_HISTORIAL = 3;
     static final int RECARGAR_COMPLEJO = 4;
-    private int select_fragment , id_complejo;
+    private int select_fragment, id_complejo;
+    private BottomNavigationView navigation;
+    private View view_canchas, view_historial, view_map;
 
     public int getSelect_fragment() {
         return select_fragment;
     }
 
-    public void setSelect_fragment(int select_fragment , int id) {
+    public void setSelect_fragment(int select_fragment, int id) {
         this.select_fragment = select_fragment;
         this.id_complejo = id;
     }
@@ -131,6 +134,10 @@ public class Main2Activity extends AppCompatActivity
         btn_recargar.setOnClickListener(this);
         buscar_edit.setOnClickListener(this);
 
+        view_canchas = findViewById(R.id.navigacion_canchas);
+        view_historial = findViewById(R.id.navigacion_history);
+        view_map = findViewById(R.id.navigacion_map);
+
         btn_ver_menu = findViewById(R.id.btn_ver_menu);
         btn_ver_menu.setOnClickListener(new OnClickListener() {
             @Override
@@ -148,7 +155,7 @@ public class Main2Activity extends AppCompatActivity
 
         new Cargar_lista_complejos().execute();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -211,21 +218,25 @@ public class Main2Activity extends AppCompatActivity
                 nav_select1.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 nav_select2.setBackground(getDrawable(R.drawable.fondobar));
                 nav_select3.setBackground(getDrawable(R.drawable.fondobar));
-                setSelect_fragment(1,0);
+                //navigation.setItemIconTintList(null);
+                //navigation.setSelectedItemId(R.id.navigacion_canchas);
+                setSelect_fragment(1, 0);
                 break;
             case "mapa":
                 fragmentoGenerico = new FragmentoMapa();
                 nav_select2.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 nav_select1.setBackground(getDrawable(R.drawable.fondobar));
                 nav_select3.setBackground(getDrawable(R.drawable.fondobar));
-                setSelect_fragment(2,0);
+                //navigation.setSelectedItemId(R.id.navigacion_map);
+                setSelect_fragment(2, 0);
                 break;
             case "historial":
                 fragmentoGenerico = new SetupViewPager_fragment();
                 nav_select3.setBackgroundColor(getResources().getColor(R.color.colorAccent));
                 nav_select1.setBackground(getDrawable(R.drawable.fondobar));
                 nav_select2.setBackground(getDrawable(R.drawable.fondobar));
-                setSelect_fragment(3,0);
+                //navigation.setSelectedItemId(R.id.navigacion_history);
+                setSelect_fragment(3, 0);
                 break;
             case "complejo":
                 fragmentoGenerico = new detalleCancha(id_complejo);
@@ -234,7 +245,7 @@ public class Main2Activity extends AppCompatActivity
 
         if (fragmentoGenerico != null) {
             fragmentManager.beginTransaction().replace(R.id.fragmentoContenedor, fragmentoGenerico).commit();
-
+            //drawer.closeDrawers();
         }
     }
 
@@ -242,6 +253,7 @@ public class Main2Activity extends AppCompatActivity
     public void onClick(View v) {
         Fragment fragmentoGenerico = null;
         FragmentManager fragmentManager = getSupportFragmentManager();
+        drawer.closeDrawers();
         switch (v.getId()) {
             case R.id.buscar_edit:
                 Intent intent = new Intent(this, SearchToolbarLight.class);
@@ -251,24 +263,35 @@ public class Main2Activity extends AppCompatActivity
             case R.id.btn_recargar:
                 refreshFragment();
                 break;
-            case R.id.nav_mis_reservas:
-                setSelect_fragment(3,0);
-                fragmentoGenerico = new SetupViewPager_fragment();
-                break;
             case R.id.nav_canchas:
-                setSelect_fragment(1,0);
-                fragmentoGenerico = new FragmentoListaCanchas();
+                setSelect_fragment(1, 0);
+                //fragmentoGenerico = new FragmentoListaCanchas();
+//                view_canchas.performClick();
+                //view_canchas.set
+               // navigation.setItemIconTintList(null);
+                //int a = navigation.getSelectedItemId();
+                //view_canchas.setBackgroundColor(Color.WHITE);
+                navigation.setSelectedItemId(R.id.navigacion_canchas);
+                //navigation.getMenu().getItem(a).setChecked(true);
+                break;
+            case R.id.nav_mis_reservas:
+                setSelect_fragment(3, 0);
+                //fragmentoGenerico = new SetupViewPager_fragment();
+                //view_historial.performClick();
+                navigation.setSelectedItemId(R.id.navigacion_history);
                 break;
             case R.id.nav_mapa:
-                setSelect_fragment(2,0);
-                fragmentoGenerico = new FragmentoMapa();
+                setSelect_fragment(2, 0);
+                //fragmentoGenerico = new FragmentoMapa();
+                navigation.setSelectedItemId(R.id.navigacion_map);
+                //view_map.performClick();
                 break;
             case R.id.nav_mis_contactanos:
-                setSelect_fragment(20,0);
+                setSelect_fragment(20, 0);
                 fragmentoGenerico = new Contactanos_fragment();
                 break;
             case R.id.nav_preferencias:
-                setSelect_fragment(20,0);
+                setSelect_fragment(20, 0);
                 fragmentoGenerico = new Preferencias();
                 break;
         }
@@ -284,10 +307,12 @@ public class Main2Activity extends AppCompatActivity
                 new Cargar_lista_complejos().execute();
                 break;
             case RECARGAR_MAPA:
-                seleccionarFragmento("mapa");
+                //seleccionarFragmento("mapa");
+                view_map.performClick();
                 break;
             case RECARGAR_HISTORIAL:
-                seleccionarFragmento("historial");
+                //seleccionarFragmento("historial");
+                view_historial.performClick();
                 break;
             case RECARGAR_COMPLEJO:
                 seleccionarFragmento("complejo");
@@ -301,8 +326,7 @@ public class Main2Activity extends AppCompatActivity
         // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
         if (resultCode == RESULT_CANCELED) {
             // Si es así mostramos mensaje de cancelado por pantalla.
-            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
-                    .show();
+            //Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT).show();
         } else {
             // De lo contrario, recogemos el resultado de la segunda actividad.
             int resultado = data.getExtras().getInt("RESULTADO");

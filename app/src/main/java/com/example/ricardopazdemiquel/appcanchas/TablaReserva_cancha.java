@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,7 @@ import com.example.ricardopazdemiquel.appcanchas.Listener.HorasAdapterClick;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.HttpConnection;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.MethodType;
 import com.example.ricardopazdemiquel.appcanchas.clienteHTTP.StandarRequestConfiguration;
+import com.example.ricardopazdemiquel.appcanchas.model.Horas;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +45,13 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import complementos.Contexto;
 import complementos.infoCelda;
@@ -163,11 +171,12 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                     for (int i = 0; i < arr.size(); i++) {
                         arrjs.put(arr.get(i));
                     }
+                    JSONArray a = get_reservas(arrjs);
                     JSONObject obj = new JSONObject();
                     try {
-                        obj.put("id_cancha", (int) SpinnerCanchas.getSelectedItemId());
+                        //obj.put("id_cancha", (int) SpinnerCanchas.getSelectedItemId());
                         obj.put("fecha", Fecha_actual);
-                        obj.put("horas", arrjs);
+                        obj.put("horas", a);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -186,6 +195,76 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
                 dialogDatePickerLight((Button) v);
             }
         });
+    }
+
+    public JSONArray get_reservas(JSONArray arr) {
+        try {
+            HashMap<Integer, Integer> map = new HashMap<>();
+            JSONObject obj;
+            JSONObject obj_temp;
+            JSONArray arrCanchas;
+            for (int i = 0; i < arr.length(); i++) {
+                obj = arr.getJSONObject(i);
+                arrCanchas = obj.getJSONArray("CANCHAS");
+                for (int j = 0; j < arrCanchas.length(); j++) {
+                    obj_temp = arrCanchas.getJSONObject(j);
+                    if (obj_temp.getInt("estado") == 0) {
+                        if (map.containsKey(obj_temp.getInt("id_cancha"))) {
+                            int cuenta = map.get(obj_temp.getInt("id_cancha"));
+                            map.put(obj_temp.getInt("id_cancha"), cuenta + 1);
+                        } else {
+                            map.put(obj_temp.getInt("id_cancha"), 1);
+                        }
+                    }
+                }
+            }
+            //personas.add(new Persona("Juan", 20));
+
+            List<Horas> horas = new LinkedList<Horas>();
+            for (HashMap.Entry<Integer, Integer> entry : map.entrySet()) {
+                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+                horas.add(new Horas(entry.getKey(), entry.getValue()));
+            }
+            Collections.sort(horas, new Comparator<Horas>() {
+                @Override
+                public int compare(Horas t2, Horas t1) {
+                    return t2.getCantidad() - t1.getCantidad();
+                }
+            });
+            JSONArray arrFinal = new JSONArray();
+            for (int i = 0; i < arr.length(); i++) {
+                obj = arr.getJSONObject(i);
+                arrCanchas = obj.getJSONArray("CANCHAS");
+                for (int j = 0; j < horas.size(); j++) {
+                    for (int k = 0; k < arrCanchas.length(); k++) {
+                        obj_temp = arrCanchas.getJSONObject(k);
+                        if (obj_temp.getInt("estado") == 0) {
+                            if (obj_temp.getInt("id_cancha") == horas.get(j).getId()) {
+                                arrFinal.put(obj_temp);
+                                k = arrCanchas.length();
+                                j = horas.size();
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int j = 0; j < arr.length(); j++) {
+                JSONObject o = arrFinal.getJSONObject(j);
+                JSONObject op = arr.getJSONObject(j);
+                String hora  = op.getString("HORA");
+                o.put("hora", hora);
+            }
+            return arrFinal;
+            // cuando son varias canchas
+
+        } catch (
+                JSONException e)
+
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // Opcion para ir atras sin reiniciar el la actividad anterior de nuevo
@@ -317,6 +396,7 @@ public class TablaReserva_cancha extends AppCompatActivity implements HorasAdapt
         // Getting a reference to Close button, and close the popup when clicked.
 
     }
+
 
     @Override
     public void onClick(JSONObject obj, View view) {
